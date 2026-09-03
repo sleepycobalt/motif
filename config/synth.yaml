@@ -12,7 +12,7 @@ loop:
 synthesis:
   min_insights: 8
   max_insights: 14
-  max_tokens: 32000      # includes the model's thinking; too low and it never reaches the answer
+  max_tokens: 64000      # includes thinking AND receipt quotes; 32K was hit twice in the first eval
 
 # Critic rules. Each rule has an id, a plain-language description the critic
 # reads, and a severity. "fail" rules block a pass; "warn" rules are reported
@@ -101,5 +101,6 @@ critic:
       severity: fail
       check: deterministic
       description: >
-        A cited turn ID does not exist in the corpus, or a listed source
-        participant has no cited turns.
+        A cited turn ID does not exist in the corpus, or an insight has no
+        evidence at all. (The sources list is derived in code from the
+        evidence, so it is never checked — nothing to get wrong.)

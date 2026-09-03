@@ -24,6 +24,14 @@ def turn_ids(items) -> list[str]:
     return out
 
 
+def normalise(corpus: Corpus, insights: list[dict]) -> list[dict]:
+    """Derive fields the model should not be asked for. `sources` = transcripts
+    cited as evidence (counter-evidence participants are not sources)."""
+    for ins in insights:
+        ins["sources"] = sorted({corpus.transcript_of(t) for t in turn_ids(ins.get("evidence")) if corpus.has(t)})
+    return insights
+
+
 def _norm(s: str) -> str:
     s = s.lower()
     s = re.sub(r"[\u2018\u2019\u201c\u201d]", "'", s)
@@ -71,11 +79,14 @@ def synthesise(corpus: Corpus, cfg: dict, logger, question: str,
             intake_block=intake_block, min_insights=s["min_insights"],
             max_insights=s["max_insights"], transcripts=corpus.render_all(),
         ),
-        max_tokens=cfg["synthesis"].get("max_tokens", 32000),
+        max_tokens=cfg["synthesis"].get("max_tokens", 64000),
         logger=logger,
         label="synthesis_single" if single_prompt else "synthesis",
     )
-    return (r["data"] or {}).get("insights", [])
+    insights = (r["data"] or {}).get("insights") or []
+    if not insights and logger:
+        logger.note(f"synthesis returned no insights (stop={r['stop_reason']}, err={r.get('json_error')})")
+    return normalise(corpus, insights)
 
 
 def revise(corpus: Corpus, cfg: dict, logger, question: str,
@@ -88,12 +99,14 @@ def revise(corpus: Corpus, cfg: dict, logger, question: str,
             failures=_j(verdict.get("failures", [])),
             notes=verdict.get("notes", ""), transcripts=corpus.render_all(),
         ),
-        max_tokens=cfg["synthesis"].get("max_tokens", 32000),
+        max_tokens=cfg["synthesis"].get("max_tokens", 64000),
         logger=logger,
         label="revise",
     )
     new = (r["data"] or {}).get("insights")
-    return new if new else insights
+    if not new and logger:
+        logger.note(f"revise returned no insights (stop={r['stop_reason']}); keeping previous set")
+    return normalise(corpus, new if new else insights)
 
 
 # ---------------------------------------------------------------- critic
@@ -127,17 +140,12 @@ def deterministic_checks(corpus: Corpus, insights: list[dict], rules: list[dict]
 
         if "bad_citation" in by_id:
             bad = [t for t in ev + ce if not corpus.has(t)]
-            cited_transcripts = {corpus.transcript_of(t) for t in ev if corpus.has(t)}
-            orphan_sources = [s for s in srcs if s not in cited_transcripts]
-            if bad or orphan_sources or not ev:
+            if bad or not ev:
                 failures.append({
                     "insight_id": iid, "rule": "bad_citation", "severity": "fail",
-                    "detail": f"nonexistent turns={bad}; sources without cited turns={orphan_sources}; "
-                              f"evidence_count={len(ev)}",
+                    "detail": f"nonexistent turns={bad}; evidence_count={len(ev)}",
                     "turns": bad,
                 })
-                # normalise sources to what is actually cited
-                ins["sources"] = sorted(cited_transcripts)
 
         if "interviewer_cited" in by_id:
             bad_ev = [t for t in ev if corpus.has(t) and corpus.is_researcher(t)]
@@ -185,6 +193,11 @@ def deterministic_checks(corpus: Corpus, insights: list[dict], rules: list[dict]
 
 def critique(corpus: Corpus, cfg: dict, logger, question: str, insights: list[dict]) -> dict:
     rules = cfg["critic"]["rules"]
+    if not insights:
+        # Nothing to check is not the same as nothing wrong.
+        return {"pass": False, "notes": "no insights to review",
+                "failures": [{"insight_id": "*", "rule": "empty_synthesis", "severity": "fail",
+                              "detail": "synthesis produced no insights", "turns": []}]}
     det = deterministic_checks(corpus, insights, rules)
     if logger:
         logger.note(f"deterministic checks: {len(det)} failure(s)")

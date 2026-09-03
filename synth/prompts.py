@@ -11,7 +11,7 @@ Each insight is a JSON object:
     {"turn": "michelle:0042", "quote": "a verbatim excerpt of 8-30 words copied exactly from that turn"},
     {"turn": "david:0017",    "quote": "..."}
   ],
-  "sources": ["michelle", "david"],              // transcript names that appear in evidence
+  "sources": ["michelle", "david"],              // transcripts cited in "evidence" ONLY (not counter-evidence); recomputed in code
   "confidence": "high" | "medium" | "low",       // high = 4+ participants and NO counter-evidence; medium = 2-3 (or 4+ with counter-evidence); low = 1
   "counter_evidence": [                          // turns that cut against, complicate, or reframe the claim; [] if none
     {"turn": "bruce:0031", "quote": "verbatim excerpt from that turn"}

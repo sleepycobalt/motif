@@ -54,13 +54,21 @@ def main():
 
     q = args.question
 
+    def synth_with_retry(**kw):
+        for attempt in (1, 2):
+            ins = agents.synthesise(corpus, cfg, logger, q, **kw)
+            if ins:
+                return ins
+            logger.note(f"synthesis attempt {attempt} empty; {'retrying' if attempt == 1 else 'giving up'}")
+        return []
+
     if args.condition == "A":
-        insights = agents.synthesise(corpus, cfg, logger, q, single_prompt=True)
-        result_state, iterations, stop = {"insights": insights}, 0, "single_prompt"
+        insights = synth_with_retry(single_prompt=True)
+        result_state, iterations, stop = {"insights": insights}, 0, ("single_prompt" if insights else "synthesis_failed")
     else:
         def produce(state):
             state["intake"] = agents.intake(corpus, cfg, logger)
-            state["insights"] = agents.synthesise(corpus, cfg, logger, q, intake_notes=state["intake"])
+            state["insights"] = synth_with_retry(intake_notes=state["intake"])
             return state
 
         def check(state):
@@ -77,6 +85,8 @@ def main():
         )
         result_state, iterations, stop = res.state, res.iterations, res.stop_reason
         result_state["verdicts"] = res.verdicts
+        if not result_state.get("insights"):
+            stop = "synthesis_failed"
 
     insights = result_state.get("insights", [])
     # Attach the critic's unresolved objections to the affected insights so the
