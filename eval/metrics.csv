@@ -1,0 +1,10 @@
+label,run_id,condition,insights,iterations,stop_reason,wall_s,in_tok,out_tok,cost_usd,calls
+R1,20260903-080249-A-eval2,A,12,0,single_prompt,200.0,64647,20892,0.3382,1
+R2,20260903-160258-C-eval1b,C,13,3,max_iterations,932.8,531501,92473,1.8745,11
+R3,20260903-161831-C-eval2b,C,14,3,max_iterations,961.8,530628,93115,1.8766,11
+R4,20260903-082507-B-eval3,B,13,0,critic_disabled,377.3,135286,35646,0.5089,6
+R5,20260903-075851-A-eval1,A,12,0,single_prompt,237.9,64647,24694,0.3762,1
+R6,20260903-163434-C-eval3b,C,13,3,max_iterations,797.2,528095,78546,1.7223,11
+R7,20260903-081836-B-eval2,B,13,0,critic_disabled,390.2,135309,37004,0.5227,6
+R8,20260903-080610-A-eval3,A,13,0,single_prompt,257.6,64647,26305,0.3923,1
+R9,20260903-155550-B-eval1b,B,12,0,critic_disabled,426.8,134646,38650,0.5406,6

@@ -1,0 +1,38 @@
+{
+  "R1": {
+    "run_id": "20260903-080249-A-eval2",
+    "condition": "A"
+  },
+  "R2": {
+    "run_id": "20260903-160258-C-eval1b",
+    "condition": "C"
+  },
+  "R3": {
+    "run_id": "20260903-161831-C-eval2b",
+    "condition": "C"
+  },
+  "R4": {
+    "run_id": "20260903-082507-B-eval3",
+    "condition": "B"
+  },
+  "R5": {
+    "run_id": "20260903-075851-A-eval1",
+    "condition": "A"
+  },
+  "R6": {
+    "run_id": "20260903-163434-C-eval3b",
+    "condition": "C"
+  },
+  "R7": {
+    "run_id": "20260903-081836-B-eval2",
+    "condition": "B"
+  },
+  "R8": {
+    "run_id": "20260903-080610-A-eval3",
+    "condition": "A"
+  },
+  "R9": {
+    "run_id": "20260903-155550-B-eval1b",
+    "condition": "B"
+  }
+}
