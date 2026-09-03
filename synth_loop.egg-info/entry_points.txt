@@ -1,0 +1,2 @@
+[console_scripts]
+synth-loop = synth.cli:main
