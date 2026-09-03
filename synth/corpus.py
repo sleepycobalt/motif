@@ -28,6 +28,10 @@ class Corpus:
     def has(self, turn_id: str) -> bool:
         return turn_id in self.turns
 
+    def is_researcher(self, turn_id: str) -> bool:
+        t = self.turns.get(turn_id)
+        return bool(t) and t["speaker"].lower().startswith("researcher")
+
     def render_turns(self, ids: list[str]) -> str:
         out = []
         for i in ids:

@@ -53,12 +53,15 @@ def call(*, model: str, system: str, user: str, max_tokens: int = 8000,
     If a logger is supplied, prompt and response are written to the run dir.
     """
     t0 = time.time()
-    resp = client().messages.create(
+    # Streaming is required by the SDK for large max_tokens (long requests);
+    # we stream and collect the final message so callers see a normal response.
+    with client().messages.stream(
         model=model,
         max_tokens=max_tokens,
         system=system,
         messages=[{"role": "user", "content": user}],
-    )
+    ) as stream:
+        resp = stream.get_final_message()
     seconds = time.time() - t0
     text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text")
     block_types = [getattr(b, "type", "?") for b in resp.content]

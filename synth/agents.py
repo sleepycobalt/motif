@@ -96,6 +96,16 @@ def deterministic_checks(corpus: Corpus, insights: list[dict], rules: list[dict]
                 # normalise sources to what is actually cited
                 ins["sources"] = sorted(cited_transcripts)
 
+        if "interviewer_cited" in by_id:
+            bad_ev = [t for t in ev if corpus.has(t) and corpus.is_researcher(t)]
+            if bad_ev:
+                failures.append({
+                    "insight_id": iid, "rule": "interviewer_cited", "severity": "fail",
+                    "detail": f"evidence cites the interviewer, not a participant: {bad_ev}; "
+                              f"replace with the participant's own turns",
+                    "turns": bad_ev,
+                })
+
         if "single_source_generalisation" in by_id:
             n_sources = len({corpus.transcript_of(t) for t in ev if corpus.has(t)})
             if n_sources == 1 and ins.get("confidence", "").lower() in ("medium", "high"):

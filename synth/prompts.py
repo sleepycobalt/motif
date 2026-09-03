@@ -16,6 +16,7 @@ Each insight is a JSON object:
 }
 Rules:
 - Cite ONLY turn IDs that exist in the transcripts you were given, exactly as written, e.g. "sam:0012".
+- Cite ONLY the participant's own turns as evidence, never the interviewer's ("Researcher") turns.
 - Every claim must be supported by the cited turns as written; do not stretch.
 - A claim resting on one participant must be marked low confidence and must name that participant's context in the claim.
 - Look actively for dissent. Counter-evidence is expected, not optional.

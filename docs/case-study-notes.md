@@ -11,3 +11,5 @@ Running list of moments, decisions, and findings to draw on when writing the cas
 - 2026-09-03 — Critic rules split into deterministic (code) and model-judged. Anything checkable mechanically should be: free, instant, can't hallucinate.
 - 2026-09-03 — Architecture: core/ (reusable) vs synth/ (tool). Framework-plus-tools is the story, and the ETOT product.
 - 2026-09-03 — First real run: critic spent its entire 8K output budget thinking, returned no verdict, and the fallback treated "no failures" as a pass. The loop approved a synthesis nobody had checked. Fix: critic silence is a hard fail, retry once, budget raised to 32K. Lesson: a checker's absence must never read as approval.
+- 2026-09-03 — Run one's I-02 cited the interviewer's summary of Penni's barriers as evidence of Penni's view. Added a deterministic rule: evidence must be the participant's own turns. A rule discovered from an output, not designed in advance.
+- 2026-09-03 — Raising the critic's budget hit an SDK guardrail: requests that could exceed 10 minutes must stream. Fixed in one place (core/llm.py) because every agent goes through the same client — the architecture paid for itself on day two.

@@ -70,6 +70,14 @@ critic:
         dimension (for example, epistemic loss of context and the labour cost
         of anonymisation are different findings).
 
+    - id: interviewer_cited
+      severity: fail
+      check: deterministic
+      description: >
+        A cited evidence turn belongs to the interviewer (Researcher), not a
+        participant. The interviewer's summaries and prompts are not evidence
+        of what the participant thinks.
+
     - id: bad_citation
       severity: fail
       check: deterministic
