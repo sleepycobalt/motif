@@ -1,0 +1,224 @@
+[
+  {
+    "file": "Ana.docx",
+    "date": "12-May-2023",
+    "time": "10:36",
+    "length": "1h09m31s",
+    "naming": "Ana",
+    "name": "ana",
+    "turns": 246,
+    "words": 8390,
+    "participant_words": 6630,
+    "speakers": {
+      "Researcher 1": 123,
+      "Ana": 123
+    }
+  },
+  {
+    "file": "Bruce.docx",
+    "date": "18-Apr-2023",
+    "time": "10:03",
+    "length": "48m35s",
+    "naming": "Real name",
+    "name": "bruce",
+    "turns": 71,
+    "words": 6212,
+    "participant_words": 4627,
+    "speakers": {
+      "Bruce": 36,
+      "Researcher 1": 35
+    }
+  },
+  {
+    "file": "David.docx",
+    "date": "04-May-2023",
+    "time": "14:05",
+    "length": "50m39s",
+    "naming": "Pseudonym",
+    "name": "david",
+    "turns": 74,
+    "words": 6037,
+    "participant_words": 4604,
+    "speakers": {
+      "Researcher 1": 37,
+      "David": 37
+    }
+  },
+  {
+    "file": "Jamie.docx",
+    "date": "24-Mar-2023",
+    "time": "12:03",
+    "length": "48m58s",
+    "naming": "Real Name.",
+    "name": "jamie",
+    "turns": 80,
+    "words": 5940,
+    "participant_words": 4615,
+    "speakers": {
+      "Researcher": 39,
+      "Jamie": 41
+    }
+  },
+  {
+    "file": "Jessica.docx",
+    "date": "21-Apr-2023",
+    "time": "10:33",
+    "length": "43m07s",
+    "naming": "Pseudonym",
+    "name": "jessica",
+    "turns": 147,
+    "words": 5162,
+    "participant_words": 3253,
+    "speakers": {
+      "Researcher 1": 72,
+      "Jessica": 75
+    }
+  },
+  {
+    "file": "Jim.docx",
+    "date": "25-May-2023",
+    "time": "10:34",
+    "length": "49m39s",
+    "naming": "Jim - Real name",
+    "name": "jim",
+    "turns": 93,
+    "words": 5390,
+    "participant_words": 4020,
+    "speakers": {
+      "Researcher 1": 43,
+      "Jim": 50
+    }
+  },
+  {
+    "file": "Kelly.docx",
+    "date": "29-Mar-2023",
+    "time": "14:04",
+    "length": "45m05s",
+    "naming": "Real Name",
+    "name": "kelly",
+    "turns": 142,
+    "words": 6397,
+    "participant_words": 4339,
+    "speakers": {
+      "Researcher 1": 75,
+      "Kelly": 67
+    }
+  },
+  {
+    "file": "Lisa.docx",
+    "date": "14-Apr-2023",
+    "time": "13:17",
+    "length": "1h12m45s",
+    "naming": "Pseudonym",
+    "name": "lisa",
+    "turns": 100,
+    "words": 9878,
+    "participant_words": 6903,
+    "speakers": {
+      "Researcher 1": 50,
+      "Lisa": 50
+    }
+  },
+  {
+    "file": "Michelle.docx",
+    "date": "22-Mar-2023",
+    "time": "14:03",
+    "length": "55m53s",
+    "naming": "Pseudonym",
+    "name": "michelle",
+    "turns": 128,
+    "words": 5445,
+    "participant_words": 3365,
+    "speakers": {
+      "Researcher 1": 64,
+      "Michelle": 64
+    }
+  },
+  {
+    "file": "Pauline.docx",
+    "date": "16-Mar-2023",
+    "time": "13:02",
+    "length": "1h01m21s",
+    "naming": "Pseudonym",
+    "name": "pauline",
+    "turns": 179,
+    "words": 7615,
+    "participant_words": 5017,
+    "speakers": {
+      "Researcher 1": 90,
+      "Pauline": 89
+    }
+  },
+  {
+    "file": "Penni.docx",
+    "date": "24-Mar-2023",
+    "time": "10:05",
+    "length": "1h04m26s",
+    "naming": "Pseudonym",
+    "name": "penni",
+    "turns": 201,
+    "words": 8451,
+    "participant_words": 6288,
+    "speakers": {
+      "Penni": 101,
+      "Researcher 1": 100
+    }
+  },
+  {
+    "file": "Peter.docx",
+    "date": "28-Mar-2023",
+    "time": "12:04",
+    "length": "51m32s",
+    "naming": "Pseudonym",
+    "name": "peter",
+    "turns": 98,
+    "words": 7253,
+    "participant_words": 5440,
+    "speakers": {
+      "Researcher 1": 49,
+      "Peter": 49
+    }
+  },
+  {
+    "file": "Robert.docx",
+    "date": "03-May-2023",
+    "time": "15:06",
+    "length": "45m30s",
+    "naming": "Pseudonym",
+    "name": "robert",
+    "turns": 121,
+    "words": 6312,
+    "participant_words": 4264,
+    "speakers": {
+      "Researcher 1": 61,
+      "Robert": 60
+    }
+  },
+  {
+    "file": "Sam.docx",
+    "date": "04-Apr-2023",
+    "time": "11:03",
+    "length": "38m00s",
+    "naming": "Pseudonym",
+    "name": "sam",
+    "turns": 84,
+    "words": 4835,
+    "participant_words": 3097,
+    "speakers": {
+      "Researcher 1": 41,
+      "Sam": 43
+    }
+  },
+  {
+    "file": "Stephen.docx",
+    "header": "Stephen",
+    "name": "stephen",
+    "turns": 104,
+    "words": 7725,
+    "participant_words": 5546,
+    "speakers": {
+      "Researcher 1": 51,
+      "Stephen": 53
+    }
+  }
+]
