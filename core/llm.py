@@ -61,6 +61,7 @@ def call(*, model: str, system: str, user: str, max_tokens: int = 8000,
     )
     seconds = time.time() - t0
     text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text")
+    block_types = [getattr(b, "type", "?") for b in resp.content]
     in_tok, out_tok = resp.usage.input_tokens, resp.usage.output_tokens
     result = {
         "label": label,
@@ -72,6 +73,7 @@ def call(*, model: str, system: str, user: str, max_tokens: int = 8000,
         "cost": estimate_cost(model, in_tok, out_tok),
         "seconds": round(seconds, 2),
         "stop_reason": resp.stop_reason,
+        "block_types": block_types,
     }
     if json_out:
         try:
