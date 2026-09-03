@@ -1,4 +1,4 @@
-# Case study notes
+\# Case study notes
 
 Running list of moments, decisions, and findings to draw on when writing the case study.
 
@@ -29,3 +29,4 @@ Running list of moments, decisions, and findings to draw on when writing the cas
 - 2026-09-03 — Intake alone (B) changed nothing measurable over single-prompt. The map isn't the value; the checking is.
 - 2026-09-03 — v2 named by the data: a recall check from the intake topic maps, and "fix or downgrade, never delete" in the revise prompt.
 - 2026-09-03 — Case study framing: a null result on coverage is the most credible thing in this project. It shows the eval could have said no.
+- 2026-09-03 — v2's first three runs crashed at the critic: a code edit hadn't applied, and the offline test never exercised the real critic path. ~$1.50 of intake and synthesis wasted. Fixed by testing the full path with a stubbed model call. Cheap tests that skip the expensive path are how expensive paths fail.
