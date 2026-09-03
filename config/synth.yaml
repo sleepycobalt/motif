@@ -1,4 +1,4 @@
-# synth-loop configuration
+# Motif configuration
 # Model roles and critic rules live here so they can be tuned without code changes.
 
 models:
