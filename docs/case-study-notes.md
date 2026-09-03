@@ -10,3 +10,4 @@ Running list of moments, decisions, and findings to draw on when writing the cas
 - 2026-09-03 — Loop stop conditions: critic pass, no progress, max iterations. "No progress" is the interesting one — without it the loop burns iterations on failures it can't fix.
 - 2026-09-03 — Critic rules split into deterministic (code) and model-judged. Anything checkable mechanically should be: free, instant, can't hallucinate.
 - 2026-09-03 — Architecture: core/ (reusable) vs synth/ (tool). Framework-plus-tools is the story, and the ETOT product.
+- 2026-09-03 — First real run: critic spent its entire 8K output budget thinking, returned no verdict, and the fallback treated "no failures" as a pass. The loop approved a synthesis nobody had checked. Fix: critic silence is a hard fail, retry once, budget raised to 32K. Lesson: a checker's absence must never read as approval.
