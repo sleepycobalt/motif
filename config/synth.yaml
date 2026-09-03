@@ -70,6 +70,14 @@ critic:
         dimension (for example, epistemic loss of context and the labour cost
         of anonymisation are different findings).
 
+    - id: quote_mismatch
+      severity: fail
+      check: deterministic
+      description: >
+        A citation's receipt (the verbatim quote) does not appear in the cited
+        turn. The model cited a turn without reading it, or paraphrased instead
+        of quoting. Every citation must carry a matching receipt.
+
     - id: interviewer_cited
       severity: fail
       check: deterministic

@@ -7,16 +7,24 @@ Each insight is a JSON object:
   "id": "I-01",
   "title": "short, specific, one line",
   "claim": "one or two sentences stating the pattern precisely",
-  "evidence": ["michelle:0042", "david:0017"],   // turn IDs that SUPPORT the claim; 2+ per source where possible
+  "evidence": [                                  // turns that SUPPORT the claim; 2+ per source where possible
+    {"turn": "michelle:0042", "quote": "a verbatim excerpt of 8-30 words copied exactly from that turn"},
+    {"turn": "david:0017",    "quote": "..."}
+  ],
   "sources": ["michelle", "david"],              // transcript names that appear in evidence
   "confidence": "high" | "medium" | "low",
-  "counter_evidence": ["bruce:0031"],            // turn IDs that cut against, complicate, or reframe the claim; [] if none
+  "counter_evidence": [                          // turns that cut against, complicate, or reframe the claim; [] if none
+    {"turn": "bruce:0031", "quote": "verbatim excerpt from that turn"}
+  ],
   "counter_note": "one sentence on what the counter-evidence shows, or empty string",
   "opportunity": "one sentence: a specific design or product response a team could act on"
 }
 Rules:
 - Cite ONLY turn IDs that exist in the transcripts you were given, exactly as written, e.g. "sam:0012".
 - Cite ONLY the participant's own turns as evidence, never the interviewer's ("Researcher") turns.
+- Every citation carries a receipt: a quote copied EXACTLY from the cited turn (same words, same order). The quote
+  is checked mechanically against the transcript; a quote that does not appear verbatim fails the citation.
+  Choose the words in the turn that actually support the claim.
 - Every claim must be supported by the cited turns as written; do not stretch.
 - A claim resting on one participant must be marked low confidence and must name that participant's context in the claim.
 - Look actively for dissent. Counter-evidence is expected, not optional.

@@ -59,7 +59,8 @@ class RunLogger:
               f"{result['seconds']}s  ${result['cost']:.4f}")
 
     def record_iteration(self, n: int, state: dict):
-        self._write(f"iterations/{n:02d}.json", state)
+        stage = state.get("stage", "state")
+        self._write(f"iterations/{n:02d}_{stage}.json", state)
 
     def note(self, msg: str):
         print(f"  · {msg}")

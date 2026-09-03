@@ -1,6 +1,7 @@
 """The three agent roles plus deterministic checks, wired to core.llm."""
 
 import json
+import re
 
 from core import llm
 from synth import prompts
@@ -9,6 +10,30 @@ from synth.corpus import Corpus
 
 def _j(obj) -> str:
     return json.dumps(obj, indent=2, ensure_ascii=False)
+
+
+def turn_ids(items) -> list[str]:
+    """Evidence items may be plain IDs or {turn, quote} objects."""
+    out = []
+    for x in items or []:
+        if isinstance(x, dict):
+            if x.get("turn"):
+                out.append(x["turn"])
+        elif isinstance(x, str):
+            out.append(x)
+    return out
+
+
+def _norm(s: str) -> str:
+    s = s.lower()
+    s = re.sub(r"[\u2018\u2019\u201c\u201d]", "'", s)
+    s = re.sub(r"[^a-z0-9' ]+", " ", s)
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def quote_matches(quote: str, text: str) -> bool:
+    q, t = _norm(quote), _norm(text)
+    return len(q.split()) >= 5 and q in t
 
 
 # ---------------------------------------------------------------- intake
@@ -79,11 +104,29 @@ def deterministic_checks(corpus: Corpus, insights: list[dict], rules: list[dict]
     failures = []
     for ins in insights:
         iid = ins.get("id", "?")
-        ev = ins.get("evidence", []) or []
+        ev = turn_ids(ins.get("evidence"))
+        ce = turn_ids(ins.get("counter_evidence"))
         srcs = ins.get("sources", []) or []
 
+        if "quote_mismatch" in by_id:
+            bad_q = []
+            for item in (ins.get("evidence") or []) + (ins.get("counter_evidence") or []):
+                if not isinstance(item, dict):
+                    bad_q.append(f"{item} (no quote given)")
+                    continue
+                t = corpus.turns.get(item.get("turn", ""))
+                if t and not quote_matches(item.get("quote", ""), t["text"]):
+                    bad_q.append(f"{item['turn']}: \"{item.get('quote', '')[:60]}\"")
+            if bad_q:
+                failures.append({
+                    "insight_id": iid, "rule": "quote_mismatch", "severity": "fail",
+                    "detail": "receipt does not match transcript (quote not found verbatim in the cited turn, "
+                              "or missing): " + "; ".join(bad_q),
+                    "turns": [b.split(":")[0] + ":" + b.split(":")[1][:4] for b in bad_q if ":" in b][:4],
+                })
+
         if "bad_citation" in by_id:
-            bad = [t for t in ev + (ins.get("counter_evidence") or []) if not corpus.has(t)]
+            bad = [t for t in ev + ce if not corpus.has(t)]
             cited_transcripts = {corpus.transcript_of(t) for t in ev if corpus.has(t)}
             orphan_sources = [s for s in srcs if s not in cited_transcripts]
             if bad or orphan_sources or not ev:
@@ -128,7 +171,7 @@ def critique(corpus: Corpus, cfg: dict, logger, question: str, insights: list[di
     rules_text = "\n".join(f"- {r['id']} [{r['severity']}]: {r['description'].strip()}" for r in model_rules)
     cited_ids = []
     for ins in insights:
-        cited_ids += (ins.get("evidence") or []) + (ins.get("counter_evidence") or [])
+        cited_ids += turn_ids(ins.get("evidence")) + turn_ids(ins.get("counter_evidence"))
     cited = corpus.render_turns(sorted(set(cited_ids)))
 
     verdict = None

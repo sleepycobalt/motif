@@ -1,5 +1,7 @@
 """Render insights to markdown."""
 
+from synth.agents import turn_ids
+
 
 def to_markdown(insights: list[dict], corpus, meta: dict) -> str:
     lines = [f"# Synthesis — {meta.get('condition', '')} run {meta.get('run_id', '')}", ""]
@@ -11,8 +13,9 @@ def to_markdown(insights: list[dict], corpus, meta: dict) -> str:
         lines.append(f"**Claim:** {ins.get('claim', '')}  ")
         lines.append(f"**Confidence:** {ins.get('confidence', '')}  ")
         lines.append(f"**Sources:** {', '.join(ins.get('sources', []))}  ")
-        lines.append(f"**Evidence:** {', '.join(ins.get('evidence', []))}  ")
-        ce = ins.get("counter_evidence") or []
+        ev = turn_ids(ins.get("evidence"))
+        lines.append(f"**Evidence:** {', '.join(ev)}  ")
+        ce = turn_ids(ins.get("counter_evidence"))
         lines.append(f"**Counter-evidence:** {', '.join(ce) if ce else 'none'}"
                      + (f" — {ins['counter_note']}" if ins.get("counter_note") else "") + "  ")
         lines.append(f"**Opportunity:** {ins.get('opportunity', '')}")
@@ -20,7 +23,10 @@ def to_markdown(insights: list[dict], corpus, meta: dict) -> str:
         lines.append("<details><summary>Cited turns</summary>")
         lines.append("")
         lines.append("```")
-        lines.append(corpus.render_turns(ins.get("evidence", [])))
+        for item in ins.get("evidence") or []:
+            if isinstance(item, dict) and item.get("quote"):
+                lines.append(f"  receipt {item['turn']}: \"{item['quote']}\"")
+        lines.append(corpus.render_turns(ev))
         if ce:
             lines.append("--- counter ---")
             lines.append(corpus.render_turns(ce))
