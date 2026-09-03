@@ -248,6 +248,8 @@ def critique(corpus: Corpus, cfg: dict, logger, question: str, insights: list[di
             system=prompts.CRITIC_SYSTEM.format(rules=rules_text),
             user=prompts.CRITIC_USER.format(
                 question=question, insights=_j(insights), cited=cited, transcripts=corpus.render_all(),
+                coverage_block=prompts.COVERAGE_BLOCK.format(
+                    notes=_topic_maps(intake_notes), profiles=_profiles(intake_notes)) if intake_notes else "",
             ),
             max_tokens=cfg["critic"].get("max_tokens", 32000),
             logger=logger,
