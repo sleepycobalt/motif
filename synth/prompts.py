@@ -108,17 +108,33 @@ CRITIC_USER = """Research question: {question}
 INSIGHTS UNDER REVIEW:
 {insights}
 
+{coverage_block}
 CITED TURNS (exact text of every turn the insights cite, for support-checking):
 {cited}
 
 FULL TRANSCRIPTS (search these for counter-evidence and dissent):
 {transcripts}"""
 
+COVERAGE_BLOCK = """INTAKE TOPIC MAPS (one per transcript, from the intake agent — use these for the missing_theme rule):
+{notes}
+
+PARTICIPANT PROFILES (use these for the missing_counterexample rule — look hardest at the participant
+whose sector, career stage, or method differs from the others):
+{profiles}
+"""
+
 REVISE_USER = """Research question: {question}
 
-Your previous insights were reviewed by a critic. Fix every failure listed. You may split, merge,
-reword, re-cite, adjust confidence, add counter-evidence, or drop an insight. Keep insight IDs
-stable where the insight survives; use new IDs for new ones. Return the FULL revised set.
+Your previous insights were reviewed by a critic. Fix every failure listed.
+
+How to fix: split, merge, reword, re-cite, lower confidence, or add counter-evidence. If a failure
+has insight_id "*" and rule missing_theme, ADD a new insight for that theme with proper citations.
+Do NOT delete an insight to make a failure go away. Deleting is allowed only when the claim cannot
+be supported by any turns in the corpus at all; if you delete, list it under "dropped" with the
+reason. Lowering confidence to "low" and naming the single participant is always preferable to
+deletion. Keep insight IDs stable where the insight survives; use new IDs for new ones.
+
+Return ONLY a JSON object: {{"insights": [ ...full revised set... ], "dropped": [{{"id": "I-07", "reason": "..."}}]}}
 
 PREVIOUS INSIGHTS:
 {insights}

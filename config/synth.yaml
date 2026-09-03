@@ -45,7 +45,27 @@ critic:
         The corpus contains a participant who clearly disagrees with, complicates,
         or reframes the claim, and the insight does not surface this as
         counter-evidence. Look actively for dissent; absence of counter-evidence
-        should be rare and must be earned.
+        should be rare and must be earned. Check especially the participant whose
+        sector, career stage, or method differs from the rest (see profiles) —
+        their dissent is the easiest to overlook and the most valuable to surface.
+
+    - id: missing_theme
+      severity: fail
+      check: model
+      description: >
+        A topic that appears in the intake topic maps of THREE OR MORE transcripts
+        has no insight covering it. Report it with insight_id "*", name the topic,
+        and list one turn per transcript where it appears, so the synthesis agent
+        can add the insight. This rule checks the corpus, not the page: the
+        synthesis must not lose findings in revision.
+
+    - id: silent_deletion
+      severity: fail
+      check: deterministic
+      description: >
+        An insight present before revision is absent after it and was not listed
+        under "dropped" with a reason. Objections are fixed or downgraded, not
+        deleted.
 
     - id: confidence_threshold
       severity: fail

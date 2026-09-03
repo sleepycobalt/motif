@@ -90,7 +90,7 @@ def synthesise(corpus: Corpus, cfg: dict, logger, question: str,
 
 
 def revise(corpus: Corpus, cfg: dict, logger, question: str,
-           insights: list[dict], verdict: dict) -> list[dict]:
+           insights: list[dict], verdict: dict) -> tuple[list[dict], list[dict]]:
     r = llm.call(
         model=cfg["models"]["synthesis"],
         system=prompts.SYNTHESIS_SYSTEM,
@@ -103,10 +103,14 @@ def revise(corpus: Corpus, cfg: dict, logger, question: str,
         logger=logger,
         label="revise",
     )
-    new = (r["data"] or {}).get("insights")
+    data = r["data"] or {}
+    new = data.get("insights")
+    dropped = data.get("dropped") or []
     if not new and logger:
         logger.note(f"revise returned no insights (stop={r['stop_reason']}); keeping previous set")
-    return normalise(corpus, new if new else insights)
+    if dropped and logger:
+        logger.note("dropped: " + "; ".join(f"{d.get('id')} ({d.get('reason', '')[:60]})" for d in dropped))
+    return normalise(corpus, new if new else insights), dropped
 
 
 # ---------------------------------------------------------------- critic
@@ -191,7 +195,26 @@ def deterministic_checks(corpus: Corpus, insights: list[dict], rules: list[dict]
     return failures
 
 
-def critique(corpus: Corpus, cfg: dict, logger, question: str, insights: list[dict]) -> dict:
+def _profiles(intake_notes: dict | None) -> str:
+    if not intake_notes:
+        return "(none)"
+    return "\n".join(f"- {n}: {v.get('profile_summary', '')}" for n, v in intake_notes.items())
+
+
+def _topic_maps(intake_notes: dict | None) -> str:
+    if not intake_notes:
+        return "(none)"
+    out = []
+    for n, v in intake_notes.items():
+        for t in v.get("topics", []) or []:
+            turns = ", ".join((t.get("turns") or [])[:3])
+            out.append(f"- [{n}] {t.get('topic', '')}: {t.get('note', '')} ({turns})")
+    return "\n".join(out)
+
+
+def critique(corpus: Corpus, cfg: dict, logger, question: str, insights: list[dict],
+             intake_notes: dict | None = None, previous: list[dict] | None = None,
+             dropped: list[dict] | None = None) -> dict:
     rules = cfg["critic"]["rules"]
     if not insights:
         # Nothing to check is not the same as nothing wrong.
@@ -199,6 +222,15 @@ def critique(corpus: Corpus, cfg: dict, logger, question: str, insights: list[di
                 "failures": [{"insight_id": "*", "rule": "empty_synthesis", "severity": "fail",
                               "detail": "synthesis produced no insights", "turns": []}]}
     det = deterministic_checks(corpus, insights, rules)
+    if previous is not None and any(r["id"] == "silent_deletion" for r in rules):
+        before = {i.get("id") for i in previous}
+        after = {i.get("id") for i in insights}
+        justified = {d.get("id") for d in (dropped or [])}
+        for missing in sorted(before - after - justified):
+            det.append({"insight_id": missing, "rule": "silent_deletion", "severity": "fail",
+                        "detail": f"{missing} was removed in revision without a listed reason; "
+                                  f"restore it (fixed or downgraded to low) or justify dropping it",
+                        "turns": []})
     if logger:
         logger.note(f"deterministic checks: {len(det)} failure(s)")
 

@@ -72,10 +72,15 @@ def main():
             return state
 
         def check(state):
-            return agents.critique(corpus, cfg, logger, q, state["insights"])
+            return agents.critique(corpus, cfg, logger, q, state["insights"],
+                                   intake_notes=state.get("intake"),
+                                   previous=state.get("previous_insights"),
+                                   dropped=state.get("dropped"))
 
         def revise(state, verdict):
-            state["insights"] = agents.revise(corpus, cfg, logger, q, state["insights"], verdict)
+            state["previous_insights"] = state["insights"]
+            state["insights"], state["dropped"] = agents.revise(
+                corpus, cfg, logger, q, state["insights"], verdict)
             return state
 
         res = run_loop(
