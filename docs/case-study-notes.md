@@ -30,3 +30,8 @@ Running list of moments, decisions, and findings to draw on when writing the cas
 - 2026-09-03 — v2 named by the data: a recall check from the intake topic maps, and "fix or downgrade, never delete" in the revise prompt.
 - 2026-09-03 — Case study framing: a null result on coverage is the most credible thing in this project. It shows the eval could have said no.
 - 2026-09-03 — v2's first three runs crashed at the critic: a code edit hadn't applied, and the offline test never exercised the real critic path. ~$1.50 of intake and synthesis wasted. Fixed by testing the full path with a stubbed model call. Cheap tests that skip the expensive path are how expensive paths fail.
+- 2026-09-03 — Eval 2: v2's recall check brought coverage from 51% to 69% (A = 75%) with unsupported citations unchanged at less than half of A's. Reuse 0/3 → 3/3. silent_deletion never fired. R5 (v2) is the best report of any condition in either eval: 9/12 themes, 0 unsupported, 0 miscalibrated.
+- 2026-09-03 — Trap count rose 2.0 → 3.0 but it's denominator: you can only fail the reuse trap if you find reuse. On traps applicable to both versions, v2 is level or slightly better.
+- 2026-09-03 — Still failing: Penni's pro-validation dissent (5/6). Profiles pointed the critic at the outlier; it reached for Stephen instead. Honest open item.
+- 2026-09-03 — "Cited but not extracted": T-11 and T-15 absent from all six reports while the turns containing them are cited in all six for something else. The model takes one finding per turn. That's v3.
+- 2026-09-03 — Decision: v2 ships. Package the tool, then write.
