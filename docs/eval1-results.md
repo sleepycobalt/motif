@@ -4,7 +4,7 @@
 **Corpus:** 5 transcripts (Michelle, David, Bruce, Stephen, Penni), 33,870 words.
 **Conditions:** A single-prompt synthesis; B intake → synthesis; C intake → synthesis → critic → revise, max 3 iterations.
 **Runs:** 3 per condition, 9 valid (2 early runs discarded: synthesis hit its output cap and returned nothing — see notes).
-**Scoring:** blind, one rater (Eric), against `docs/ground-truth.md`. Reports anonymised R1–R9 with headers and critic flags stripped. Four evidence spot-checks per report.
+**Scoring:** blind, AI-assisted rating reviewed by one human rater (Eric), against `docs/ground-truth.md`. Reports anonymised R1–R9 with headers and critic flags stripped. Four evidence spot-checks per report.
 
 ## Headline
 
