@@ -1,9 +1,9 @@
 """
 One-command synthesis: transcripts in, report out.
 
-    synth-loop ./transcripts --out report.md
-    synth-loop ./transcripts --out report.md --question "What frustrates users about onboarding?"
-    synth-loop ./transcripts --out report.md --condition A      # single-prompt baseline, no loop
+    motif ./transcripts --out report.md
+    motif ./transcripts --out report.md --question "What frustrates users about onboarding?"
+    motif ./transcripts --out report.md --condition A      # single-prompt baseline, no loop
 
 Runs ingest -> intake -> synthesis -> critic -> revise, and writes the final
 report to --out. Full logs (every prompt, response, iteration) land in runs/.
@@ -18,7 +18,7 @@ from pathlib import Path
 
 
 def main():
-    ap = argparse.ArgumentParser(prog="synth-loop", description=__doc__,
+    ap = argparse.ArgumentParser(prog="motif", description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("transcripts", help="folder of .docx/.txt/.md transcripts (one speaker turn per line)")
     ap.add_argument("--out", default="report.md", help="where to write the report")

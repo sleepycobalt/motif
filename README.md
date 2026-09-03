@@ -1,8 +1,8 @@
-# synth-loop
+# Motif
 
 An agentic loop that turns a folder of interview transcripts into a research synthesis where every insight carries cited, verified evidence, an honest confidence level, and the counter-evidence against it.
 
-Built for design and research teams who synthesise qualitative interviews and need output they can trust and trace. Built as an R&D project; the [case study](https://ericfrye.info/ui/ux/synth-loop) tells the story.
+Built for design and research teams who synthesise qualitative interviews and need output they can trust and trace. Motif is the first tool from [ETOT](https://etot.design). Built as an R&D project; the [case study](https://ericfrye.info/ui/ux/motif) tells the story.
 
 ## What it does
 
@@ -25,8 +25,8 @@ Sample output: [docs/exhibits/best-report-v2/output.md](docs/exhibits/best-repor
 You need Python 3.10+ and an Anthropic API key ([console.anthropic.com](https://console.anthropic.com)).
 
 ```bash
-git clone https://github.com/sleepycobalt/synth-loop.git
-cd synth-loop
+git clone https://github.com/sleepycobalt/motif.git
+cd motif
 python3 -m venv .venv && source .venv/bin/activate
 pip install -e .
 echo "ANTHROPIC_API_KEY=your-key-here" > .env
@@ -44,7 +44,7 @@ Priya: Sure. I opened it on the train and it logged me out again, which...
 Then:
 
 ```bash
-synth-loop ./transcripts --out report.md --question "What frustrates users about onboarding?"
+motif ./transcripts --out report.md --question "What frustrates users about onboarding?"
 ```
 
 Fifteen transcripts of ~45 minutes each take about 20 minutes and cost about $2.50 in API usage. Every prompt, response, and iteration is saved under `runs/` so you can see exactly what the critic objected to and how the synthesis changed.
@@ -52,7 +52,7 @@ Fifteen transcripts of ~45 minutes each take about 20 minutes and cost about $2.
 Try the sample corpus first:
 
 ```bash
-synth-loop data/raw/Dataset-2 --out report.md
+motif data/raw/Dataset-2 --out report.md
 ```
 
 ## Tune it
@@ -68,7 +68,7 @@ Everything a team might want to change lives in [`config/synth.yaml`](config/syn
 
 Tested on 15 real research interviews (University of Sheffield, CC-BY-NC) against a human-built ground truth of 16 themes and 12 traps, with blind scoring:
 
-| | Single prompt | This loop |
+| | Single prompt | Motif |
 |---|---|---|
 | Insights whose cited evidence doesn't support them | 1.7 of 4 checked | 0.7 |
 | Insights with overstated confidence | 1.3 | 0.7 |
@@ -92,7 +92,7 @@ docs/       R&D brief, working log, ground truth, eval results, exhibits, case-s
 eval/       blind scoring packs and completed sheets
 ```
 
-`core/` is written to be reused by other loops; the synthesis tool is the first built on it.
+`core/` is written to be reused by other loops; Motif is the first tool built on it.
 
 ## Data attribution
 

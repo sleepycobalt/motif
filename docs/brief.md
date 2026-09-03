@@ -1,6 +1,6 @@
 # R&D Brief — Agentic Research Synthesis Loop
 
-**Project:** synth-loop
+**Project:** motif
 **Owner:** Eric Frye
 **Started:** 2 Sep 2026
 **Status:** Phase 0 — framing

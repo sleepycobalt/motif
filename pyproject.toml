@@ -1,12 +1,12 @@
 [project]
-name = "synth-loop"
+name = "etot-motif"
 version = "0.2.0"
-description = "An agentic loop that turns interview transcripts into a cited, critic-checked research synthesis."
+description = "Motif: an agentic loop that turns interview transcripts into a cited, critic-checked research synthesis."
 requires-python = ">=3.10"
 dependencies = ["anthropic>=0.40", "python-dotenv", "pyyaml", "python-docx"]
 
 [project.scripts]
-synth-loop = "synth.cli:main"
+motif = "synth.cli:main"
 
 [build-system]
 requires = ["setuptools>=61"]
