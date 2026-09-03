@@ -79,6 +79,16 @@ def main():
         result_state["verdicts"] = res.verdicts
 
     insights = result_state.get("insights", [])
+    # Attach the critic's unresolved objections to the affected insights so the
+    # reader sees where the reviewer still disagreed. Silence is not agreement.
+    verdicts = result_state.get("verdicts") or []
+    if verdicts and not verdicts[-1].get("pass"):
+        by_id = {}
+        for f in verdicts[-1].get("failures", []):
+            by_id.setdefault(f.get("insight_id"), []).append(f"{f.get('rule')}: {f.get('detail')}")
+        for ins in insights:
+            if ins.get("id") in by_id:
+                ins["critic_flags"] = by_id[ins["id"]]
     logger.meta.update({"iterations": iterations, "stop_reason": stop})
     md = to_markdown(insights, corpus, logger.meta)
     out_dir = logger.finish(result_state, md, stop_reason=stop, iterations=iterations)

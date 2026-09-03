@@ -149,6 +149,28 @@ def deterministic_checks(corpus: Corpus, insights: list[dict], rules: list[dict]
                     "turns": bad_ev,
                 })
 
+        if "confidence_threshold" in by_id:
+            thr = by_id["confidence_threshold"]
+            n_sources = len({corpus.transcript_of(t) for t in ev if corpus.has(t)})
+            conf = (ins.get("confidence") or "").lower()
+            has_counter = bool(ce)
+            need = {"high": thr.get("high_min_sources", 4), "medium": thr.get("medium_min_sources", 2)}
+            problem = None
+            if conf == "high" and (n_sources < need["high"] or (has_counter and thr.get("high_forbids_counter", True))):
+                problem = (f"'high' requires >= {need['high']} sources"
+                           + (" and no counter-evidence" if thr.get("high_forbids_counter", True) else "")
+                           + f"; has {n_sources} source(s), counter-evidence={'yes' if has_counter else 'no'}")
+            elif conf == "medium" and n_sources < need["medium"]:
+                problem = f"'medium' requires >= {need['medium']} sources; has {n_sources}"
+            elif conf not in ("high", "medium", "low"):
+                problem = f"confidence must be high/medium/low, got {conf!r}"
+            if problem:
+                failures.append({
+                    "insight_id": iid, "rule": "confidence_threshold", "severity": "fail",
+                    "detail": problem + " — lower the confidence or add sources",
+                    "turns": ev[:2],
+                })
+
         if "single_source_generalisation" in by_id:
             n_sources = len({corpus.transcript_of(t) for t in ev if corpus.has(t)})
             if n_sources == 1 and ins.get("confidence", "").lower() in ("medium", "high"):

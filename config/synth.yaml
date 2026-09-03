@@ -47,13 +47,24 @@ critic:
         counter-evidence. Look actively for dissent; absence of counter-evidence
         should be rare and must be earned.
 
+    - id: confidence_threshold
+      severity: fail
+      check: deterministic
+      high_min_sources: 4
+      medium_min_sources: 2
+      high_forbids_counter: true
+      description: >
+        Confidence is defined numerically so the synthesis and critic agree on it:
+        high = 4+ participants and no counter-evidence; medium = 2-3 participants,
+        or 4+ with counter-evidence; low = 1 participant. Checked in code.
+
     - id: overconfident
       severity: fail
       check: model
       description: >
-        The stated confidence is higher than the evidence warrants — for example,
-        high confidence with two sources, or high confidence when counter-evidence
-        is present and substantive.
+        Beyond the numeric threshold: the cited turns are weak, hedged, or
+        tangential, so even the numerically permitted confidence overstates
+        what the participants actually said.
 
     - id: vague_opportunity
       severity: warn

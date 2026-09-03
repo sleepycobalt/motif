@@ -19,6 +19,11 @@ def to_markdown(insights: list[dict], corpus, meta: dict) -> str:
         lines.append(f"**Counter-evidence:** {', '.join(ce) if ce else 'none'}"
                      + (f" — {ins['counter_note']}" if ins.get("counter_note") else "") + "  ")
         lines.append(f"**Opportunity:** {ins.get('opportunity', '')}")
+        if ins.get("critic_flags"):
+            lines.append("")
+            lines.append("> ⚠ **Contested** — the critic's unresolved objections when the loop stopped:")
+            for fl in ins["critic_flags"]:
+                lines.append(f"> - {fl}")
         lines.append("")
         lines.append("<details><summary>Cited turns</summary>")
         lines.append("")
