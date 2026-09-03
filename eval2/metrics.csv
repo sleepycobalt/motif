@@ -1,0 +1,7 @@
+label,run_id,condition,insights,iterations,stop_reason,wall_s,in_tok,out_tok,cost_usd,calls
+R1,20260903-163434-C-eval3b,C,13,3,max_iterations,797.2,528095,78546,1.7223,11
+R2,20260903-160258-C-eval1b,C,13,3,max_iterations,932.8,531501,92473,1.8745,11
+R3,20260903-161831-C-eval2b,C,14,3,max_iterations,961.8,530628,93115,1.8766,11
+R4,20260903-190342-C-v2-eval3,C,17,3,max_iterations,1323.5,564014,130534,2.312,11
+R5,20260903-184148-C-v2-eval2,C,15,3,max_iterations,1313.0,544910,128081,2.2584,11
+R6,20260903-182014-C-v2-eval1,C,15,3,max_iterations,1294.1,558590,126758,2.2658,11

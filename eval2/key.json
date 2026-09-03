@@ -1,0 +1,26 @@
+{
+  "R1": {
+    "run_id": "20260903-163434-C-eval3b",
+    "condition": "C"
+  },
+  "R2": {
+    "run_id": "20260903-160258-C-eval1b",
+    "condition": "C"
+  },
+  "R3": {
+    "run_id": "20260903-161831-C-eval2b",
+    "condition": "C"
+  },
+  "R4": {
+    "run_id": "20260903-190342-C-v2-eval3",
+    "condition": "C"
+  },
+  "R5": {
+    "run_id": "20260903-184148-C-v2-eval2",
+    "condition": "C"
+  },
+  "R6": {
+    "run_id": "20260903-182014-C-v2-eval1",
+    "condition": "C"
+  }
+}
