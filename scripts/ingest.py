@@ -1,10 +1,13 @@
 """
-ingest.py — convert interview transcripts (.docx) into citable plain text.
+ingest.py — convert interview transcripts (.docx, .txt, .md) into citable plain text.
 
 Usage:
     python scripts/ingest.py data/raw data/processed
 
-For each Dataset-2_<Name>.docx this writes:
+Transcripts must have one speaker turn per paragraph/line, starting with the
+speaker's name and a colon ("Sam: ..."). Interviewer turns should be labelled
+"Researcher" (or "Researcher 1", "Interviewer") so they can be excluded from
+evidence. For each transcript this writes:
     data/processed/<name>.txt    one turn per line:  [<name>:0042] Speaker: text
     data/processed/<name>.jsonl  one JSON object per turn (id, speaker, text, words)
 and a single data/processed/manifest.json with per-transcript metadata.
@@ -29,7 +32,7 @@ HEADER_RE = re.compile(
     r"^(?P<date>\d{2}-\w{3}-\d{4})\s*[-–]\s*(?P<time>\d{2}:\d{2})\s*[-–]\s*"
     r"(?P<length>(?:\d+h)?\d+m\d{2}s)\s*[-–]\s*(?P<naming>.+)$"
 )
-RESEARCHER_RE = re.compile(r"^Researcher\s*\d*$", re.I)
+RESEARCHER_RE = re.compile(r"^(Researcher|Interviewer|Moderator)\s*\d*$", re.I)
 
 
 def slug(stem: str) -> str:
@@ -37,9 +40,16 @@ def slug(stem: str) -> str:
     return stem.split("_", 1)[-1].strip().lower().replace(" ", "-")
 
 
+def read_paragraphs(path: Path) -> list[str]:
+    if path.suffix.lower() == ".docx":
+        doc = docx.Document(path)
+        return [p.text.strip() for p in doc.paragraphs if p.text.strip()]
+    # plain text / markdown: one paragraph per non-empty line
+    return [ln.strip() for ln in path.read_text(encoding="utf-8").splitlines() if ln.strip()]
+
+
 def parse(path: Path):
-    doc = docx.Document(path)
-    paras = [p.text.strip() for p in doc.paragraphs if p.text.strip()]
+    paras = read_paragraphs(path)
     if not paras:
         return None
 
@@ -99,10 +109,10 @@ def main(raw_dir: str, out_dir: str):
     out.mkdir(parents=True, exist_ok=True)
     manifest = []
 
-    files = sorted(raw.glob("*.docx"))
-    files = [f for f in files if "readme" not in f.name.lower()]
+    files = sorted(p for p in raw.iterdir()
+                   if p.suffix.lower() in (".docx", ".txt", ".md") and "readme" not in p.name.lower())
     if not files:
-        sys.exit(f"no *.docx files found in {raw}")
+        sys.exit(f"no .docx/.txt/.md transcripts found in {raw}")
 
     for f in files:
         result = parse(f)
