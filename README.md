@@ -4,7 +4,7 @@
 
 An agentic loop that turns a folder of interview transcripts into a research synthesis where every insight carries cited, verified evidence, an honest confidence level, and the counter-evidence against it.
 
-Built for design and research teams who synthesise qualitative interviews and need output they can trust and trace. Motif is the first tool from [ETOT](https://etot.design). Built as an R&D project; the [case study](https://ericfrye.info/ui/ux/motif) tells the story.
+Built for design and research teams who synthesise qualitative interviews and need output they can trust and trace. Motif is the first tool from [ETOT](https://etot.design). Built as an R&D project; the [case study](https://etot.design/tools/motif/case-study/) tells the story.
 
 ## What it does
 
