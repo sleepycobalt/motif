@@ -1,0 +1,9 @@
+<!-- get_figjam readback of https://www.figma.com/board/GQRzxmNRE8MlIhEqh5UwXe after the step-zero write, 2026-09-04 -->
+<canvas id="0:1" name="Page 1" x="0" y="0" width="0" height="0">
+  <section id="1:2" name="I01 step-zero" x="0" y="0" width="944" height="336">
+    <sticky id="1:7" x="48" y="48" color="STICKY_YELLOW" author="" width="240" height="240">CLAIM · medium Step zero: Figma MCP can write to a FigJam board</sticky>
+    <sticky id="1:11" x="352" y="48" color="STICKY_GREEN" author="" width="240" height="240">RECEIPT test:0001 &amp;quot;written by use_figma on 2026-09-04&amp;quot;</sticky>
+    <sticky id="1:15" x="656" y="48" color="CUSTOM" author="" width="240" height="240">COUNTER-EVIDENCE Write path needs the remote server and OAuth; desktop server is read-only</sticky>
+    <connector id="1:19" x="294" y="147.5" connectorStart="1:7" connectorStartCap="NONE" connectorEnd="1:15" connectorEndCap="ARROW_LINES">contested by</connector>
+  </section>
+</canvas>
