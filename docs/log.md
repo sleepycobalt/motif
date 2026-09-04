@@ -27,4 +27,5 @@ Next: Build step 1 — extract `synth/engine.py`, logger emit hook, corpus snaps
 Tried: Engine extraction, logger emit/redact/snapshot, MCP server with five tools on the 2.x SDK, offline tests, live regression, board tool executed on the real FigJam board, critique acceptance vs eval2 through the server.
 Happened: 19 offline tests pass; ingest byte-identical; regression run $0.55/441 s/13 insights with corpus snapshot; R5 board (15 sections, 78 stickies, 12 connectors) built and read back. Venv had lost its packages; SDK 2.x renamed FastMCP; plain exceptions hide tool error text.
 Happened (cont.): Acceptance recorded — structuring passes (deterministic and model identical); verdict agreement partial: unsupported 25/32, P-03 5/8, P-05 2/8. Client needed log_level for log notifications; progress now sent on every emit. `motif` registered in Claude Code and connected.
-Next: User decides on critic tuning vs accepting the measured gap; user records the sample-corpus Claude Code session; commit.
+Ruling: accept the measured gap, no instrument changes; recorded. Step 5 done: host install snippets (Claude Code, Cursor, Claude Desktop), SKILL.md wrapper, listing copy, registry server.json (validated; description cap 100 chars).
+Next: User records the sample-corpus Claude Code session; publish `etot-motif` to PyPI, then the registry entry.

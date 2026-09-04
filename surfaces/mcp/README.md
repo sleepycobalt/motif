@@ -1,10 +1,10 @@
 # Motif MCP server
 
-One server, usable from Claude Code, Cursor, and any MCP host. A designer or
-researcher working in an agent environment can say "synthesise these
-transcripts" and get the same cited, critic-checked result the CLI gives.
-Every tool is a thin call into `synth/engine.py`; the loop, prompts, and
-config are shared with the CLI and the FigJam plugin, never duplicated.
+One server, usable from Claude Code, Cursor, Claude Desktop, and any MCP host.
+A designer or researcher working in an agent environment can say "synthesise
+these transcripts" and get the same cited, critic-checked result the CLI
+gives. Every tool is a thin call into `synth/engine.py`; the loop, prompts,
+and config are shared with the CLI and the FigJam plugin, never duplicated.
 
 ## Tools
 
@@ -13,7 +13,7 @@ config are shared with the CLI and the FigJam plugin, never duplicated.
 | `motif_synthesize` | `transcripts_dir` or `files`, `question`, `condition` (A/B/C), `max_iterations` | run id, insights JSON, report markdown, contested insight ids, cost |
 | `motif_critique` | `insights` (JSON) **or** `document` (markdown/prose); `run_id` or `transcripts_dir`; optional `transcripts`, `question` | verdict JSON (`pass`, `failures`, `notes`, `skipped_rules`), summary by rule and by insight, the structured insights, its own run id |
 | `motif_receipts` | `turn_ids`; `run_id` or `transcripts_dir` | verbatim turn text, speaker, whether the speaker was the interviewer; `missing` |
-| `motif_board` | `run_id`, `columns` | FigJam layout JSON + one `use_figma` script per insight for the host to execute through Figma's MCP server |
+| `motif_board` | `run_id`, `columns`, `origin_x`, `origin_y` | FigJam layout JSON + one `use_figma` script per insight for the host to execute through Figma's MCP server |
 | `motif_runs_get` | `run_id`, `include` | meta, notes, per-iteration verdicts; optionally insights, report, per-call token/timing |
 
 Failure semantics: a missing verdict, an empty synthesis, an unparseable
@@ -28,30 +28,41 @@ does). stdout is the protocol; nothing else ever writes to it.
 
 ## Install (local mode)
 
-From a Motif checkout with its virtualenv:
+From a Motif checkout:
 
 ```bash
-cd /path/to/motif
+git clone https://github.com/sleepycobalt/motif.git
+cd motif
 python3 -m venv .venv && source .venv/bin/activate
 pip install -e ".[mcp]"
 echo "ANTHROPIC_API_KEY=your-key-here" > .env
-motif-mcp --help >/dev/null 2>&1 || true   # entry point exists once installed
+ls .venv/bin/motif-mcp        # the server entry point
 ```
 
 The server reads `ANTHROPIC_API_KEY` from the environment or the repo's
 `.env`, writes run logs to `runs/` in the repo (override with
 `MOTIF_RUNS_DIR`), and uses `config/synth.yaml` (override with `MOTIF_CONFIG`).
+Every host below needs the **absolute** path to `.venv/bin/motif-mcp`; hosts
+spawn servers without your shell's PATH.
 
 ### Claude Code
 
 ```bash
-claude mcp add motif -- /path/to/motif/.venv/bin/motif-mcp
+claude mcp add motif -- /ABSOLUTE/PATH/TO/motif/.venv/bin/motif-mcp
 ```
 
-Then in a Claude Code session (start a new one after adding):
+Optionally install the skill so Claude Code knows the workflow (verify
+citations with receipts, mind contested insights, push to FigJam):
+
+```bash
+mkdir -p ~/.claude/skills/motif
+cp /ABSOLUTE/PATH/TO/motif/surfaces/mcp/skills/motif/SKILL.md ~/.claude/skills/motif/SKILL.md
+```
+
+Then in a new Claude Code session:
 
 ```
-/mcp                                   # should list motif as connected
+/mcp                                   # motif should show as connected
 synthesise ./data/raw/Dataset-2 with motif and open the report
 ```
 
@@ -61,13 +72,13 @@ the run onto a FigJam board via Figma's MCP server.
 
 ### Cursor
 
-Add to `~/.cursor/mcp.json` (or the project's `.cursor/mcp.json`):
+Add to `~/.cursor/mcp.json` (all projects) or `.cursor/mcp.json` (one project):
 
 ```json
 {
   "mcpServers": {
     "motif": {
-      "command": "/path/to/motif/.venv/bin/motif-mcp",
+      "command": "/ABSOLUTE/PATH/TO/motif/.venv/bin/motif-mcp",
       "env": { "ANTHROPIC_API_KEY": "your-key-here" }
     }
   }
@@ -75,6 +86,32 @@ Add to `~/.cursor/mcp.json` (or the project's `.cursor/mcp.json`):
 ```
 
 Restart Cursor; the five `motif_*` tools appear under MCP tools.
+
+### Claude Desktop
+
+Open the config file (Claude menu → Settings → Developer → Edit Config), or
+edit it directly:
+
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "motif": {
+      "command": "/ABSOLUTE/PATH/TO/motif/.venv/bin/motif-mcp",
+      "env": {
+        "ANTHROPIC_API_KEY": "your-key-here",
+        "MOTIF_RUNS_DIR": "/ABSOLUTE/PATH/TO/motif/runs"
+      }
+    }
+  }
+}
+```
+
+Quit and reopen Claude Desktop; the tools appear under the tools icon in the
+chat box. Claude Desktop cannot open files on your disk, so ask for the
+report markdown in the reply, or read it from the run directory.
 
 ## Remote mode
 
@@ -91,12 +128,18 @@ until it is.
 `motif_board` returns a layout and scripts; it does not touch Figma. The
 host (Claude Code with Figma's MCP server authenticated) runs each script
 with `use_figma` against a FigJam board URL and reads the result back with
-`get_figjam`. This was verified on a real board on 2026-09-04
+`get_figjam`. Verified on a real board on 2026-09-04
 (`docs/exhibits/step-zero/`, `docs/exhibits/board-r5/`).
+
+## Listing
+
+`listing.md` holds the descriptions for directories that index MCP servers;
+`server.json` is the manifest for the official MCP registry (publish after
+the package is on PyPI).
 
 ## Tests
 
 ```bash
-.venv/bin/python -m pytest -q tests          # offline: stubbed model, spawns the server over stdio
+.venv/bin/python -m pytest -q tests               # offline: stubbed model, spawns the server over stdio
 .venv/bin/python scripts/critique_acceptance.py   # spends API budget: critic vs eval2 human scoring
 ```

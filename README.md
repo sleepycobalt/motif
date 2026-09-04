@@ -64,7 +64,7 @@ pip install -e ".[mcp]"
 claude mcp add motif -- "$PWD/.venv/bin/motif-mcp"
 ```
 
-Five tools: `motif_synthesize`, `motif_critique` (check any synthesis, yours or someone else's, against the transcripts), `motif_receipts` (verbatim turn text for a citation), `motif_board` (a run laid out for FigJam, executed by the host through Figma's MCP server), `motif_runs_get`. Install for Cursor and details: [surfaces/mcp/README.md](surfaces/mcp/README.md).
+Five tools: `motif_synthesize`, `motif_critique` (check any synthesis, yours or someone else's, against the transcripts), `motif_receipts` (verbatim turn text for a citation), `motif_board` (a run laid out for FigJam, executed by the host through Figma's MCP server), `motif_runs_get`. Install snippets for Claude Code, Cursor, and Claude Desktop, plus a skill that teaches an agent the verify-before-you-quote workflow: [surfaces/mcp/README.md](surfaces/mcp/README.md).
 
 ## Tune it
 

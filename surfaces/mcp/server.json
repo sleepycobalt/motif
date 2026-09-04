@@ -1,0 +1,55 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.sleepycobalt/motif",
+  "description": "Research synthesis with receipts: cited, critic-checked insights from interview transcripts.",
+  "version": "0.2.0",
+  "repository": {
+    "url": "https://github.com/sleepycobalt/motif",
+    "source": "github",
+    "subfolder": "surfaces/mcp"
+  },
+  "websiteUrl": "https://etot.design",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
+      "identifier": "etot-motif",
+      "version": "0.2.0",
+      "runtimeHint": "uvx",
+      "runtimeArguments": [
+        {
+          "type": "positional",
+          "value": "--from",
+          "isRepeated": false
+        },
+        {
+          "type": "positional",
+          "value": "etot-motif[mcp]",
+          "isRepeated": false
+        },
+        {
+          "type": "positional",
+          "value": "motif-mcp",
+          "isRepeated": false
+        }
+      ],
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "ANTHROPIC_API_KEY",
+          "description": "Anthropic API key used to run the engine locally",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "MOTIF_RUNS_DIR",
+          "description": "Directory for run logs (every prompt, response, iteration). Defaults to ./runs in the package checkout.",
+          "isRequired": false,
+          "isSecret": false
+        }
+      ]
+    }
+  ]
+}
