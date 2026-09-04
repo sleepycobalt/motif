@@ -1,4 +1,4 @@
-"""Load processed transcripts (from scripts/ingest.py) into memory."""
+"""Load processed transcripts (from synth.ingest) into memory."""
 
 import json
 from pathlib import Path
@@ -12,7 +12,7 @@ class Corpus:
         self.names = names or sorted(self.meta)
         missing = [n for n in self.names if n not in self.meta]
         if missing:
-            raise SystemExit(f"unknown transcript(s): {missing}; have {sorted(self.meta)}")
+            raise ValueError(f"unknown transcript(s): {missing}; have {sorted(self.meta)}")
         self.turns: dict[str, dict] = {}
         self.text: dict[str, str] = {}
         for n in self.names:

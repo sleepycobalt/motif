@@ -1,0 +1,616 @@
+{
+  "started": "2026-09-04T07:06:30Z",
+  "paths": {
+    "R1-json": {
+      "run_id": "20260904-070630-critique",
+      "source_run": "20260903-163434-C-eval3b",
+      "pass": false,
+      "by_rule": {
+        "unsupported": [
+          "I-05"
+        ],
+        "missing_counterexample": [
+          "I-05"
+        ],
+        "missing_theme": [
+          "*"
+        ]
+      },
+      "skipped_rules": [],
+      "seconds": 168.7
+    },
+    "R2-json": {
+      "run_id": "20260904-070919-critique",
+      "source_run": "20260903-160258-C-eval1b",
+      "pass": false,
+      "by_rule": {
+        "unsupported": [
+          "I-01"
+        ],
+        "missing_counterexample": [
+          "I-10"
+        ],
+        "merged_insights": [
+          "I-08"
+        ],
+        "missing_theme": [
+          "*"
+        ]
+      },
+      "skipped_rules": [],
+      "seconds": 178.5
+    },
+    "R3-json": {
+      "run_id": "20260904-071218-critique",
+      "source_run": "20260903-161831-C-eval2b",
+      "pass": false,
+      "by_rule": {
+        "missing_theme": [
+          "*",
+          "*",
+          "*"
+        ],
+        "missing_counterexample": [
+          "I-10"
+        ],
+        "merged_insights": [
+          "I-04"
+        ]
+      },
+      "skipped_rules": [],
+      "seconds": 154.4
+    },
+    "R4-json": {
+      "run_id": "20260904-071452-critique",
+      "source_run": "20260903-190342-C-v2-eval3",
+      "pass": false,
+      "by_rule": {
+        "quote_mismatch": [
+          "I-17"
+        ],
+        "missing_counterexample": [
+          "I-10",
+          "I-04"
+        ]
+      },
+      "skipped_rules": [],
+      "seconds": 284.7
+    },
+    "R5-json": {
+      "run_id": "20260904-071937-critique",
+      "source_run": "20260903-184148-C-v2-eval2",
+      "pass": false,
+      "by_rule": {
+        "quote_mismatch": [
+          "I-06"
+        ],
+        "missing_counterexample": [
+          "I-05"
+        ],
+        "unsupported": [
+          "I-10",
+          "I-14"
+        ]
+      },
+      "skipped_rules": [],
+      "seconds": 260.8
+    },
+    "R6-json": {
+      "run_id": "20260904-072358-critique",
+      "source_run": "20260903-182014-C-v2-eval1",
+      "pass": false,
+      "by_rule": {
+        "missing_counterexample": [
+          "I-06"
+        ],
+        "missing_theme": [
+          "*"
+        ]
+      },
+      "skipped_rules": [],
+      "seconds": 199.2
+    },
+    "R5-markdown": {
+      "run_id": "20260904-072717-critique-doc",
+      "source_format": "motif_markdown",
+      "n_insights": 15,
+      "insight_ids": [
+        "I-01",
+        "I-02",
+        "I-03",
+        "I-04",
+        "I-05",
+        "I-06",
+        "I-07",
+        "I-08",
+        "I-09",
+        "I-10",
+        "I-11",
+        "I-12",
+        "I-13",
+        "I-14",
+        "I-15"
+      ],
+      "pass": false,
+      "by_rule": {
+        "quote_mismatch": [
+          "I-01",
+          "I-02",
+          "I-05",
+          "I-06",
+          "I-07",
+          "I-11",
+          "I-12",
+          "I-13"
+        ],
+        "unsupported": [
+          "I-10",
+          "I-14"
+        ],
+        "missing_counterexample": [
+          "I-12"
+        ]
+      },
+      "skipped_rules": [
+        "missing_theme"
+      ],
+      "seconds": 119.5
+    },
+    "R5-markdown-model": {
+      "run_id": "20260904-072916-critique-doc",
+      "source_format": "model",
+      "n_insights": 15,
+      "insight_ids": [
+        "I-01",
+        "I-02",
+        "I-03",
+        "I-04",
+        "I-05",
+        "I-06",
+        "I-07",
+        "I-08",
+        "I-09",
+        "I-10",
+        "I-11",
+        "I-12",
+        "I-13",
+        "I-14",
+        "I-15"
+      ],
+      "pass": false,
+      "by_rule": {
+        "quote_mismatch": [
+          "I-01",
+          "I-02",
+          "I-05",
+          "I-06",
+          "I-07",
+          "I-11",
+          "I-12",
+          "I-13"
+        ],
+        "missing_counterexample": [
+          "I-02",
+          "I-13"
+        ],
+        "unsupported": [
+          "I-10"
+        ]
+      },
+      "skipped_rules": [
+        "missing_theme"
+      ],
+      "seconds": 286.3
+    }
+  },
+  "rows": [
+    {
+      "report": "R1-json",
+      "check": "unsupported",
+      "insight": "I-01",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R1-json",
+      "check": "unsupported",
+      "insight": "I-03",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R1-json",
+      "check": "unsupported",
+      "insight": "I-07",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R1-json",
+      "check": "unsupported",
+      "insight": "I-09",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R1-json",
+      "check": "P-03",
+      "insight": "I-05",
+      "sheet": true,
+      "critic": true,
+      "agree": true
+    },
+    {
+      "report": "R1-json",
+      "check": "P-05",
+      "insight": "I-09",
+      "sheet": true,
+      "critic": false,
+      "agree": false
+    },
+    {
+      "report": "R2-json",
+      "check": "unsupported",
+      "insight": "I-02",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R2-json",
+      "check": "unsupported",
+      "insight": "I-08",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R2-json",
+      "check": "unsupported",
+      "insight": "I-11",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R2-json",
+      "check": "unsupported",
+      "insight": "I-12",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R2-json",
+      "check": "P-03",
+      "insight": "I-05",
+      "sheet": true,
+      "critic": false,
+      "agree": false
+    },
+    {
+      "report": "R2-json",
+      "check": "P-05",
+      "insight": "I-09",
+      "sheet": true,
+      "critic": false,
+      "agree": false
+    },
+    {
+      "report": "R3-json",
+      "check": "unsupported",
+      "insight": "I-05",
+      "sheet": true,
+      "critic": false,
+      "agree": false
+    },
+    {
+      "report": "R3-json",
+      "check": "unsupported",
+      "insight": "I-06",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R3-json",
+      "check": "unsupported",
+      "insight": "I-07",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R3-json",
+      "check": "unsupported",
+      "insight": "I-13",
+      "sheet": true,
+      "critic": false,
+      "agree": false
+    },
+    {
+      "report": "R3-json",
+      "check": "P-03",
+      "insight": "I-07",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R3-json",
+      "check": "P-05",
+      "insight": "I-13",
+      "sheet": true,
+      "critic": false,
+      "agree": false
+    },
+    {
+      "report": "R4-json",
+      "check": "unsupported",
+      "insight": "I-05",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R4-json",
+      "check": "unsupported",
+      "insight": "I-08",
+      "sheet": true,
+      "critic": false,
+      "agree": false
+    },
+    {
+      "report": "R4-json",
+      "check": "unsupported",
+      "insight": "I-14",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R4-json",
+      "check": "unsupported",
+      "insight": "I-17",
+      "sheet": true,
+      "critic": false,
+      "agree": false
+    },
+    {
+      "report": "R4-json",
+      "check": "P-03",
+      "insight": "I-04",
+      "sheet": true,
+      "critic": true,
+      "agree": true
+    },
+    {
+      "report": "R4-json",
+      "check": "P-05",
+      "insight": "I-05",
+      "sheet": true,
+      "critic": false,
+      "agree": false
+    },
+    {
+      "report": "R5-json",
+      "check": "unsupported",
+      "insight": "I-06",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R5-json",
+      "check": "unsupported",
+      "insight": "I-09",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R5-json",
+      "check": "unsupported",
+      "insight": "I-10",
+      "sheet": false,
+      "critic": true,
+      "agree": false
+    },
+    {
+      "report": "R5-json",
+      "check": "unsupported",
+      "insight": "I-12",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R5-json",
+      "check": "P-03",
+      "insight": "I-02",
+      "sheet": true,
+      "critic": false,
+      "agree": false
+    },
+    {
+      "report": "R5-json",
+      "check": "P-05",
+      "insight": "I-12",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R6-json",
+      "check": "unsupported",
+      "insight": "I-15",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R6-json",
+      "check": "unsupported",
+      "insight": "I-05",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R6-json",
+      "check": "unsupported",
+      "insight": "I-09",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R6-json",
+      "check": "unsupported",
+      "insight": "I-10",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R6-json",
+      "check": "P-03",
+      "insight": "I-06",
+      "sheet": true,
+      "critic": true,
+      "agree": true
+    },
+    {
+      "report": "R6-json",
+      "check": "P-05",
+      "insight": "I-05",
+      "sheet": true,
+      "critic": false,
+      "agree": false
+    },
+    {
+      "report": "R5-markdown",
+      "check": "unsupported",
+      "insight": "I-06",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R5-markdown",
+      "check": "unsupported",
+      "insight": "I-09",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R5-markdown",
+      "check": "unsupported",
+      "insight": "I-10",
+      "sheet": false,
+      "critic": true,
+      "agree": false
+    },
+    {
+      "report": "R5-markdown",
+      "check": "unsupported",
+      "insight": "I-12",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R5-markdown",
+      "check": "P-03",
+      "insight": "I-02",
+      "sheet": true,
+      "critic": false,
+      "agree": false
+    },
+    {
+      "report": "R5-markdown",
+      "check": "P-05",
+      "insight": "I-12",
+      "sheet": false,
+      "critic": true,
+      "agree": false
+    },
+    {
+      "report": "R5-markdown-model",
+      "check": "unsupported",
+      "insight": "I-06",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R5-markdown-model",
+      "check": "unsupported",
+      "insight": "I-09",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R5-markdown-model",
+      "check": "unsupported",
+      "insight": "I-10",
+      "sheet": false,
+      "critic": true,
+      "agree": false
+    },
+    {
+      "report": "R5-markdown-model",
+      "check": "unsupported",
+      "insight": "I-12",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    },
+    {
+      "report": "R5-markdown-model",
+      "check": "P-03",
+      "insight": "I-02",
+      "sheet": true,
+      "critic": true,
+      "agree": true
+    },
+    {
+      "report": "R5-markdown-model",
+      "check": "P-05",
+      "insight": "I-12",
+      "sheet": false,
+      "critic": false,
+      "agree": true
+    }
+  ],
+  "server_log_lines": 0,
+  "summary": {
+    "unsupported": {
+      "agree": 25,
+      "of": 32
+    },
+    "P-03": {
+      "agree": 5,
+      "of": 8
+    },
+    "P-05": {
+      "agree": 2,
+      "of": 8
+    }
+  },
+  "ruling": {
+    "date": "2026-09-04",
+    "decision": "Accept the measured gap; no instrument (rule/prompt) changes. Dissent hunting is the v3 eval's job (docs/specs/motif-v3-eval.md).",
+    "notes": [
+      "R4 I-17: the sheet's 'unsupported' (counter-evidence cites the interviewer) and the critic's 'quote_mismatch' are the same citation failure caught by a different layer (deterministic receipt check rather than the model's support check). Counted as disagreement above; the counts are left as they are.",
+      "R5 I-10: the critic's 'unsupported' objection, raised in all three paths, matches the contested flag the original run 20260903-184148-C-v2-eval2 left on the same insight (runs/<id>/output.json verdicts[-1]). The human scored it supported. A stable critic-vs-human disagreement, not a tool defect.",
+      "Markdown paths: quote_mismatch on the eight insights with counter-evidence is because Motif's report format prints receipts for evidence only (synth/report.py)."
+    ]
+  }
+}

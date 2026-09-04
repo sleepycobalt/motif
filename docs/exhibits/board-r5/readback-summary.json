@@ -1,0 +1,27 @@
+{
+  "_source": "get_figjam readback of https://www.figma.com/board/GQRzxmNRE8MlIhEqh5UwXe on 2026-09-04 after motif_board scripts for run 20260903-184148-C-v2-eval2 (R5) were executed by the host via use_figma; values copied from the XML",
+  "sections": [
+    {"insight": "I-01", "id": "2:14", "x": 0, "y": 600, "w": 1600, "h": 792, "stickies": 5, "connectors": 1},
+    {"insight": "I-02", "id": "2:43", "x": 1720, "y": 600, "w": 1600, "h": 720, "stickies": 6, "connectors": 1},
+    {"insight": "I-03", "id": "2:76", "x": 0, "y": 1720, "w": 1600, "h": 632, "stickies": 5, "connectors": 0},
+    {"insight": "I-04", "id": "2:101", "x": 1720, "y": 1720, "w": 1600, "h": 632, "stickies": 4, "connectors": 0},
+    {"insight": "I-05", "id": "2:122", "x": 0, "y": 2840, "w": 1600, "h": 720, "stickies": 5, "connectors": 1},
+    {"insight": "I-06", "id": "3:98", "x": 1720, "y": 2840, "w": 1600, "h": 912, "stickies": 6, "connectors": 1},
+    {"insight": "I-07", "id": "3:131", "x": 0, "y": 3960, "w": 1600, "h": 680, "stickies": 5, "connectors": 1},
+    {"insight": "I-08", "id": "3:160", "x": 1720, "y": 3960, "w": 1600, "h": 616, "stickies": 5, "connectors": 0},
+    {"insight": "I-09", "id": "3:185", "x": 0, "y": 5080, "w": 1600, "h": 656, "stickies": 4, "connectors": 0},
+    {"insight": "I-10", "id": "3:206", "x": 1720, "y": 5080, "w": 1632, "h": 984, "stickies": 9, "connectors": 2},
+    {"insight": "I-11", "id": "4:197", "x": 0, "y": 6200, "w": 1600, "h": 768, "stickies": 5, "connectors": 2},
+    {"insight": "I-12", "id": "4:230", "x": 1720, "y": 6200, "w": 1600, "h": 728, "stickies": 6, "connectors": 1},
+    {"insight": "I-13", "id": "4:263", "x": 0, "y": 7320, "w": 1600, "h": 744, "stickies": 5, "connectors": 1},
+    {"insight": "I-14", "id": "4:292", "x": 1720, "y": 7320, "w": 1600, "h": 680, "stickies": 4, "connectors": 0},
+    {"insight": "I-15", "id": "4:313", "x": 0, "y": 8440, "w": 1600, "h": 680, "stickies": 4, "connectors": 0}
+  ],
+  "totals": {"sections": 15, "stickies": 78, "connectors": 12},
+  "colours_reported_by_readback": {
+    "claim medium FFE299": "STICKY_YELLOW", "claim low FFD3A8": "STICKY_ORANGE", "receipt FFFFFF": "WHITE",
+    "counter FFA8DB": "STICKY_PINK", "opportunity A8DAFF": "STICKY_BLUE", "contested D3BDFF": "STICKY_VIOLET",
+    "step-zero red FFB8A8": "CUSTOM"
+  },
+  "canvas_extent": {"width": 3352, "height": 9120}
+}

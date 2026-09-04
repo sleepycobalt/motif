@@ -65,7 +65,7 @@ Score blind against `docs/ground-truth.md` using the generated `scoring-template
 
 ## Add a surface (code)
 
-`core/` (loop controller, logger, LLM client, config) and `synth/` (agents, corpus, prompts, report) are the engine and know nothing about where they run. `synth/cli.py` is one surface. A FigJam plugin, an MCP server, or a web UI should call the same functions — ingest → intake → synthesise → critique → revise — and never re-implement the loop.
+`core/` (loop controller, logger, LLM client, config) and `synth/` (agents, corpus, prompts, report) are the engine and know nothing about where they run. `synth/engine.py` is the service every surface calls: `ingest`, `synthesize`, `critique`, `critique_document`, `receipts`, `load_run`, `board`. `synth/cli.py` and `surfaces/mcp/` are two surfaces over it; a FigJam plugin or a web UI is a third. Never re-implement the loop in a surface, and never print: pass an `emit` callable for progress (the logger's default goes to stderr, because on an MCP stdio transport stdout is the protocol). Test a surface offline first by stubbing `core.llm.call` (see `tests/test_engine.py`).
 
 ## Add a tool on the core
 
@@ -76,7 +76,7 @@ Another loop (design critique, accessibility audit) reuses `core/` unchanged: su
 - Every citation is a turn id (`name:0042`) plus a verbatim receipt. No exceptions.
 - Silence is never approval: a missing verdict, an empty result, or a parse failure is a hard failure.
 - Bad runs are evidence. Keep them (they're gitignored, not deleted).
-- Log durable decisions in `docs/log.md`; things worth writing up in `docs/case-study-notes.md`.
+- Log durable decisions in `docs/log.md`; things worth writing up in `docs/case-study-notes.md` (part 1) and `docs/part2-notes.md` (surfaces).
 
 ## Data
 

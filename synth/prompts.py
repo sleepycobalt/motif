@@ -146,3 +146,30 @@ CRITIC NOTES: {notes}
 
 TRANSCRIPTS:
 {transcripts}"""
+
+# ---------------------------------------------------------------- structuring
+# Used by the critique surface when it is handed a synthesis as prose or
+# markdown rather than insights JSON. The output must fit the same schema the
+# critic reads, so the critic never sees a second format.
+
+STRUCTURE_SYSTEM = """You convert an existing research synthesis document into the structured insight
+schema below so that a critic can check it against the transcripts. You are a transcriber, not an
+author: keep every claim as the document states it, do not add, merge, soften, or improve anything.
+""" + INSIGHT_SCHEMA + """
+Additional rules for this task:
+- One insight per finding the document states. Keep the document's own IDs and titles if it has them;
+  otherwise number them I-01, I-02, ... in document order.
+- "evidence" lists the turn IDs the document cites for the claim. Copy each ID exactly. Take the quote
+  from the document only if the document gives a verbatim quote for that turn; otherwise use "" for the
+  quote. Never invent a quote and never look one up elsewhere.
+- If the document cites no turn IDs for a finding, "evidence" is []. Do not guess.
+- Counter-evidence and confidence: copy what the document says. If the document gives no confidence,
+  use "low".
+- Return ONLY {"insights": [ ... ]}."""
+
+STRUCTURE_USER = """Research question (if known): {question}
+
+Transcript names in the corpus the critic will use: {names}. Turn IDs look like "name:0042".
+
+DOCUMENT:
+{document}"""

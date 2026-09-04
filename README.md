@@ -55,6 +55,17 @@ Try the sample corpus first:
 motif data/raw/Dataset-2 --out report.md
 ```
 
+## Use it from Claude Code or Cursor
+
+Motif is also an MCP server: the same engine, callable from any MCP host.
+
+```bash
+pip install -e ".[mcp]"
+claude mcp add motif -- "$PWD/.venv/bin/motif-mcp"
+```
+
+Five tools: `motif_synthesize`, `motif_critique` (check any synthesis, yours or someone else's, against the transcripts), `motif_receipts` (verbatim turn text for a citation), `motif_board` (a run laid out for FigJam, executed by the host through Figma's MCP server), `motif_runs_get`. Install for Cursor and details: [surfaces/mcp/README.md](surfaces/mcp/README.md).
+
 ## Tune it
 
 Everything a team might want to change lives in [`config/synth.yaml`](config/synth.yaml):
@@ -84,7 +95,9 @@ Known gaps: the critic still misses some dissent from outlier participants, and 
 
 ```
 core/       reusable: loop controller, run logger, LLM client, config loader
-synth/      this tool: agents, prompts, corpus loader, report renderer, CLI
+synth/      this tool: engine (the shared service), agents, prompts, corpus loader, report renderer, board layout, CLI
+surfaces/   mcp/ — the MCP server (Claude Code, Cursor, any MCP host)
+tests/      offline tests with a stubbed model; the MCP server is exercised over stdio
 config/     synth.yaml — models, thresholds, critic rules
 scripts/    ingest.py (transcripts → citable text), eval_pack.py (blind scoring packs)
 data/       sample corpus (CC-BY-NC, see LICENSE) and its processed form
