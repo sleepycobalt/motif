@@ -37,3 +37,4 @@ Running list of moments, decisions, and findings to draw on when writing the cas
 - 2026-09-03 — Still failing: Penni's pro-validation dissent (5/6). Profiles pointed the critic at the outlier; it reached for Stephen instead. Honest open item.
 - 2026-09-03 — "Cited but not extracted": T-11 and T-15 absent from all six reports while the turns containing them are cited in all six for something else. The model takes one finding per turn. That's v3.
 - 2026-09-03 — Decision: v2 ships. Package the tool, then write.
+- 2026-09-03 — Total API spend for the whole project, brief to case study: $30.84. Twenty-three runs, two evals, a full-corpus synthesis, every crash and discarded run included.
