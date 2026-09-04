@@ -1,0 +1,66 @@
+{
+  "_source": "motif_critique verdict for an AI-generated summary (no turn citations) of runs/20260904-154633-C, checked against data/raw/Dataset-2; values copied from runs/20260904-165114-critique-doc/output.json and meta.json on 2026-09-04",
+  "critique_run_id": "20260904-165114-critique-doc",
+  "synthesis_run_id": "20260904-154633-C",
+  "board": "https://www.figma.com/board/GQRzxmNRE8MlIhEqh5UwXe",
+  "document": "runs/20260904-165114-critique-doc/input.md",
+  "source_format": "model",
+  "pass": false,
+  "n_claims": 9,
+  "n_fail": 21,
+  "n_warn": 2,
+  "by_rule": {
+    "bad_citation": [
+      "I-01",
+      "I-02",
+      "I-03",
+      "I-04",
+      "I-05",
+      "I-06",
+      "I-07",
+      "I-08",
+      "I-09"
+    ],
+    "unsupported": [
+      "I-01",
+      "I-02",
+      "I-03",
+      "I-04",
+      "I-05",
+      "I-06",
+      "I-07",
+      "I-08",
+      "I-09"
+    ],
+    "missing_counterexample": [
+      "I-03",
+      "I-06"
+    ],
+    "overconfident": [
+      "I-08"
+    ],
+    "merged_insights": [
+      "I-06"
+    ],
+    "vague_opportunity": [
+      "I-03"
+    ]
+  },
+  "skipped_rules": [
+    "missing_theme"
+  ],
+  "wall_seconds": 101.5,
+  "cost_usd": 0.4905,
+  "critic_notes": "The most fundamental issue is structural: every insight has empty evidence/sources arrays, so none can be verified as accurately representing specific transcript turns, which technically fails 'unsupported' across the board even where the underlying theme is plausible and traceable with effort (as shown by the turns I located manually). Beyond that systemic gap, two specific insights (I-03 on 'relational betrayal' and I-06 on rare secondary reuse) overgeneralize from a single participant's account while ignoring clear, easily-found counter-evidence from other participants (notably lisa's opposite framing, and sam's \u2014 an atypical, infrastructure-rich agency profile \u2014 successful reuse workflow). I-08 similarly overstates a hedged, single-source speculation as a firm recommendation. Two insights (I-05/I-06) share a duplicated, under-differentiated opportunity statement that would benefit from being split. The synthesis agent should add turn-level citations to every insight and revisit the flagged claims for overgeneralization before this goes to the design team. [not checked: missing_theme \u2014 no intake notes supplied]",
+  "host_observations": [
+    "The critic's own located counter-evidence for I-06 includes sam:0068, which motif_receipts reports as an interviewer turn (speaker 'Researcher 1'); the interviewer rule is enforced on the synthesis's citations, not on the critic's.",
+    "The document's 'Key Opportunities' section was folded into the opportunity fields of the nine barrier claims by the structurer, so none of those bullets were evaluated as claims."
+  ],
+  "receipts_verified_by_host": [
+    "sam:0065",
+    "sam:0068",
+    "lisa:0040",
+    "penni:0111",
+    "michelle:0040"
+  ]
+}
