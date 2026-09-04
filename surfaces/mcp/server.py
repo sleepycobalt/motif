@@ -11,8 +11,8 @@ to it. A missing verdict, an empty result, or an unparseable document is a
 tool error, never a success with empty content.
 
 Environment:
-    MOTIF_RUNS_DIR      where run logs go (default: ./runs)
-    MOTIF_CONFIG        YAML config (default: config/synth.yaml in the repo)
+    MOTIF_RUNS_DIR      where run logs go (default: runs/ in a checkout, else ~/.motif/runs)
+    MOTIF_CONFIG        YAML config (default: the packaged synth.yaml, config/synth.yaml in a checkout)
     MOTIF_PROCESSED     fallback processed corpus for runs made before corpus snapshots
     MOTIF_REMOTE_URL    switch to remote mode
     ANTHROPIC_API_KEY   local mode only (also read from .env in the working directory)
@@ -36,7 +36,14 @@ from surfaces.mcp import remote
 
 log = logging.getLogger("motif.mcp")
 
-RUNS_ROOT = Path(os.environ.get("MOTIF_RUNS_DIR") or (engine.ROOT / "runs"))
+def _default_runs_root() -> Path:
+    """runs/ next to the code when running from a checkout; ~/.motif/runs for a pip/uvx install."""
+    if (engine.ROOT / "pyproject.toml").exists():
+        return engine.ROOT / "runs"
+    return Path.home() / ".motif" / "runs"
+
+
+RUNS_ROOT = Path(os.environ.get("MOTIF_RUNS_DIR") or _default_runs_root())
 CONFIG = os.environ.get("MOTIF_CONFIG") or None
 REMOTE = bool(os.environ.get("MOTIF_REMOTE_URL"))
 

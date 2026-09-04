@@ -45,7 +45,7 @@
         },
         {
           "name": "MOTIF_RUNS_DIR",
-          "description": "Directory for run logs (every prompt, response, iteration). Defaults to ./runs in the package checkout.",
+          "description": "Directory for run logs (every prompt, response, iteration). Defaults to ~/.motif/runs.",
           "isRequired": false,
           "isSecret": false
         }

@@ -1,5 +1,7 @@
 # Motif
 
+<!-- mcp-name: io.github.sleepycobalt/motif -->
+
 An agentic loop that turns a folder of interview transcripts into a research synthesis where every insight carries cited, verified evidence, an honest confidence level, and the counter-evidence against it.
 
 Built for design and research teams who synthesise qualitative interviews and need output they can trust and trace. Motif is the first tool from [ETOT](https://etot.design). Built as an R&D project; the [case study](https://ericfrye.info/ui/ux/motif) tells the story.
@@ -23,6 +25,13 @@ Sample output: [docs/exhibits/best-report-v2/output.md](docs/exhibits/best-repor
 ## Install (about 5 minutes)
 
 You need Python 3.10+ and an Anthropic API key ([console.anthropic.com](https://console.anthropic.com)).
+
+```bash
+pip install etot-motif
+export ANTHROPIC_API_KEY=your-key-here      # or put it in a .env file in the working directory
+```
+
+Or from a checkout, if you want to edit the critic rules or run the evals:
 
 ```bash
 git clone https://github.com/sleepycobalt/motif.git
@@ -60,9 +69,11 @@ motif data/raw/Dataset-2 --out report.md
 Motif is also an MCP server: the same engine, callable from any MCP host.
 
 ```bash
-pip install -e ".[mcp]"
-claude mcp add motif -- "$PWD/.venv/bin/motif-mcp"
+pip install "etot-motif[mcp]"
+claude mcp add motif -e ANTHROPIC_API_KEY=your-key-here -- motif-mcp
 ```
+
+Or, with [uv](https://docs.astral.sh/uv/) and no install step, `claude mcp add motif -e ANTHROPIC_API_KEY=your-key-here -- uvx --from "etot-motif[mcp]" motif-mcp`. From a checkout: `pip install -e ".[mcp]"` and point the host at `$PWD/.venv/bin/motif-mcp`.
 
 Five tools: `motif_synthesize`, `motif_critique` (check any synthesis, yours or someone else's, against the transcripts), `motif_receipts` (verbatim turn text for a citation), `motif_board` (a run laid out for FigJam, executed by the host through Figma's MCP server), `motif_runs_get`. Install snippets for Claude Code, Cursor, and Claude Desktop, plus a skill that teaches an agent the verify-before-you-quote workflow: [surfaces/mcp/README.md](surfaces/mcp/README.md).
 
@@ -98,7 +109,7 @@ core/       reusable: loop controller, run logger, LLM client, config loader
 synth/      this tool: engine (the shared service), agents, prompts, corpus loader, report renderer, board layout, CLI
 surfaces/   mcp/ — the MCP server (Claude Code, Cursor, any MCP host)
 tests/      offline tests with a stubbed model; the MCP server is exercised over stdio
-config/     synth.yaml — models, thresholds, critic rules
+config/     synth.yaml — models, thresholds, critic rules (symlink to synth/synth.yaml, which ships in the package)
 scripts/    ingest.py (transcripts → citable text), eval_pack.py (blind scoring packs)
 data/       sample corpus (CC-BY-NC, see LICENSE) and its processed form
 docs/       R&D brief, working log, ground truth, eval results, exhibits, case-study notes

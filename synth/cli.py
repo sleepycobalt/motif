@@ -24,7 +24,7 @@ def main():
     ap.add_argument("transcripts", help="folder of .docx/.txt/.md transcripts (one speaker turn per line)")
     ap.add_argument("--out", default="report.md", help="where to write the report")
     ap.add_argument("--question", default=None, help="research question to synthesise against")
-    ap.add_argument("--config", default=None, help="YAML config (default: config/synth.yaml)")
+    ap.add_argument("--config", default=None, help="YAML config (default: the packaged synth.yaml, config/synth.yaml in a checkout)")
     ap.add_argument("--condition", choices=sorted(engine.CONDITIONS), default="C")
     ap.add_argument("--max-iterations", type=int, default=None)
     ap.add_argument("--critic-model", default=None)

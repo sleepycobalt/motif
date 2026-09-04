@@ -35,7 +35,7 @@ from synth.ingest import ingest as _ingest
 from synth.report import to_markdown
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_CONFIG = ROOT / "config" / "synth.yaml"
+DEFAULT_CONFIG = Path(__file__).resolve().parent / "synth.yaml"  # ships in the wheel; config/synth.yaml symlinks to it
 DEFAULT_QUESTION = (
     "What do these researchers tell us about the practical and epistemic barriers to making "
     "qualitative research data open, what tensions do they experience, and what would help?"

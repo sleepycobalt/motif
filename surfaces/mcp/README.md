@@ -28,6 +28,18 @@ does). stdout is the protocol; nothing else ever writes to it.
 
 ## Install (local mode)
 
+From PyPI, into any Python 3.10+ environment:
+
+```bash
+pip install "etot-motif[mcp]"
+which motif-mcp                # the server entry point; hosts need this absolute path
+```
+
+Or with no install step, if you have [uv](https://docs.astral.sh/uv/): the
+command is `uvx --from "etot-motif[mcp]" motif-mcp`. Installed this way the
+server uses the packaged config and writes run logs to `~/.motif/runs`
+(override with `MOTIF_RUNS_DIR`).
+
 From a Motif checkout:
 
 ```bash
@@ -41,7 +53,7 @@ ls .venv/bin/motif-mcp        # the server entry point
 
 The server reads `ANTHROPIC_API_KEY` from the environment or the repo's
 `.env`, writes run logs to `runs/` in the repo (override with
-`MOTIF_RUNS_DIR`), and uses `config/synth.yaml` (override with `MOTIF_CONFIG`).
+`MOTIF_RUNS_DIR`), and uses `config/synth.yaml`, a symlink to the packaged `synth/synth.yaml` (override with `MOTIF_CONFIG`).
 Every host below needs the **absolute** path to `.venv/bin/motif-mcp`; hosts
 spawn servers without your shell's PATH.
 
