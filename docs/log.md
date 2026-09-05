@@ -69,3 +69,8 @@ Next: User's Figma QA: build a board from a run (or a verdict from Check a synth
 Tried: Fix the three findings from the user's Check-a-synthesis run: counter receipts missing from the report (quote_mismatch on every counter), getNodeById forbidden under dynamic-page access, plugin not opening on the stored result.
 Happened: Report prints counter receipts and the check treats an absent counter receipt as absence; async node lookup; open-on-result. Live re-check on the old-format report: 0 mechanical failures, 1 model fail (I-11, correct), 1 warn. 35 tests pass. Deployed.
 Next: User re-runs the synthesis and Build board in a fresh FigJam file and in a Design file; then stage 4, the listing.
+
+## 2026-09-05 — stage 3 close
+- tried: user's FigJam and Figma Design runs of the full stage-3 surface (critique → verdict board, synthesis → board, stored result in a fresh file); fifteen screenshots read for counts, colours, clipping.
+- happened: gate passed; 16 / 71 / 4 on both boards and the counts reconcile against the insight structure; pre-fix critique board kept as the 6-fail exhibit; section-title truncation noted as a cosmetic open item; MCP spec v1-on-disk discrepancy recorded.
+- next: stage 4, the Community listing (free tier only).

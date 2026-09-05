@@ -74,6 +74,8 @@ Ingest runs server-side (python-docx is already a dependency), so the plugin nev
 
 **Stage 3 — board writer.** FigJam renderer from the layout endpoint; run card; contested marking; then the critique mode (paste a summary, get the verdict as stickies, which needs a small `verdict_layout` in `synth/board.py`); then the Design-editor renderer. QA gate: the recorded run's 23 insights rendered in a fresh FigJam file and compared against `docs/exhibits/recorded-run/board-overview.png`; every sticky present; palette colours read back as palette, not CUSTOM.
 
+Status: accepted 2026-09-05 — see docs/part3-notes.md and docs/exhibits/stage3-plugin/.
+
 **Stage 4 — listing assets.** Icon, cover from the I-09 section, four screenshots (board overview, contested section, plugin UI, critique verdict), body copy and FAQ in the register of the best-performing listings, category Research / Whiteboarding. Submit for Community review. First 10 installs and 3 pieces of feedback logged in `docs/part3-notes.md`.
 
 **After the prerequisites — switch on paid.** Entity and bank account, payment rails tested end to end with a real card in Stripe test mode and then one live purchase, support address and response time in the listing, terms and privacy published. Then `MOTIF_PAID_ENABLED=true`, and the first credit purchase logged.
