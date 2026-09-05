@@ -416,10 +416,16 @@ def board(run_id: str, runs_root: str | Path = "runs", columns: int = 2,
           origin: tuple[float, float] = (0, 0)) -> dict:
     """A run's insights as a FigJam layout plus one use_figma script per section."""
     from synth import board as _board
-    run = load_run(run_id, runs_root, include=("meta", "insights"))
+    run = load_run(run_id, runs_root, include=("meta", "insights", "verdicts"))
     insights = run.get("insights") or []
     if not insights:
         raise LookupError(f"run {run_id} has no insights to put on a board")
-    lay = _board.layout(insights, run["meta"], columns=columns, origin=origin)
+    if run["meta"].get("condition") == "critique":
+        verdicts = run.get("verdicts") or []
+        if not verdicts:
+            raise LookupError(f"critique run {run_id} has no verdict to put on a board")
+        lay = _board.verdict_layout(insights, verdicts[-1], run["meta"], columns=columns, origin=origin)
+    else:
+        lay = _board.layout(insights, run["meta"], columns=columns, origin=origin)
     return {"run_id": run_id, "board": lay, "scripts": _board.scripts(lay),
             "instructions": _board.HOST_INSTRUCTIONS}

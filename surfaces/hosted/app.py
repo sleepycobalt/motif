@@ -218,8 +218,8 @@ def create_app(store: JobStore | None = None, *, max_file_mb: int | None = None,
     @app.get("/v1/jobs/{job_id}/board")
     async def board(job_id: str, columns: int = 2, origin_x: float = 0, origin_y: float = 0) -> dict:
         job = job_or_404(job_id)
-        if job.state != "done" or job.kind != "synthesize":
-            raise HTTPException(409, f"job {job_id} is {job.state} ({job.kind}); a board needs a finished synthesis")
+        if job.state != "done" or not job.run_id:
+            raise HTTPException(409, f"job {job_id} is {job.state}; a board needs a finished job")
         try:
             return await asyncio.to_thread(engine.board, job.run_id, store.runs_root, max(1, columns), (origin_x, origin_y))
         except LookupError as e:

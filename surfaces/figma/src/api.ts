@@ -1,8 +1,11 @@
 /**
  * Client for the hosted engine (surfaces/hosted/app.py): submit a job, follow its
- * event stream, fetch the result. The Anthropic key goes in the X-Motif-Key header
- * of the submit call only; it is used for that job and never stored by the service.
+ * event stream, fetch the result and the board layout. The Anthropic key goes in the
+ * X-Motif-Key header of the submit call only; it is used for that job and never stored
+ * by the service.
  */
+
+import type { Layout } from "./board";
 
 export const SERVICE = "https://motif-hosted.fly.dev";
 
@@ -19,10 +22,18 @@ export interface Result {
   cost_usd: number | null; wall_seconds: number | null; insights: Insight[]; report_markdown: string;
 }
 
+export interface Failure { insight_id: string; rule: string; severity: "fail" | "warn"; detail: string; turns?: string[] }
+
+export interface VerdictResult {
+  run_id: string; source_format: string; insights: Insight[];
+  verdict: { pass: boolean; failures: Failure[]; notes?: string; skipped_rules?: string[]; question_assumed?: boolean };
+  summary: { pass: boolean; n_fail: number; n_warn: number; by_rule: Record<string, string[]>; by_insight: Record<string, string[]> };
+}
+
 export interface JobRecord {
-  job_id: string; kind: string; state: "queued" | "running" | "done" | "failed"; created: number;
+  job_id: string; kind: "synthesize" | "critique"; state: "queued" | "running" | "done" | "failed"; created: number;
   finished: number | null; run_id: string | null; words: number | null; n_events: number;
-  error: string | null; result?: Result;
+  error: string | null; result?: Result | VerdictResult;
 }
 
 export class ServiceError extends Error {
@@ -34,13 +45,13 @@ async function detail(r: Response): Promise<string> {
   catch { return r.statusText || `HTTP ${r.status}`; }
 }
 
-export async function submitSynthesis(key: string, transcripts: Upload[], question: string): Promise<string> {
+async function submit(key: string, body: Record<string, unknown>): Promise<string> {
   let r: Response;
   try {
     r = await fetch(`${SERVICE}/v1/jobs`, {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-Motif-Key": key },
-      body: JSON.stringify({ kind: "synthesize", transcripts, question, condition: "C", max_iterations: 3 }),
+      body: JSON.stringify(body),
     });
   } catch (e) {
     throw new ServiceError(0, `Could not reach Motif's engine at ${SERVICE}: ${(e as Error).message}`);
@@ -51,10 +62,26 @@ export async function submitSynthesis(key: string, transcripts: Upload[], questi
   return j.job_id as string;
 }
 
+export function submitSynthesis(key: string, transcripts: Upload[], question: string): Promise<string> {
+  return submit(key, { kind: "synthesize", transcripts, question, condition: "C", max_iterations: 3 });
+}
+
+export function submitCritique(key: string, transcripts: Upload[], document: string, question: string | null): Promise<string> {
+  return submit(key, { kind: "critique", transcripts, document, question: question || null });
+}
+
 export async function getJob(jobId: string): Promise<JobRecord> {
   const r = await fetch(`${SERVICE}/v1/jobs/${encodeURIComponent(jobId)}`);
   if (!r.ok) throw new ServiceError(r.status, await detail(r));
   return r.json();
+}
+
+export async function getBoard(jobId: string): Promise<Layout> {
+  const r = await fetch(`${SERVICE}/v1/jobs/${encodeURIComponent(jobId)}/board?columns=2`);
+  if (!r.ok) throw new ServiceError(r.status, await detail(r));
+  const j = await r.json();
+  if (!j.board?.sections?.length) throw new ServiceError(500, "the service returned an empty board layout");
+  return j.board as Layout;
 }
 
 /**

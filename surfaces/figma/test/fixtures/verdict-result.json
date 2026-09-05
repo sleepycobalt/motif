@@ -1,0 +1,403 @@
+{
+ "run_id": "20260904-165114-critique-doc",
+ "source_format": "model",
+ "insights": [
+  {
+   "id": "I-01",
+   "title": "Consent treated as a one-time event",
+   "claim": "Consent is treated as a one-time event, but participants' right to withdraw data later remains unresolved.",
+   "evidence": [],
+   "sources": [],
+   "confidence": "low",
+   "counter_evidence": [],
+   "counter_note": "",
+   "opportunity": "Adopt staged consent with re-contact points and right-to-be-forgotten mechanisms so participants can withdraw data after initial consent."
+  },
+  {
+   "id": "I-02",
+   "title": "Anonymization fails for small or high-profile samples",
+   "claim": "Anonymization frequently fails for small, niche, or high-profile samples, and some participants actively want attribution instead.",
+   "evidence": [],
+   "sources": [],
+   "confidence": "low",
+   "counter_evidence": [],
+   "counter_note": "",
+   "opportunity": "Offer tiered access options (embargoed/restricted) so identifiable data can be shared appropriately rather than forced into full anonymization or full closure."
+  },
+  {
+   "id": "I-03",
+   "title": "Depositing data feels like relational betrayal",
+   "claim": "Depositing data in archives can feel like betraying the researcher-participant relationship.",
+   "evidence": [],
+   "sources": [],
+   "confidence": "low",
+   "counter_evidence": [],
+   "counter_note": "",
+   "opportunity": "Use staged consent with re-contact points to maintain the researcher-participant relationship through the archiving process."
+  },
+  {
+   "id": "I-04",
+   "title": "Anonymization and transcript prep are unfunded labor",
+   "claim": "Anonymization, metadata, and transcript preparation are unfunded, time-intensive tasks rarely budgeted for.",
+   "evidence": [],
+   "sources": [],
+   "confidence": "low",
+   "counter_evidence": [],
+   "counter_note": "",
+   "opportunity": "Embed funded open-data sections in DMP templates and fund anonymization as its own budget line."
+  },
+  {
+   "id": "I-05",
+   "title": "AV data and non-English languages complicate de-identification",
+   "claim": "Audio-visual data, non-English languages, and dialects create de-identification and interpretability challenges beyond text transcripts.",
+   "evidence": [],
+   "sources": [],
+   "confidence": "low",
+   "counter_evidence": [],
+   "counter_note": "",
+   "opportunity": "Publish qualitative-specific metadata standards and glossaries that address AV and multilingual data handling."
+  },
+  {
+   "id": "I-06",
+   "title": "Secondary reuse of qualitative data is rare",
+   "claim": "Secondary reuse is rare because researchers don't know how to find or evaluate existing qualitative datasets.",
+   "evidence": [],
+   "sources": [],
+   "confidence": "low",
+   "counter_evidence": [],
+   "counter_note": "",
+   "opportunity": "Publish qualitative-specific metadata standards, glossaries, and quality criteria to help researchers find and evaluate existing datasets."
+  },
+  {
+   "id": "I-07",
+   "title": "Open-science norms are built around quantitative standards",
+   "claim": "Open-science reward structures, quality criteria (reproducibility, inter-rater reliability), and guidance are built around quantitative norms, disadvantaging qualitative researchers.",
+   "evidence": [],
+   "sources": [],
+   "confidence": "low",
+   "counter_evidence": [],
+   "counter_note": "",
+   "opportunity": "Recognize qualitative open-research labour in hiring and grant review, and publish qualitative-specific quality criteria distinct from quantitative reproducibility metrics."
+  },
+  {
+   "id": "I-08",
+   "title": "Funder mandates drive openness unevenly",
+   "claim": "Funder mandates drive openness unevenly — non-grant-funded sectors need sector-specific bodies (e.g. GSR) instead.",
+   "evidence": [],
+   "sources": [],
+   "confidence": "low",
+   "counter_evidence": [],
+   "counter_note": "",
+   "opportunity": "Establish or resource sector-specific bodies (e.g. GSR) to drive open-data practice in non-grant-funded sectors."
+  },
+  {
+   "id": "I-09",
+   "title": "Copyright policy and APC costs block openness",
+   "claim": "University copyright policies, unresponsive copyright holders, and high APC fees block openness even when researchers intend it.",
+   "evidence": [],
+   "sources": [],
+   "confidence": "low",
+   "counter_evidence": [],
+   "counter_note": "",
+   "opportunity": "Streamline university copyright policies and negotiate reduced APC fees to remove structural blockers to intended openness."
+  }
+ ],
+ "verdict": {
+  "pass": false,
+  "failures": [
+   {
+    "insight_id": "I-01",
+    "rule": "bad_citation",
+    "severity": "fail",
+    "detail": "nonexistent turns=[]; evidence_count=0",
+    "turns": []
+   },
+   {
+    "insight_id": "I-02",
+    "rule": "bad_citation",
+    "severity": "fail",
+    "detail": "nonexistent turns=[]; evidence_count=0",
+    "turns": []
+   },
+   {
+    "insight_id": "I-03",
+    "rule": "bad_citation",
+    "severity": "fail",
+    "detail": "nonexistent turns=[]; evidence_count=0",
+    "turns": []
+   },
+   {
+    "insight_id": "I-04",
+    "rule": "bad_citation",
+    "severity": "fail",
+    "detail": "nonexistent turns=[]; evidence_count=0",
+    "turns": []
+   },
+   {
+    "insight_id": "I-05",
+    "rule": "bad_citation",
+    "severity": "fail",
+    "detail": "nonexistent turns=[]; evidence_count=0",
+    "turns": []
+   },
+   {
+    "insight_id": "I-06",
+    "rule": "bad_citation",
+    "severity": "fail",
+    "detail": "nonexistent turns=[]; evidence_count=0",
+    "turns": []
+   },
+   {
+    "insight_id": "I-07",
+    "rule": "bad_citation",
+    "severity": "fail",
+    "detail": "nonexistent turns=[]; evidence_count=0",
+    "turns": []
+   },
+   {
+    "insight_id": "I-08",
+    "rule": "bad_citation",
+    "severity": "fail",
+    "detail": "nonexistent turns=[]; evidence_count=0",
+    "turns": []
+   },
+   {
+    "insight_id": "I-09",
+    "rule": "bad_citation",
+    "severity": "fail",
+    "detail": "nonexistent turns=[]; evidence_count=0",
+    "turns": []
+   },
+   {
+    "insight_id": "I-01",
+    "rule": "unsupported",
+    "severity": "fail",
+    "detail": "No turns are cited at all (evidence/sources empty), so the claim cannot be verified. Additionally, the claim that 'the right to withdraw remains unresolved' as a blanket statement ignores that several participants describe active, if imperfect, solutions to this exact problem (e.g. jamie discusses working with a colleague on a 'right to be forgotten' clause and ongoing dynamic consent; david describes continuous reminders and re-confirmation of consent throughout the project). The insight should be evidenced and should acknowledge these emerging practices rather than presenting the issue as wholly unaddressed.",
+    "turns": [
+     "jamie:0024",
+     "david:0030",
+     "david:0034"
+    ]
+   },
+   {
+    "insight_id": "I-02",
+    "rule": "unsupported",
+    "severity": "fail",
+    "detail": "No turns cited. The claim is plausible (ana wants to be named/identified as a 'symbolic' actor; lisa's artist participants explicitly want attribution; bruce notes anonymity is hard to achieve fully), but without citations this cannot be checked against the transcripts as written.",
+    "turns": [
+     "ana:0091",
+     "lisa:0026",
+     "bruce:0023"
+    ]
+   },
+   {
+    "insight_id": "I-03",
+    "rule": "unsupported",
+    "severity": "fail",
+    "detail": "No turns cited. The specific framing 'relational betrayal' does not closely match what any participant said. The closest source is michelle, who describes the loss of a co-created 'partnership' and discomfort about ethics of relinquishing shared knowledge, but she does not describe it as 'betrayal' and this is a single-participant view being generalized into a field-wide insight.",
+    "turns": [
+     "michelle:0040",
+     "michelle:0042"
+    ]
+   },
+   {
+    "insight_id": "I-03",
+    "rule": "missing_counterexample",
+    "severity": "fail",
+    "detail": "This insight presents a single participant's (michelle's) framing as a general finding without noting that several other participants explicitly reject this framing: lisa argues that NOT sharing data, given her participants' desire for exposure, would be 'a disservice' to them; ana's participants asked for reciprocity via publication; jessica and kelly frame open deposit as fulfilling a duty to participants, not betraying them. This is a significant, easily-findable counter-perspective that should be surfaced.",
+    "turns": [
+     "lisa:0026",
+     "lisa:0040",
+     "ana:0125"
+    ]
+   },
+   {
+    "insight_id": "I-04",
+    "rule": "unsupported",
+    "severity": "fail",
+    "detail": "No turns cited. Claim is well-supported thematically (ana, bruce, kelly, jim all discuss unfunded time costs of anonymization/transcription), but citations are required to verify the specific claim as stated.",
+    "turns": [
+     "ana:0071",
+     "bruce:0023",
+     "kelly:0025",
+     "jim:0040"
+    ]
+   },
+   {
+    "insight_id": "I-05",
+    "rule": "unsupported",
+    "severity": "fail",
+    "detail": "No turns cited. Claim is supported (bruce on Northeast England accents/dialect transcription; jamie on Chinese/Japanese translation and anonymization; david on AV/face-blurring), but lacks the citations needed to confirm precise wording.",
+    "turns": [
+     "bruce:0023",
+     "jamie:0018",
+     "david:0010"
+    ]
+   },
+   {
+    "insight_id": "I-06",
+    "rule": "unsupported",
+    "severity": "fail",
+    "detail": "No turns cited to support the causal claim that reuse is rare specifically because researchers 'don't know how to find or evaluate' datasets.",
+    "turns": []
+   },
+   {
+    "insight_id": "I-06",
+    "rule": "missing_counterexample",
+    "severity": "fail",
+    "detail": "Sam — whose profile differs markedly from most interviewees (works at a research-intensive university with mature open-research infrastructure, professional open-research advocate) — directly contradicts this insight. He describes successfully browsing and reusing UK Data Service datasets by subject search and citing methods/questions from others' qualitative work. His account of a working discovery workflow is exactly the kind of counter-evidence that should be surfaced given the claim that reuse is 'rare' due to lack of know-how.",
+    "turns": [
+     "sam:0065",
+     "sam:0068",
+     "sam:0069"
+    ]
+   },
+   {
+    "insight_id": "I-07",
+    "rule": "unsupported",
+    "severity": "fail",
+    "detail": "No turns cited. Claim is well supported (bruce's inter-rater reliability discussion, jim's explicit worry about qualitative researchers being disadvantaged, kelly's comments on grant funders/hiring criteria), but citations are required.",
+    "turns": [
+     "bruce:0021",
+     "jim:0080",
+     "kelly:0049"
+    ]
+   },
+   {
+    "insight_id": "I-08",
+    "rule": "unsupported",
+    "severity": "fail",
+    "detail": "No turns cited.",
+    "turns": [
+     "penni:0057",
+     "penni:0059",
+     "penni:0111"
+    ]
+   },
+   {
+    "insight_id": "I-08",
+    "rule": "overconfident",
+    "severity": "fail",
+    "detail": "This insight is drawn essentially from a single participant (penni), whose comments were highly speculative and repeatedly hedged ('I don't know', 'it would have to come from GSR', 'maybe'). Presenting 'non-grant-funded sectors need sector-specific bodies (e.g. GSR) instead' as a settled finding overstates what was actually a tentative suggestion from one agency researcher who explicitly said she hadn't looked into it yet.",
+    "turns": [
+     "penni:0057",
+     "penni:0059",
+     "penni:0111"
+    ]
+   },
+   {
+    "insight_id": "I-09",
+    "rule": "unsupported",
+    "severity": "fail",
+    "detail": "No turns cited. Claim is reasonably supported by ana (university copyright/APC costs) and pauline (unresponsive copyright holders, underfunded humanities), but requires citation.",
+    "turns": [
+     "ana:0085",
+     "ana:0097",
+     "pauline:0058"
+    ]
+   },
+   {
+    "insight_id": "I-06",
+    "rule": "merged_insights",
+    "severity": "warn",
+    "detail": "The opportunity text is nearly identical to I-05's opportunity (publish qualitative-specific metadata standards/glossaries), collapsing two distinct problems — AV/multilingual de-identification difficulty (I-05) and discovery/evaluation of existing datasets for reuse (I-06) — into the same proposed fix, obscuring that these need different solutions (de-identification tooling and guidance vs. a searchable/quality-labelled discovery infrastructure)."
+   },
+   {
+    "insight_id": "I-03",
+    "rule": "vague_opportunity",
+    "severity": "warn",
+    "detail": "The opportunity ('use staged consent with re-contact points to maintain the researcher-participant relationship') duplicates I-01's opportunity almost verbatim and does not specifically address the 'relational betrayal' feeling described (e.g., co-ownership of knowledge, loss of partnership) — it's a generic consent-process fix bolted onto a distinct relational/ethical concern."
+   }
+  ],
+  "notes": "The most fundamental issue is structural: every insight has empty evidence/sources arrays, so none can be verified as accurately representing specific transcript turns, which technically fails 'unsupported' across the board even where the underlying theme is plausible and traceable with effort (as shown by the turns I located manually). Beyond that systemic gap, two specific insights (I-03 on 'relational betrayal' and I-06 on rare secondary reuse) overgeneralize from a single participant's account while ignoring clear, easily-found counter-evidence from other participants (notably lisa's opposite framing, and sam's — an atypical, infrastructure-rich agency profile — successful reuse workflow). I-08 similarly overstates a hedged, single-source speculation as a firm recommendation. Two insights (I-05/I-06) share a duplicated, under-differentiated opportunity statement that would benefit from being split. The synthesis agent should add turn-level citations to every insight and revisit the flagged claims for overgeneralization before this goes to the design team. [not checked: missing_theme — no intake notes supplied]",
+  "skipped_rules": [
+   "missing_theme"
+  ],
+  "question_assumed": false
+ },
+ "summary": {
+  "pass": false,
+  "n_fail": 21,
+  "n_warn": 2,
+  "by_rule": {
+   "bad_citation": [
+    "I-01",
+    "I-02",
+    "I-03",
+    "I-04",
+    "I-05",
+    "I-06",
+    "I-07",
+    "I-08",
+    "I-09"
+   ],
+   "unsupported": [
+    "I-01",
+    "I-02",
+    "I-03",
+    "I-04",
+    "I-05",
+    "I-06",
+    "I-07",
+    "I-08",
+    "I-09"
+   ],
+   "missing_counterexample": [
+    "I-03",
+    "I-06"
+   ],
+   "overconfident": [
+    "I-08"
+   ],
+   "merged_insights": [
+    "I-06"
+   ],
+   "vague_opportunity": [
+    "I-03"
+   ]
+  },
+  "by_insight": {
+   "I-01": [
+    "bad_citation",
+    "unsupported"
+   ],
+   "I-02": [
+    "bad_citation",
+    "unsupported"
+   ],
+   "I-03": [
+    "bad_citation",
+    "unsupported",
+    "missing_counterexample",
+    "vague_opportunity"
+   ],
+   "I-04": [
+    "bad_citation",
+    "unsupported"
+   ],
+   "I-05": [
+    "bad_citation",
+    "unsupported"
+   ],
+   "I-06": [
+    "bad_citation",
+    "unsupported",
+    "missing_counterexample",
+    "merged_insights"
+   ],
+   "I-07": [
+    "bad_citation",
+    "unsupported"
+   ],
+   "I-08": [
+    "bad_citation",
+    "unsupported",
+    "overconfident"
+   ],
+   "I-09": [
+    "bad_citation",
+    "unsupported"
+   ]
+  }
+ }
+}

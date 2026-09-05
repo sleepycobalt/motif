@@ -80,6 +80,9 @@ button:disabled { opacity: .5; cursor: default; }
 .files .bad { color: var(--err-fg); }
 .files .rm { background: none; border: 0; padding: 0 2px; color: var(--fg2); font-size: 14px; line-height: 1; }
 
+.modes { display: flex; gap: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.mode { flex: 1 1 0; min-width: 0; background: transparent; color: var(--fg2); border: 0; border-radius: 0; padding: 6px 8px; }
+.mode.on { background: var(--accent); color: var(--accent-fg); }
 .tiers { border: 0; margin: 0; padding: 0; display: flex; gap: 12px; flex-wrap: wrap; }
 .tier { display: inline-flex; gap: 4px; align-items: center; }
 .tier.disabled { color: var(--fg2); }

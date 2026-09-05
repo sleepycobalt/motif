@@ -1,0 +1,54 @@
+{
+  "board": "https://www.figma.com/board/ucUAWcb1M6TFdMC8SfgAL1",
+  "renderer": "surfaces/figma/src/board.ts via test/board_script.mjs (use_figma)",
+  "layout": "surfaces/figma/test/fixtures/layout-synthesis-4.json (I-01, I-02, I-03, I-05 of the stage-1 QA run)",
+  "result": {
+    "counts": {
+      "sections": 4,
+      "stickies": 20,
+      "connectors": 1
+    },
+    "bounds": {
+      "x": 0,
+      "y": -568,
+      "width": 3320,
+      "height": 3904
+    },
+    "cardId": "1:90",
+    "sectionIds": [
+      "1:6",
+      "1:23",
+      "1:52",
+      "1:69"
+    ],
+    "connectorIds": [
+      "1:48"
+    ]
+  },
+  "readback_colours": {
+    "claim low": "STICKY_ORANGE",
+    "claim medium": "STICKY_YELLOW",
+    "receipt": "WHITE",
+    "counter": "STICKY_PINK",
+    "opportunity": "STICKY_BLUE",
+    "contested": "STICKY_VIOLET",
+    "card (attention)": "STICKY_VIOLET",
+    "custom": 0
+  },
+  "section_heights": {
+    "I-01": 656,
+    "I-02": 792,
+    "I-03": 680,
+    "I-05": 696,
+    "card": 448,
+    "slot": 1200
+  },
+  "connector": {
+    "id": "1:48",
+    "from": "1:24",
+    "to": "1:36",
+    "label": "contested by",
+    "endCap": "ARROW_LINES"
+  },
+  "note": "card text showed '11482 words' (no thousands separator): the plugin sandbox's toLocaleString is bare; fixed by formatting manually"
+}

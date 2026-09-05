@@ -41,6 +41,15 @@
       <p>A run is still going from last time.</p>
       <div class="row"><button id="resume-btn" class="primary">Follow it</button><button id="resume-dismiss" class="ghost">Forget it</button></div>
     </div>
+    <div id="last-card" class="card" hidden>
+      <div class="row"><span>Last result is saved on this device.</span><button id="open-last" class="ghost">Open it</button></div>
+    </div>
+    <p id="editor-note" class="fine" hidden>In Figma Design the board is drawn with frames instead of stickies, and without connectors.</p>
+
+    <div class="modes" role="tablist" aria-label="Mode">
+      <button id="mode-synth" class="mode on" role="tab">Synthesise transcripts</button>
+      <button id="mode-critique" class="mode" role="tab">Check a synthesis</button>
+    </div>
 
     <div class="card">
       <h2>1. Transcripts</h2>
@@ -53,8 +62,17 @@
       <p id="file-summary" class="fine"></p>
     </div>
 
+    <div id="document-card" class="card" hidden>
+      <h2>1b. The synthesis to check</h2>
+      <p>Paste the report or summary, Markdown or prose. Claims that cite turn ids like <span class="mono">michelle:0042</span> are checked against the transcripts; claims without citations fail for having none.</p>
+      <label class="field">
+        <span class="visually-hidden">Synthesis text</span>
+        <textarea id="document" rows="6" placeholder="Paste the synthesis here…"></textarea>
+      </label>
+    </div>
+
     <div class="card">
-      <h2>2. Question</h2>
+      <h2 id="question-label">2. Question</h2>
       <label class="field">
         <span class="visually-hidden">Research question</span>
         <textarea id="question" rows="3" placeholder="What do you want to learn from these interviews? e.g. What frustrates users about onboarding?"></textarea>
@@ -68,7 +86,7 @@
         <label class="tier"><input type="radio" name="tier" value="byok" checked> <span>Free · your key</span></label>
         <label class="tier disabled"><input type="radio" name="tier" value="paid" disabled> <span>Credits · not yet</span></label>
       </fieldset>
-      <p class="fine">Takes minutes and spends API budget on your key: about $0.50 for two transcripts, about $5 for fifteen. Condition C: intake → synthesis → critic → revise, up to three rounds.</p>
+      <p id="run-fine" class="fine"></p>
       <button id="run-btn" class="primary wide" disabled>Synthesise</button>
     </div>
   </section>
@@ -76,7 +94,7 @@
   <!-- Running -->
   <section id="screen-running" class="screen" hidden>
     <header class="top compact">
-      <h1>Synthesising</h1>
+      <h1 id="running-title">Synthesising</h1>
       <p class="keyline"><span id="elapsed" class="mono">0:00</span> · job <span id="job-id" class="mono"></span></p>
     </header>
     <div class="card grow">
@@ -89,22 +107,18 @@
   <!-- Result -->
   <section id="screen-result" class="screen" hidden>
     <header class="top compact">
-      <h1>Synthesis</h1>
+      <h1 id="result-title">Synthesis</h1>
       <p id="result-question" class="keyline"></p>
     </header>
-    <div class="tiles">
-      <div class="tile"><span class="num" id="t-insights">–</span><span class="lbl">insights</span></div>
-      <div class="tile warn"><span class="num" id="t-contested">–</span><span class="lbl">contested</span></div>
-      <div class="tile"><span class="num" id="t-iterations">–</span><span class="lbl">rounds</span></div>
-      <div class="tile"><span class="num" id="t-cost">–</span><span class="lbl">API cost</span></div>
-      <div class="tile"><span class="num" id="t-time">–</span><span class="lbl">minutes</span></div>
-    </div>
+    <div id="tiles" class="tiles"></div>
     <p id="contested-note" class="fine" hidden></p>
     <div class="row wrap">
-      <button id="copy-report" class="primary">Copy report (Markdown)</button>
-      <button id="build-board" class="ghost" disabled title="Arrives in the next release">Build board · next release</button>
+      <button id="build-board" class="primary" disabled>Build board</button>
+      <button id="copy-report" class="ghost">Copy report (Markdown)</button>
       <button id="new-run" class="ghost">New run</button>
     </div>
+    <p id="board-status" class="fine" aria-live="polite"></p>
+    <details id="critic-notes" class="insight" hidden><summary><span class="title">Critic's notes</span></summary><p id="critic-notes-text" class="body fine"></p></details>
     <p id="clip-note" class="fine" hidden>Clipboard access is blocked here. The full report is selected below: press Cmd+C (Ctrl+C on Windows) to copy it.</p>
     <textarea id="clip" class="clip" rows="6" readonly aria-label="Report as Markdown" hidden></textarea>
     <ol id="insights" class="insights"></ol>

@@ -59,3 +59,8 @@ Next: Stage 2, the Figma plugin on the free tier, against the live service.
 Tried: Figma plugin in TypeScript with client-side docx extraction, CORS on the service, a browser harness at 440/375/320 px with overflow scans of every screen, a live run launched from the plugin UI against the hosted engine.
 Happened: Parity with python-docx on 1,868 turns (one in-paragraph break becomes a space by design). Harness caught a hidden-card CSS bug and a clipboard fallback gap; both fixed. Live browser-path run: 12 insights, 2 contested, $1.03, 660 s. Zero layout issues at any width.
 Next: User runs the ten-minute Figma QA (import manifest, key, sample corpus) and reports timing plus whether copy works inside Figma; then stage 3, the board writer.
+
+## 2026-09-05 — Part 3 stage 3 build (board writer, critique mode, Design renderer)
+Tried: Verdict layout and run card in board.py; plugin board writer for FigJam and Design with a real-board check through Figma's MCP; Build board, stored last result, Check-a-synthesis mode, confidence chip wording; harness at three widths.
+Happened: Real FigJam board: 4 sections, 20 stickies, 1 connector, all palette colours on readback; Design file: frames hug text. Fake-API tests cover 15- and 9-section layouts and failure paths. Fixed: bare number formatting in the sandbox, connector bounds, harness count. Zero layout issues.
+Next: User's Figma QA: build a board from a run (or a verdict from Check a synthesis) in a fresh FigJam file and in a Design file; compare with the recorded-run exhibit; then stage 4, the listing.

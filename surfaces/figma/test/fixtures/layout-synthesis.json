@@ -1,0 +1,837 @@
+{
+ "title": "Motif synthesis — run 5GfWRXE3yUt43vfGyPhNSmzb",
+ "kind": "synthesis",
+ "run_id": "5GfWRXE3yUt43vfGyPhNSmzb",
+ "columns": 2,
+ "origin": [
+  0,
+  0
+ ],
+ "n_sections": 15,
+ "sections": [
+  {
+   "insight_id": "I-01",
+   "name": "I-01 · David treats respecting participant anonymity and consent rights as his p",
+   "x": 0,
+   "y": 0,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "color": "FFD3A8",
+     "text": "I-01 · LOW\nDavid treats respecting participant anonymity and consent rights as his primary ethical barrier\n\nDavid, a self-tracking/running researcher who records audio-visual data, identifies respecting participants' right to anonymity and the basis of their consent as the first and most significant barrier he names to making his qualitative data open."
+    },
+    {
+     "key": "receipt0",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "david:0022\n“a respective participant’s right to anonymity, or respecting the basis of consent of which you've collected data from them”"
+    },
+    {
+     "key": "receipt1",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "david:0010\n“comes with that huge tension of - and people's personal data rights.”"
+    },
+    {
+     "key": "opportunity",
+     "role": "opportunity",
+     "wide": true,
+     "color": "A8DAFF",
+     "text": "OPPORTUNITY\nBuild consent and anonymity risk-assessment directly into the data management plan template David already uses, so anonymity/consent review happens once at project design rather than being re-negotiated barrier-by-barrier at deposit time."
+    }
+   ],
+   "connectors": [],
+   "sources": [
+    "david"
+   ],
+   "turns": [
+    "david:0022",
+    "david:0010"
+   ]
+  },
+  {
+   "insight_id": "I-15",
+   "name": "I-15 · A consent-form clause naming the data archive can itself deter potential ",
+   "x": 1720,
+   "y": 0,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "color": "FFD3A8",
+     "text": "I-15 · LOW\nA consent-form clause naming the data archive can itself deter potential participants from taking part\n\nMichelle, a criminal justice PhD researcher, reports that a consent-form clause stating data will be uploaded to the UK Data Service can, on its own, prevent an otherwise willing person from participating in her research at all."
+    },
+    {
+     "key": "receipt0",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "michelle:0026\n“somebody may really want to interact with my research, but on the consent form it says that you know the data is going to be uploaded to the UK Data service, and therefore that prohibits them from participating in it.”"
+    },
+    {
+     "key": "receipt1",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "michelle:0054\n“you need to make sure that your participants are fully informed and that the consent to it and the clear about potential for the use of that information”"
+    },
+    {
+     "key": "counter0",
+     "role": "counter",
+     "wide": false,
+     "color": "FFA8DB",
+     "text": "COUNTER michelle:0070\n“maybe they do want their voice to be heard in years to come”\nMichelle also notes participants may actively want their data shared and their voice heard in future, complicating the assumption that naming the archive on the consent form is purely a deterrent."
+    },
+    {
+     "key": "opportunity",
+     "role": "opportunity",
+     "wide": true,
+     "color": "A8DAFF",
+     "text": "OPPORTUNITY\nReplace single blanket consent-form wording ('data will be uploaded to X service') with modular, graduated consent options (by data type, embargo length, audience) presented at the point of recruitment, so the mere mention of an archive does not default-exclude cautious participants."
+    }
+   ],
+   "connectors": [
+    {
+     "from": "claim",
+     "to": "counter0",
+     "label": "contested by"
+    }
+   ],
+   "sources": [
+    "michelle"
+   ],
+   "turns": [
+    "michelle:0026",
+    "michelle:0054",
+    "michelle:0070"
+   ]
+  },
+  {
+   "insight_id": "I-02",
+   "name": "I-02 · Interpretive multiplicity undermines quantitative-style reproducibility c",
+   "x": 0,
+   "y": 1320,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "color": "FFE299",
+     "text": "I-02 · MEDIUM\nInterpretive multiplicity undermines quantitative-style reproducibility claims\n\nBoth researchers recognise that qualitative data admits multiple valid interpretations depending on the analyst's position, which they see as fundamentally incompatible with reproducibility as understood in quantitative research."
+    },
+    {
+     "key": "receipt0",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "david:0017\n“firmly aware that somebody would interpret the data that I collected completely, and come up with different, for want of a better word, results.”"
+    },
+    {
+     "key": "receipt1",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "michelle:0058\n“we could get a transcript and with my own position and your position, we would interpret that differently.”"
+    },
+    {
+     "key": "counter0",
+     "role": "counter",
+     "wide": false,
+     "color": "FFA8DB",
+     "text": "COUNTER michelle:0107\n“I think that's where it is. It's the care that we need to think about how to minimize that.”\nDavid frames interpretive multiplicity as a generative feature enabling new research directions, whereas Michelle frames it as a risk to be minimised to protect participants from misjudgment."
+    },
+    {
+     "key": "opportunity",
+     "role": "opportunity",
+     "wide": true,
+     "color": "A8DAFF",
+     "text": "OPPORTUNITY\nReplace 'reproducibility' framing in open-qualitative-data guidance with a 'transparency of interpretation' standard: require deposited data to be accompanied by the researcher's positionality statement and analytic workings, reframing multiple readings as an anticipated, managed feature rather than a defect."
+    },
+    {
+     "key": "contested",
+     "role": "contested",
+     "wide": true,
+     "color": "D3BDFF",
+     "text": "CONTESTED — critic's unresolved objections:\nunsupported: The claim attributes to Michelle a view that interpretive multiplicity is 'fundamentally incompatible with reproducibility as understood in quantitative research,' but the cited Michelle turn (michelle:0058) only describes interpretive variation between analysts ('we would interpret that differently') and never mentions reproducibility. Michelle's actual explicit remark on replicability/reproducibility appears at michelle:0101 ('perhaps we can't replicate what you do with quantitative'), which is not cited. As written, the Michelle citation does not support the specific 'incompatible with reproducibility' framing attributed to her."
+    }
+   ],
+   "connectors": [
+    {
+     "from": "claim",
+     "to": "counter0",
+     "label": "contested by"
+    }
+   ],
+   "sources": [
+    "david",
+    "michelle"
+   ],
+   "turns": [
+    "david:0017",
+    "michelle:0058",
+    "michelle:0107"
+   ]
+  },
+  {
+   "insight_id": "I-03",
+   "name": "I-03 · Researchers default to sharing methods/transcripts before sharing raw per",
+   "x": 1720,
+   "y": 1320,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "color": "FFE299",
+     "text": "I-03 · MEDIUM\nResearchers default to sharing methods/transcripts before sharing raw personal or audio-visual data\n\nBoth researchers distinguish between data types they see as safely shareable (transcripts, interview schedules, analysis frameworks) and those they treat as far more sensitive (audio-visual recordings, participants' raw personal experience)."
+    },
+    {
+     "key": "receipt0",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "david:0014\n“I think it's easier to share transcripts because you interview, transcripts, so saying things that are going on [in] the new environment”"
+    },
+    {
+     "key": "receipt1",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "michelle:0056\n“that should be available and we should all be helping each other on that kind of thing and - but when it's a participant’s personal experience then. Yeah. I think, I think that's different.”"
+    },
+    {
+     "key": "opportunity",
+     "role": "opportunity",
+     "wide": true,
+     "color": "A8DAFF",
+     "text": "OPPORTUNITY\nBuild a default tiered-sharing template into repository deposit workflows that separates 'methods/instruments' (open by default), 'transcripts' (restricted/contextualised), and 'audio-visual/identifiable data' (closed or heavily embargoed) rather than a single open/closed toggle."
+    }
+   ],
+   "connectors": [],
+   "sources": [
+    "david",
+    "michelle"
+   ],
+   "turns": [
+    "david:0014",
+    "michelle:0056"
+   ]
+  },
+  {
+   "insight_id": "I-04",
+   "name": "I-04 · Researchers want a named human contact, not just web guidance",
+   "x": 0,
+   "y": 2640,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "color": "FFE299",
+     "text": "I-04 · MEDIUM\nResearchers want a named human contact, not just web guidance\n\nBoth researchers say they would rather talk to an actual person who can advise on their specific case than rely on generic institutional web pages or categorical rules."
+    },
+    {
+     "key": "receipt0",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "david:0056\n“I just like to get in touch with the actual people, and beyond that there is the UK data archive, for a lot of guidance on what to do.”"
+    },
+    {
+     "key": "receipt1",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "michelle:0099\n“you possibly feel more comfortable with it if you could have that conversation with a real person to say, Okay, you might not find this sensitive, but actually, that's because you don't understand the context of it”"
+    },
+    {
+     "key": "opportunity",
+     "role": "opportunity",
+     "wide": true,
+     "color": "A8DAFF",
+     "text": "OPPORTUNITY\nResource a named 'open qualitative data' liaison role per department or data service, advertised directly to researchers (not just via web pages), who can give a live sensitivity-assessment conversation before deposit."
+    }
+   ],
+   "connectors": [],
+   "sources": [
+    "david",
+    "michelle"
+   ],
+   "turns": [
+    "david:0056",
+    "michelle:0099"
+   ]
+  },
+  {
+   "insight_id": "I-05",
+   "name": "I-05 · Existing guidance is too abstract; researchers want concrete step-by-step",
+   "x": 1720,
+   "y": 2640,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "color": "FFE299",
+     "text": "I-05 · MEDIUM\nExisting guidance is too abstract; researchers want concrete step-by-step procedural training\n\nBoth researchers report a lack of practical, procedural knowledge (how to upload, in what format, with what metadata) and explicitly ask for guidelines/training rather than general awareness-raising."
+    },
+    {
+     "key": "receipt0",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "david:0058\n“I guess what would be quite nice is a sort of note, just kind of like a set of guidelines and I steps to follow, who to talk to.”"
+    },
+    {
+     "key": "receipt1",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "michelle:0091\n“I think definitely some training. But that's not kind of like what's business with physical stuff about how to physically do it, how to upload it, where to upload it.”"
+    },
+    {
+     "key": "opportunity",
+     "role": "opportunity",
+     "wide": true,
+     "color": "A8DAFF",
+     "text": "OPPORTUNITY\nCo-design a concrete, illustrated open-qualitative-data how-to guide (upload steps, accepted formats, required metadata fields) with researchers, modelled on the participant-facing visual aids David already uses."
+    },
+    {
+     "key": "contested",
+     "role": "contested",
+     "wide": true,
+     "color": "D3BDFF",
+     "text": "CONTESTED — critic's unresolved objections:\nunsupported: The claim asserts both researchers ask for concrete procedural guidelines 'rather than general awareness-raising.' David's own cited turn (david:0058) explicitly endorses awareness-raising alongside concrete guidelines ('it comes back to awareness... raise awareness of doing something. Then that would definitely foster open research'), so the 'rather than' framing overstates and misrepresents David's actual dual position."
+    }
+   ],
+   "connectors": [],
+   "sources": [
+    "david",
+    "michelle"
+   ],
+   "turns": [
+    "david:0058",
+    "michelle:0091"
+   ]
+  },
+  {
+   "insight_id": "I-06",
+   "name": "I-06 · Michelle questions whether open-data norms are borrowed uncritically from",
+   "x": 0,
+   "y": 3960,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "color": "FFD3A8",
+     "text": "I-06 · LOW\nMichelle questions whether open-data norms are borrowed uncritically from quantitative research culture\n\nMichelle, a criminal justice PhD researcher, speculates that the expectation to make qualitative data open may originate from quantitative research culture and questions whether that expectation actually fits qualitative epistemology."
+    },
+    {
+     "key": "receipt0",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "michelle:0070\n“has it come from the idea, from like a quant space thing, you know where. And it seems better. Seems the right way to do it.”"
+    },
+    {
+     "key": "receipt1",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "michelle:0101\n“I suppose it's just recognizing that and perhaps we can't replicate what you do with quantitative. That this is different and that's okay, and it might need a different process.”"
+    },
+    {
+     "key": "opportunity",
+     "role": "opportunity",
+     "wide": true,
+     "color": "A8DAFF",
+     "text": "OPPORTUNITY\nHave funders and DMP support teams produce a short qualitative-specific 'why and how to share' briefing, co-written with qualitative researchers, that replaces generic FAIR/open-science language with worked examples (e.g. from criminal justice or interpretive research) showing how sharing can work through rich contextual metadata rather than through comparability or replication claims borrowed from quantitative practice."
+    }
+   ],
+   "connectors": [],
+   "sources": [
+    "michelle"
+   ],
+   "turns": [
+    "michelle:0070",
+    "michelle:0101"
+   ]
+  },
+  {
+   "insight_id": "I-07",
+   "name": "I-07 · David finds gated access reassuring, in tension with his own stated open-",
+   "x": 1720,
+   "y": 3960,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "color": "FFD3A8",
+     "text": "I-07 · LOW\nDavid finds gated access reassuring, in tension with his own stated open-by-default philosophy\n\nDavid, a self-tracking/running researcher, describes the UK Data Service's password requirement as giving him reassurance that 'not everybody's looking at' his participants' data, even though his broader stated approach is to start every project from a fully open default and negotiate restrictions down only where participants request it."
+    },
+    {
+     "key": "receipt0",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "david:0056\n“I know they're not entirely open, because you need a password to start. To me, that gives the data a bit of reassurance that not everybody's looking at it.”"
+    },
+    {
+     "key": "counter0",
+     "role": "counter",
+     "wide": false,
+     "color": "FFA8DB",
+     "text": "COUNTER david:0040\n“I work from [a] position of everything's open then kind of get negotiated down because it's not in my gift to tell the participant “this should be open”. That's up to them. But if you start from the position of closed, you can't really move.”\nDavid's own general philosophy is to default to open and negotiate restrictions case-by-case, which complicates reading his comfort with gated access as an independently preferred, reassuring end-state rather than a fallback compromise."
+    },
+    {
+     "key": "counter1",
+     "role": "counter",
+     "wide": false,
+     "color": "FFA8DB",
+     "text": "COUNTER david:0020\n“But yeah, open it all up is where possible, Where legal, where ethical”"
+    },
+    {
+     "key": "opportunity",
+     "role": "opportunity",
+     "wide": true,
+     "color": "A8DAFF",
+     "text": "OPPORTUNITY\nMake tiered/gated access the promoted default only as a negotiated, participant-driven fallback from an open-first starting point in repository design and researcher-facing messaging, rather than marketing gating itself as the trustworthy destination."
+    }
+   ],
+   "connectors": [
+    {
+     "from": "claim",
+     "to": "counter0",
+     "label": "contested by"
+    },
+    {
+     "from": "claim",
+     "to": "counter1",
+     "label": "contested by"
+    }
+   ],
+   "sources": [
+    "david"
+   ],
+   "turns": [
+    "david:0056",
+    "david:0040",
+    "david:0020"
+   ]
+  },
+  {
+   "insight_id": "I-08",
+   "name": "I-08 · For Michelle, knowledge is inseparable from its temporal and social conte",
+   "x": 0,
+   "y": 5280,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "color": "FFD3A8",
+     "text": "I-08 · LOW\nFor Michelle, knowledge is inseparable from its temporal and social context, challenging the premise of reuse\n\nMichelle, a criminal justice PhD researcher, holds that qualitative findings are tied to the specific social world and moment of collection, such that no amount of metadata can restore the context needed to interpret them later."
+    },
+    {
+     "key": "receipt0",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "michelle:0036\n“knowledge is tied to the social worlds in which it was operating in - at that time, and in that space.”"
+    },
+    {
+     "key": "receipt1",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "michelle:0028\n“No amount better data can provide the context for when it was collected.”"
+    },
+    {
+     "key": "opportunity",
+     "role": "opportunity",
+     "wide": true,
+     "color": "A8DAFF",
+     "text": "OPPORTUNITY\nRather than a binary open/closed decision, develop a 'contextual sufficiency' review step in ethics/DMP processes where researchers assess and document whether enough situating context can realistically accompany a given dataset before deposit."
+    },
+    {
+     "key": "contested",
+     "role": "contested",
+     "wide": true,
+     "color": "D3BDFF",
+     "text": "CONTESTED — critic's unresolved objections:\nmissing_counterexample: The claim states Michelle believes 'no amount of metadata can restore the context needed to interpret them later,' framed as an unqualified epistemic position. But elsewhere Michelle explicitly asks for a richer, narrative form of contextual metadata as something that COULD help future users understand the circumstances of data production ('I'd like some guidance - other than just really basic metadata, just have that really rich kind of setting about - this is what happened with it', michelle:0075; and her 'read me' file proposal at michelle:0091). This complicates the absolutist framing and should be surfaced as a qualifying counter-view rather than left as counter_evidence: []."
+    }
+   ],
+   "connectors": [],
+   "sources": [
+    "michelle"
+   ],
+   "turns": [
+    "michelle:0036",
+    "michelle:0028"
+   ]
+  },
+  {
+   "insight_id": "I-09",
+   "name": "I-09 · Michelle frames data sharing as extinguishing a co-produced researcher-pa",
+   "x": 1720,
+   "y": 5280,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "color": "FFD3A8",
+     "text": "I-09 · LOW\nMichelle frames data sharing as extinguishing a co-produced researcher-participant partnership, though this concern is conditional rather than absolute\n\nMichelle, in her criminal justice research with practitioners, argues that uploading data to a repository dissolves the relational 'partnership' through which knowledge was jointly created with participants, an ethical concern distinct from standard consent compliance."
+    },
+    {
+     "key": "receipt0",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "michelle:0040\n“that story, that knowledge that you created together. It's gone. I don't know how that sits ethically.”"
+    },
+    {
+     "key": "receipt1",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "michelle:0042\n“that partnership, that was part of the process of carrying out [the] research. That's been extinguished, hasn't it?”"
+    },
+    {
+     "key": "counter0",
+     "role": "counter",
+     "wide": false,
+     "color": "FFA8DB",
+     "text": "COUNTER michelle:0050\n“I think perhaps if you can see benefits, so proud to have had a good experience of using that data, then I would think differently about this I suppose.”\nMichelle elsewhere signals this stance is conditional rather than fixed: she says she would 'think differently' if she could see clear benefits from sharing, and acknowledges participants may actively want their voice heard beyond the original study, suggesting the 'extinguished partnership' framing is a default worry rather than a settled conclusion."
+    },
+    {
+     "key": "counter1",
+     "role": "counter",
+     "wide": false,
+     "color": "FFA8DB",
+     "text": "COUNTER michelle:0070\n“maybe they do want their voice to be heard in years to come”"
+    },
+    {
+     "key": "opportunity",
+     "role": "opportunity",
+     "wide": true,
+     "color": "A8DAFF",
+     "text": "OPPORTUNITY\nDevelop ethics guidance that explicitly addresses the relational/co-production dimension of qualitative data sharing (e.g. requiring an acknowledgement of the original researcher-participant relationship in deposited data, and showcasing concrete reuse-benefit examples to researchers weighing this concern), not just anonymisation and consent forms."
+    }
+   ],
+   "connectors": [
+    {
+     "from": "claim",
+     "to": "counter0",
+     "label": "contested by"
+    },
+    {
+     "from": "claim",
+     "to": "counter1",
+     "label": "contested by"
+    }
+   ],
+   "sources": [
+    "michelle"
+   ],
+   "turns": [
+    "michelle:0040",
+    "michelle:0042",
+    "michelle:0050",
+    "michelle:0070"
+   ]
+  },
+  {
+   "insight_id": "I-10",
+   "name": "I-10 · David's visual, tailored consent process as a model for participant compr",
+   "x": 0,
+   "y": 6600,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "color": "FFD3A8",
+     "text": "I-10 · LOW\nDavid's visual, tailored consent process as a model for participant comprehension\n\nDavid, a self-tracking/running researcher, supplements standard consent forms with step-by-step visual diagrams and offers participants a three-way menu (closed/open/tailored) for how their data can be used."
+    },
+    {
+     "key": "receipt0",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "david:0030\n“I use a series of, like, not cartoons, but like pictures, step by step pictures.”"
+    },
+    {
+     "key": "receipt1",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "david:0036\n“I give them some three options and it's quite clear like total amount. Anonymity, you know, it's completely up to them how they want it done, then I give them the completely open option”"
+    },
+    {
+     "key": "opportunity",
+     "role": "opportunity",
+     "wide": true,
+     "color": "A8DAFF",
+     "text": "OPPORTUNITY\nPackage David's visual consent-flow diagrams and closed/open/tailored menu as a reusable template that research support offices distribute to qualitative researchers as a low-effort upgrade to standard consent forms."
+    }
+   ],
+   "connectors": [],
+   "sources": [
+    "david"
+   ],
+   "turns": [
+    "david:0030",
+    "david:0036"
+   ]
+  },
+  {
+   "insight_id": "I-11",
+   "name": "I-11 · David treats data management planning at project conception, not retrospe",
+   "x": 1720,
+   "y": 6600,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "color": "FFD3A8",
+     "text": "I-11 · LOW\nDavid treats data management planning at project conception, not retrospectively, as the enabler of later openness\n\nDavid, drawing on prior information-management experience, argues that decisions about file formats, preservation, and repository choice must be made at project design stage so that openness is built into the workflow rather than bolted on afterward."
+    },
+    {
+     "key": "receipt0",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "david:0062\n“that hangs around the data, the DMP, the data management plan, so that's come from the conception of the project.”"
+    },
+    {
+     "key": "receipt1",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "david:0062\n“it's all at the start of the project. It's not, it's not [a] retrospective thing, it's [at the] start.”"
+    },
+    {
+     "key": "opportunity",
+     "role": "opportunity",
+     "wide": true,
+     "color": "A8DAFF",
+     "text": "OPPORTUNITY\nRequire a lightweight DMP checklist at the grant-application or ethics-approval stage that forces early decisions on file format, repository target, and sharing tier before data collection starts, rather than leaving this to project end."
+    }
+   ],
+   "connectors": [],
+   "sources": [
+    "david"
+   ],
+   "turns": [
+    "david:0062",
+    "david:0062"
+   ]
+  },
+  {
+   "insight_id": "I-12",
+   "name": "I-12 · Michelle wants flexible, narrative-rich metadata formats rather than fixe",
+   "x": 0,
+   "y": 7920,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "color": "FFD3A8",
+     "text": "I-12 · LOW\nMichelle wants flexible, narrative-rich metadata formats rather than fixed technical schemas\n\nMichelle argues that standard technical metadata is insufficient for qualitative data and wants the option to attach rich, free-form contextual narrative (political, organisational, historical circumstances) rather than being forced into a fixed spreadsheet-style format."
+    },
+    {
+     "key": "receipt0",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "michelle:0075\n“I'd like some guidance - other than just like really basic metadata, just have that really rich kind of setting about - this is what happened with it.”"
+    },
+    {
+     "key": "receipt1",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "michelle:0091\n“I think as well for you to have some choice about how you want that to look, so great not to be such a set format.”"
+    },
+    {
+     "key": "opportunity",
+     "role": "opportunity",
+     "wide": true,
+     "color": "A8DAFF",
+     "text": "OPPORTUNITY\nAdd an optional free-text 'rich context' narrative field to repository deposit templates, distinct from structured technical metadata, so depositors can document the circumstances of data production for future users."
+    }
+   ],
+   "connectors": [],
+   "sources": [
+    "michelle"
+   ],
+   "turns": [
+    "michelle:0075",
+    "michelle:0091"
+   ]
+  },
+  {
+   "insight_id": "I-13",
+   "name": "I-13 · Cost of depositing and managing audio-visual data is an unresolved practi",
+   "x": 1720,
+   "y": 7920,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "color": "FFD3A8",
+     "text": "I-13 · LOW\nCost of depositing and managing audio-visual data is an unresolved practical barrier for David\n\nDavid identifies the funding required to securely deposit and manage audio-visual data (as opposed to text transcripts) as a specific, unresolved practical barrier separate from ethical concerns."
+    },
+    {
+     "key": "receipt0",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "david:0022\n“there's that question of money, of the funding that's needed to deposit it.”"
+    },
+    {
+     "key": "receipt1",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "david:0058\n“Where funding is available for that kind of - specially for audio-visual - it's quite a little bit more complex”"
+    },
+    {
+     "key": "opportunity",
+     "role": "opportunity",
+     "wide": true,
+     "color": "A8DAFF",
+     "text": "OPPORTUNITY\nCreate a small dedicated funding line or voucher scheme, separate from general project budgets, specifically for audio-visual data deposit costs (storage, masking/blurring, repository fees)."
+    }
+   ],
+   "connectors": [],
+   "sources": [
+    "david"
+   ],
+   "turns": [
+    "david:0022",
+    "david:0058"
+   ]
+  },
+  {
+   "insight_id": "I-14",
+   "name": "I-14 · David distinguishes funder-mandated compliance from genuine open-research",
+   "x": 0,
+   "y": 9240,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "color": "FFD3A8",
+     "text": "I-14 · LOW\nDavid distinguishes funder-mandated compliance from genuine open-research culture change\n\nDavid, a self-tracking/running researcher, argues that funder requirements to share data produce only regulatory compliance ('have to do it') rather than authentic buy-in, and believes a department-level open-research culture (e.g. data champions) would be a more durable enabler than mandates alone."
+    },
+    {
+     "key": "receipt0",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "david:0026\n“I don't always think that's the right spirit of doing, that's my personal take.”"
+    },
+    {
+     "key": "receipt1",
+     "role": "receipt",
+     "wide": false,
+     "color": "FFFFFF",
+     "text": "david:0026\n“it can come about by a funder going “You have to do this”, but then that, I'm a bit more, you know, it's a bit more sort of regulatory, like I have to do it because otherwise, I'm not going to get from them.”"
+    },
+    {
+     "key": "counter0",
+     "role": "counter",
+     "wide": false,
+     "color": "FFA8DB",
+     "text": "COUNTER david:0026\n“so I'm fully, fully endorse that open research like culture anyway, so you've probably pushing on [an] open door with me in that respect.”\nDavid clarifies he already personally endorses open-data culture, so his critique targets the motivational framing of funder mandates rather than opposition to open data itself."
+    },
+    {
+     "key": "opportunity",
+     "role": "opportunity",
+     "wide": true,
+     "color": "A8DAFF",
+     "text": "OPPORTUNITY\nPair any funder open-data mandate with department-level 'data champion' networks and peer-modelled best practice, so compliance is reinforced by visible cultural norms rather than resting on regulatory requirement alone."
+    }
+   ],
+   "connectors": [
+    {
+     "from": "claim",
+     "to": "counter0",
+     "label": "contested by"
+    }
+   ],
+   "sources": [
+    "david"
+   ],
+   "turns": [
+    "david:0026",
+    "david:0026",
+    "david:0026"
+   ]
+  }
+ ],
+ "card": {
+  "run_id": "5GfWRXE3yUt43vfGyPhNSmzb",
+  "question": "What are the barriers to open qualitative data?",
+  "transcripts": [
+   "david",
+   "michelle"
+  ],
+  "words": 11482,
+  "condition": "C",
+  "iterations": 3,
+  "stop_reason": "max_iterations",
+  "cost": 1.1409,
+  "wall_seconds": 719.5,
+  "started": "2026-09-05T05:47:58",
+  "insights": 15,
+  "contested": [
+   "I-02",
+   "I-05",
+   "I-08"
+  ]
+ }
+}

@@ -1,18 +1,27 @@
 /**
  * Motif for Figma: the UI iframe. Owns the network (api.ts) and the docx extraction
- * (docx.ts); asks the main thread (code.ts) for storage and notifications.
+ * (docx.ts); asks the main thread (code.ts) for storage, notifications, and the board.
  *
- * Standalone harness: opened directly in a browser (no Figma parent), the same UI
- * runs with localStorage standing in for figma.clientStorage, so the layout can be
- * checked at any width and the whole flow exercised against the live service.
+ * Two modes on the setup screen: synthesise transcripts, or check a pasted synthesis
+ * against transcripts (the critic alone). Both end on the result screen, where
+ * "Build board" hands the run's layout to the main thread to draw.
+ *
+ * Standalone harness: opened directly in a browser (no Figma parent, or a ?harness
+ * frame), the same UI runs with localStorage standing in for figma.clientStorage, so
+ * the layout can be checked at any width and the whole flow exercised against the
+ * live service; "Build board" is acknowledged, not drawn.
  */
 
 import { docxToText } from "./docx";
-import { followJob, getJob, submitSynthesis, ServiceError, type Insight, type Result, type Upload } from "./api";
+import { followJob, getBoard, getJob, submitCritique, submitSynthesis, ServiceError,
+  type Insight, type Result, type Upload, type VerdictResult } from "./api";
+import type { Layout } from "./board";
 
 type Screen = "key" | "setup" | "running" | "result" | "error";
+type Mode = "synthesize" | "critique";
 
 interface Prepared { name: string; text: string; words: number; paragraphs: number; error?: string }
+interface Stored { kind: Mode; question: string; nTranscripts: number; result: Result | VerdictResult; layout: Layout | null; jobId: string; when: number }
 
 const $ = <T extends HTMLElement>(id: string): T => document.getElementById(id) as T;
 // Inside Figma the UI is an iframe; the width harness (test/harness.html) also frames it, and says so with ?harness.
@@ -20,8 +29,12 @@ const inFigma = window.parent !== window && !new URLSearchParams(location.search
 
 // ------------------------------------------------------------- main-thread bridge
 
-type ToUi = { type: "init"; keyMasked: string | null; lastJob: { jobId: string; question?: string } | null; editor: string }
-  | { type: "key"; key: string | null; keyMasked: string | null };
+type ToUi =
+  | { type: "init"; keyMasked: string | null; lastJob: { jobId: string; question?: string; kind?: string } | null; hasLastResult: boolean; editor: string }
+  | { type: "key"; key: string | null; keyMasked: string | null }
+  | { type: "last-result"; payload: Stored | null }
+  | { type: "board-done"; counts: { sections: number; stickies: number; connectors: number }; editor: string }
+  | { type: "board-failed"; message: string };
 
 const listeners: ((m: ToUi) => void)[] = [];
 
@@ -34,12 +47,22 @@ function post(msg: Record<string, unknown>): void {
   switch (msg.type) {
     case "ui-ready": {
       const lj = localStorage.getItem("last_job");
-      reply({ type: "init", keyMasked: masked(key), lastJob: lj ? JSON.parse(lj) : null, editor: "harness" }); break;
+      reply({ type: "init", keyMasked: masked(key), lastJob: lj ? JSON.parse(lj) : null,
+        hasLastResult: !!localStorage.getItem("last_result"), editor: "harness" }); break;
     }
     case "get-key": reply({ type: "key", key, keyMasked: masked(key) }); break;
     case "save-key": localStorage.setItem("anthropic_key", String(msg.key)); reply({ type: "key", key: null, keyMasked: masked(String(msg.key)) }); break;
     case "clear-key": localStorage.removeItem("anthropic_key"); reply({ type: "key", key: null, keyMasked: null }); break;
-    case "set-last-job": msg.jobId ? localStorage.setItem("last_job", JSON.stringify({ jobId: msg.jobId, question: msg.question })) : localStorage.removeItem("last_job"); break;
+    case "set-last-job": msg.jobId ? localStorage.setItem("last_job", JSON.stringify({ jobId: msg.jobId, question: msg.question, kind: msg.kind })) : localStorage.removeItem("last_job"); break;
+    case "set-last-result": msg.payload ? localStorage.setItem("last_result", JSON.stringify(msg.payload)) : localStorage.removeItem("last_result"); break;
+    case "get-last-result": { const s = localStorage.getItem("last_result"); reply({ type: "last-result", payload: s ? JSON.parse(s) : null }); break; }
+    case "build-board": {
+      const lay = msg.layout as Layout;
+      const stickies = lay.sections.reduce((n, s) => n + s.stickies.length, 0) + 1;
+      console.log("[harness] build-board acknowledged, not drawn:", lay.n_sections, "sections", stickies, "stickies");
+      reply({ type: "board-done", counts: { sections: lay.n_sections, stickies, connectors: lay.sections.reduce((n, s) => n + s.connectors.length, 0) }, editor: "harness" });
+      break;
+    }
     case "notify": console.log("[notify]", msg.message); break;
   }
 }
@@ -49,21 +72,23 @@ window.onmessage = (e: MessageEvent) => {
   if (m) listeners.forEach((l) => l(m));
 };
 
-function requestKey(): Promise<string | null> {
+function ask<T extends ToUi["type"]>(request: Record<string, unknown>, replyType: T): Promise<Extract<ToUi, { type: T }>> {
   return new Promise((resolve) => {
-    const once = (m: ToUi) => { if (m.type === "key") { listeners.splice(listeners.indexOf(once), 1); resolve(m.key); } };
+    const once = (m: ToUi) => { if (m.type === replyType) { listeners.splice(listeners.indexOf(once), 1); resolve(m as Extract<ToUi, { type: T }>); } };
     listeners.push(once);
-    post({ type: "get-key" });
+    post(request);
   });
 }
 
 // ------------------------------------------------------------------------ state
 
 let files: Prepared[] = [];
+let mode: Mode = "synthesize";
 let keyMasked: string | null = null;
-let lastJob: { jobId: string; question?: string } | null = null;
+let lastJob: { jobId: string; question?: string; kind?: string } | null = null;
 let follow: AbortController | null = null;
 let timer: number | null = null;
+let current: Stored | null = null;
 
 function show(s: Screen): void {
   for (const id of ["key", "setup", "running", "result", "error"]) $(`screen-${id}`).hidden = id !== s;
@@ -73,7 +98,7 @@ function show(s: Screen): void {
 function fail(message: string): void {
   stopTimer();
   const hint = /authentication_error|API key is invalid|401/.test(message)
-    ? "Anthropic rejected the key. Check it at console.anthropic.com, then use \u201cchange\u201d to enter it again."
+    ? "Anthropic rejected the key. Check it at console.anthropic.com, then use “change” to enter it again."
     : /credit balance|insufficient_quota|billing/i.test(message)
       ? "Anthropic reports no credit on this key. Top up at console.anthropic.com and try again."
       : /Could not reach|unreachable|Failed to fetch/i.test(message)
@@ -98,6 +123,7 @@ $("key-change").onclick = () => { post({ type: "clear-key" }); show("key"); keyI
 const drop = $("drop");
 const fileInput = $<HTMLInputElement>("file-input");
 const question = $<HTMLTextAreaElement>("question");
+const document_ = $<HTMLTextAreaElement>("document");
 const runBtn = $<HTMLButtonElement>("run-btn");
 
 function words(s: string): number { return s.split(/\s+/).filter(Boolean).length; }
@@ -148,8 +174,23 @@ function renderFiles(): void {
   updateRun();
 }
 
+function setMode(m: Mode): void {
+  mode = m;
+  $("mode-synth").classList.toggle("on", m === "synthesize");
+  $("mode-critique").classList.toggle("on", m === "critique");
+  $("document-card").hidden = m !== "critique";
+  $("question-label").textContent = m === "critique" ? "2. Question (optional: the one the synthesis answers)" : "2. Question";
+  $("run-fine").textContent = m === "critique"
+    ? "One critic pass over the pasted synthesis against the transcripts: a couple of minutes, about $0.35 on your key. Every claim is checked for citations that exist, quotes that match, interviewer turns, dissent, and overreach."
+    : "Takes minutes and spends API budget on your key: about $1 for two transcripts, about $5 for fifteen. Condition C: intake → synthesis → critic → revise, up to three rounds.";
+  runBtn.textContent = m === "critique" ? "Check the synthesis" : "Synthesise";
+  updateRun();
+}
+
 function updateRun(): void {
-  runBtn.disabled = !(files.some((f) => !f.error) && question.value.trim().length > 0);
+  const haveFiles = files.some((f) => !f.error);
+  runBtn.disabled = mode === "critique" ? !(haveFiles && document_.value.trim().length > 20)
+    : !(haveFiles && question.value.trim().length > 0);
 }
 
 drop.onclick = () => fileInput.click();
@@ -161,29 +202,38 @@ drop.addEventListener("drop", (e) => { const dt = (e as DragEvent).dataTransfer;
 document.body.addEventListener("dragover", (e) => e.preventDefault());
 document.body.addEventListener("drop", (e) => e.preventDefault());
 question.oninput = updateRun;
+document_.oninput = updateRun;
+$("mode-synth").onclick = () => setMode("synthesize");
+$("mode-critique").onclick = () => setMode("critique");
 
 runBtn.onclick = async () => {
   const good = files.filter((f) => !f.error);
   const uploads: Upload[] = good.map((f) => ({ name: f.name, bytes_b64: btoa(unescape(encodeURIComponent(f.text))) }));
   const q = question.value.trim();
   runBtn.disabled = true;
-  const key = await requestKey();
+  const { key } = await ask({ type: "get-key" }, "key");
   if (!key) { runBtn.disabled = false; show("key"); return; }
   let jobId: string;
   try {
-    jobId = await submitSynthesis(key, uploads, q);
+    jobId = mode === "critique" ? await submitCritique(key, uploads, document_.value.trim(), q || null)
+      : await submitSynthesis(key, uploads, q);
   } catch (e) {
     runBtn.disabled = false;
     fail(e instanceof ServiceError ? `${e.message}${e.status ? ` (HTTP ${e.status})` : ""}` : (e as Error).message);
     return;
   }
-  post({ type: "set-last-job", jobId, question: q });
-  lastJob = { jobId, question: q };
-  await run(jobId, q, Date.now());
+  post({ type: "set-last-job", jobId, question: q, kind: mode });
+  lastJob = { jobId, question: q, kind: mode };
+  await run(jobId, q, Date.now(), good.length);
 };
 
-$("resume-btn").onclick = () => { if (lastJob) void run(lastJob.jobId, lastJob.question ?? "", null); };
+$("resume-btn").onclick = () => { if (lastJob) void run(lastJob.jobId, lastJob.question ?? "", null, 0); };
 $("resume-dismiss").onclick = () => { lastJob = null; post({ type: "set-last-job", jobId: null }); $("resume-card").hidden = true; };
+$("open-last").onclick = async () => {
+  const { payload } = await ask({ type: "get-last-result" }, "last-result");
+  if (!payload) { $("last-card").hidden = true; return; }
+  renderResult(payload);
+};
 
 // --------------------------------------------------------------- running screen
 
@@ -206,7 +256,7 @@ function appendLog(line: string): void {
   log.scrollTop = log.scrollHeight;
 }
 
-async function run(jobId: string, q: string, startedAt: number | null): Promise<void> {
+async function run(jobId: string, q: string, startedAt: number | null, nTranscripts: number): Promise<void> {
   show("running");
   log.textContent = "";
   $("job-id").textContent = jobId;
@@ -222,8 +272,9 @@ async function run(jobId: string, q: string, startedAt: number | null): Promise<
       : (e as Error).message);
     return;
   }
+  $("running-title").textContent = job.kind === "critique" ? "Checking" : "Synthesising";
   startTimer(startedAt ?? job.created * 1000);
-  if (job.state === "done" || job.state === "failed") { finish(job.state, job.error, q, jobId); return; }
+  if (job.state === "done" || job.state === "failed") { await finish(job.state, job.error, q, jobId, nTranscripts); return; }
   let end;
   try {
     end = await followJob(jobId, appendLog, follow.signal);
@@ -232,10 +283,10 @@ async function run(jobId: string, q: string, startedAt: number | null): Promise<
     fail((e as Error).message);
     return;
   }
-  finish(end.state, end.error, q, jobId);
+  await finish(end.state, end.error, q, jobId, nTranscripts);
 }
 
-async function finish(state: string, error: string | null, q: string, jobId: string): Promise<void> {
+async function finish(state: string, error: string | null, q: string, jobId: string, nTranscripts: number): Promise<void> {
   stopTimer();
   post({ type: "set-last-job", jobId: null });
   lastJob = null;
@@ -243,47 +294,99 @@ async function finish(state: string, error: string | null, q: string, jobId: str
   if (state !== "done") { fail(error || `The run ended as "${state}" with no result.`); return; }
   let job;
   try { job = await getJob(jobId); } catch (e) { fail((e as Error).message); return; }
-  if (!job.result || !job.result.insights?.length) { fail("The run finished but returned no insights. Silence is never a result."); return; }
-  renderResult(job.result, q);
-  post({ type: "notify", message: `Motif: ${job.result.n_insights} insights, ${job.result.contested.length} contested.` });
+  const result = job.result;
+  if (!result || !result.insights?.length) { fail("The run finished but returned no insights. Silence is never a result."); return; }
+  let layout: Layout | null = null;
+  try { layout = await getBoard(jobId); } catch (e) { appendLog(`board layout unavailable: ${(e as Error).message}`); }
+  const kind: Mode = job.kind === "critique" ? "critique" : "synthesize";
+  const stored: Stored = { kind, question: q, nTranscripts, result, layout, jobId, when: Date.now() };
+  post({ type: "set-last-result", payload: stored });
+  renderResult(stored);
+  const msg = isVerdict(result)
+    ? `Motif critique: ${result.summary.n_fail} fails, ${result.summary.n_warn} warnings.`
+    : `Motif: ${result.n_insights} insights, ${result.contested.length} contested.`;
+  post({ type: "notify", message: msg });
 }
 
 $("stop-follow").onclick = () => { follow?.abort(); stopTimer(); show("setup"); };
 
 // ----------------------------------------------------------------- result screen
 
-let lastResult: Result | null = null;
+function isVerdict(r: Result | VerdictResult): r is VerdictResult { return "verdict" in r; }
 
-function renderResult(r: Result, q: string): void {
-  lastResult = r;
-  $("result-question").textContent = q;
-  $("t-insights").textContent = String(r.n_insights);
-  $("t-contested").textContent = String(r.contested.length);
-  $("t-iterations").textContent = String(r.iterations);
-  $("t-cost").textContent = r.cost_usd != null ? `$${r.cost_usd.toFixed(2)}` : "–";
-  $("t-time").textContent = r.wall_seconds != null ? (r.wall_seconds / 60).toFixed(1) : "–";
+function renderResult(s: Stored): void {
+  current = s;
+  const r = s.result;
+  $("result-question").textContent = s.question || (isVerdict(r) ? "Critique of a pasted synthesis" : "");
+  $("result-title").textContent = isVerdict(r) ? "Critique" : "Synthesis";
+  const tiles = $("tiles");
+  tiles.innerHTML = "";
+  const tile = (num: string, lbl: string, warn = false) => {
+    const d = document.createElement("div"); d.className = "tile" + (warn ? " warn" : "");
+    const n = document.createElement("span"); n.className = "num"; n.textContent = num;
+    const l = document.createElement("span"); l.className = "lbl"; l.textContent = lbl;
+    d.append(n, l); tiles.append(d);
+  };
   const note = $("contested-note");
-  if (r.contested.length) {
+  if (isVerdict(r)) {
+    tile(r.verdict.pass ? "PASS" : "FAIL", "verdict", !r.verdict.pass);
+    tile(String(r.insights.length), "claims");
+    tile(String(r.summary.n_fail), "fails", r.summary.n_fail > 0);
+    tile(String(r.summary.n_warn), "warnings");
+    const skipped = r.verdict.skipped_rules ?? [];
+    const notes = (r.verdict.notes ?? "").replace(/\s*\[not checked:[^\]]*\]\s*$/i, "").trim();
     note.hidden = false;
-    note.textContent = `The critic still objected to ${r.contested.join(", ")} when the loop stopped (${r.stop_reason.replace("_", " ")}). Read those with the objection in view; silence is never agreement.`;
+    note.textContent = (skipped.length ? `Not checked: ${skipped.join(", ")} (no intake notes for a pasted document). ` : "")
+      + (r.source_format === "model" ? "The document was structured into claims by the model; ids and quotes were copied from the text, not invented." : "");
+    const nd = $<HTMLDetailsElement>("critic-notes");
+    nd.hidden = !notes;
+    $("critic-notes-text").textContent = notes;
   } else {
-    note.hidden = r.stop_reason === "critic_pass" ? true : false;
-    note.textContent = r.stop_reason === "critic_pass" ? "" : `Stopped: ${r.stop_reason.replace("_", " ")}.`;
+    tile(String(r.n_insights), "insights");
+    tile(String(r.contested.length), "contested", r.contested.length > 0);
+    tile(String(r.iterations), "rounds");
+    tile(r.cost_usd != null ? `$${r.cost_usd.toFixed(2)}` : "–", "API cost");
+    tile(r.wall_seconds != null ? (r.wall_seconds / 60).toFixed(1) : "–", "minutes");
+    if (r.contested.length) {
+      note.hidden = false;
+      note.textContent = `The critic still objected to ${r.contested.join(", ")} when the loop stopped (${r.stop_reason.replace("_", " ")}). Read those with the objection in view; silence is never agreement.`;
+    } else {
+      note.hidden = r.stop_reason === "critic_pass";
+      note.textContent = r.stop_reason === "critic_pass" ? "" : `Stopped: ${r.stop_reason.replace("_", " ")}.`;
+    }
   }
+  if (!isVerdict(r)) $("critic-notes").hidden = true;
+  const bb = $<HTMLButtonElement>("build-board");
+  bb.disabled = !s.layout;
+  bb.textContent = s.layout ? (inFigma ? "Build board" : "Build board (harness: acknowledged only)") : "Board layout unavailable";
+  bb.title = s.layout ? "Draws the run on this page: one section per insight, stickies for claim, receipts, counter-evidence, opportunity, and open objections" : "";
+  $("board-status").textContent = "";
+  $("clip").hidden = true; $("clip-note").hidden = true;
   const ol = $("insights");
   ol.innerHTML = "";
-  for (const ins of r.insights) ol.append(insightEl(ins));
+  if (isVerdict(r)) for (const ins of r.insights) ol.append(claimEl(ins, r));
+  else for (const ins of r.insights) ol.append(insightEl(ins, s.nTranscripts));
   show("result");
 }
 
-function insightEl(ins: Insight): HTMLElement {
+function confidenceBadge(ins: Insight, nTranscripts: number): HTMLElement {
+  const conf = (ins.confidence || "low").toLowerCase();
+  const n = ins.sources?.length ?? 0;
+  const b = document.createElement("span");
+  b.className = `badge ${conf}`;
+  // Say why: high needs 4+ participants and no counter-evidence, so on a small corpus "low" is the ceiling.
+  b.textContent = nTranscripts ? `${conf} · ${n} of ${nTranscripts}` : `${conf} · ${n} source${n === 1 ? "" : "s"}`;
+  b.title = `${n} participant${n === 1 ? "" : "s"} cited${nTranscripts ? ` of ${nTranscripts} transcripts` : ""}. High needs 4+ participants and no counter-evidence; medium 2-3; low 1.`;
+  return b;
+}
+
+function insightEl(ins: Insight, nTranscripts: number): HTMLElement {
   const li = document.createElement("li");
   const d = document.createElement("details"); d.className = "insight";
   const sum = document.createElement("summary");
   const id = document.createElement("span"); id.className = "id"; id.textContent = ins.id;
   const title = document.createElement("span"); title.className = "title"; title.textContent = ins.title;
-  const conf = document.createElement("span"); conf.className = `badge ${(ins.confidence || "low").toLowerCase()}`; conf.textContent = (ins.confidence || "low").toLowerCase();
-  sum.append(id, title, conf);
+  sum.append(id, title, confidenceBadge(ins, nTranscripts));
   if (ins.critic_flags?.length) { const c = document.createElement("span"); c.className = "badge contested"; c.textContent = "contested"; sum.append(c); }
   const body = document.createElement("div"); body.className = "body";
   const claim = document.createElement("p"); claim.textContent = ins.claim; body.append(claim);
@@ -301,9 +404,52 @@ function insightEl(ins: Insight): HTMLElement {
   return li;
 }
 
+function claimEl(ins: Insight, r: VerdictResult): HTMLElement {
+  const objections = r.verdict.failures.filter((f) => f.insight_id === ins.id);
+  const worst = objections.some((f) => f.severity !== "warn") ? "fail" : objections.length ? "warn" : "pass";
+  const li = document.createElement("li");
+  const d = document.createElement("details"); d.className = "insight"; d.open = worst !== "pass";
+  const sum = document.createElement("summary");
+  const id = document.createElement("span"); id.className = "id"; id.textContent = ins.id;
+  const title = document.createElement("span"); title.className = "title"; title.textContent = ins.title || ins.claim.slice(0, 80);
+  const b = document.createElement("span"); b.className = `badge ${worst === "fail" ? "contested" : worst === "warn" ? "medium" : "high"}`;
+  b.textContent = worst === "pass" ? "no objection" : `${objections.length} ${worst === "fail" ? "fail" : "warning"}${objections.length === 1 ? "" : "s"}`;
+  sum.append(id, title, b);
+  const body = document.createElement("div"); body.className = "body";
+  const claim = document.createElement("p"); claim.textContent = ins.claim; body.append(claim);
+  const src = document.createElement("p"); src.className = "fine";
+  src.textContent = `Cites ${ins.evidence?.length ?? 0} turn${(ins.evidence?.length ?? 0) === 1 ? "" : "s"}${ins.evidence?.length ? ": " + ins.evidence.map((e) => e.turn).join(", ") : ""}`;
+  body.append(src);
+  for (const f of objections) {
+    const p = document.createElement("p"); p.className = f.severity === "warn" ? "fine" : "flags";
+    p.textContent = `${f.severity.toUpperCase()} ${f.rule}: ${f.detail}${f.turns?.length ? ` [${f.turns.join(", ")}]` : ""}`;
+    body.append(p);
+  }
+  d.append(sum, body);
+  li.append(d);
+  return li;
+}
+
+function verdictMarkdown(s: Stored, r: VerdictResult): string {
+  const lines = [`# Motif critique`, "", s.question ? `Question: ${s.question}` : "", `Run: ${r.run_id}`,
+    `Verdict: ${r.verdict.pass ? "PASS" : "FAIL"} — ${r.summary.n_fail} fail(s), ${r.summary.n_warn} warning(s) on ${r.insights.length} claim(s)`,
+    r.verdict.skipped_rules?.length ? `Not checked: ${r.verdict.skipped_rules.join(", ")}` : "", r.verdict.notes ? `Notes: ${r.verdict.notes}` : "", ""];
+  for (const ins of r.insights) {
+    lines.push(`## ${ins.id} — ${ins.title || ""}`, "", ins.claim, "");
+    if (ins.evidence?.length) lines.push(`Cites: ${ins.evidence.map((e) => e.turn).join(", ")}`, "");
+    const obj = r.verdict.failures.filter((f) => f.insight_id === ins.id);
+    if (!obj.length) lines.push("- no objection", "");
+    for (const f of obj) lines.push(`- **${f.severity.toUpperCase()} ${f.rule}**: ${f.detail}${f.turns?.length ? ` [${f.turns.join(", ")}]` : ""}`);
+    if (obj.length) lines.push("");
+  }
+  const rest = r.verdict.failures.filter((f) => !r.insights.some((i) => i.id === f.insight_id));
+  if (rest.length) { lines.push("## Whole corpus", ""); for (const f of rest) lines.push(`- **${f.severity.toUpperCase()} ${f.rule}**: ${f.detail}`); }
+  return lines.filter((l, i, a) => !(l === "" && a[i - 1] === "")).join("\n");
+}
+
 $("copy-report").onclick = async () => {
-  if (!lastResult) return;
-  const md = lastResult.report_markdown;
+  if (!current) return;
+  const md = isVerdict(current.result) ? verdictMarkdown(current, current.result) : current.result.report_markdown;
   const ta = $<HTMLTextAreaElement>("clip");
   ta.value = md;
   let ok = false;
@@ -316,14 +462,35 @@ $("copy-report").onclick = async () => {
     ta.hidden = true;
     post({ type: "notify", message: "Report copied as Markdown." });
   } else {
-    // No clipboard access here: leave the report selected in a visible box so one keystroke copies it.
     $("clip-note").hidden = false;
     ta.hidden = false; ta.focus(); ta.select();
     post({ type: "notify", message: "Clipboard is blocked here. The report is selected below: press Cmd+C or Ctrl+C.", error: true });
   }
 };
 
-$("new-run").onclick = () => { lastResult = null; show("setup"); };
+$("build-board").onclick = async () => {
+  if (!current?.layout) return;
+  const bb = $<HTMLButtonElement>("build-board");
+  bb.disabled = true;
+  $("board-status").textContent = "Building the board…";
+  const layout = current.layout;
+  const reply = await new Promise<ToUi>((resolve) => {
+    const once = (m: ToUi) => { if (m.type === "board-done" || m.type === "board-failed") { listeners.splice(listeners.indexOf(once), 1); resolve(m); } };
+    listeners.push(once);
+    post({ type: "build-board", layout });
+  });
+  bb.disabled = false;
+  if (reply.type === "board-done") {
+    const c = reply.counts;
+    $("board-status").textContent = `Board built: ${c.sections} sections, ${c.stickies} stickies` +
+      (c.connectors ? `, ${c.connectors} connectors` : reply.editor === "figma" ? " (no connectors in Figma Design)" : "") + ".";
+    bb.textContent = "Build board again";
+  } else if (reply.type === "board-failed") {
+    $("board-status").textContent = `Board failed: ${reply.message}`;
+  }
+};
+
+$("new-run").onclick = () => { show("setup"); };
 $("error-back").onclick = () => show(keyMasked ? "setup" : "key");
 
 // ------------------------------------------------------------------------ init
@@ -333,6 +500,8 @@ listeners.push((m) => {
     keyMasked = m.keyMasked; lastJob = m.lastJob;
     $("key-masked").textContent = keyMasked ?? "";
     $("resume-card").hidden = !lastJob;
+    $("last-card").hidden = !m.hasLastResult;
+    if (m.editor === "figma") $("editor-note").hidden = false;
     show(keyMasked ? "setup" : "key");
     if (!keyMasked) keyInput.focus();
   } else if (m.type === "key") {
@@ -342,10 +511,12 @@ listeners.push((m) => {
   }
 });
 
+setMode("synthesize");
 post({ type: "ui-ready" });
 
 // Harness-only hooks (never active inside Figma): ?files=url,url loads transcripts from URLs;
-// ?demo=url renders a saved result JSON, so every screen can be checked at any width without a run.
+// ?demo=url renders a saved result JSON (with ?layout=url for its board layout), so every screen
+// can be checked at any width without a run.
 if (!inFigma) {
   const q = new URLSearchParams(location.search);
   const urls = (q.get("files") ?? "").split(",").filter(Boolean);
@@ -356,6 +527,12 @@ if (!inFigma) {
       for (const u of urls) { const r = await fetch(u); fs.push(new File([await r.blob()], decodeURIComponent(u.split("/").pop() ?? "t.txt"))); }
       await addFiles(fs);
     }
-    if (demo) { const r = await fetch(demo); renderResult((await r.json()) as Result, q.get("q") ?? "Demo result"); }
+    if (q.get("mode") === "critique") setMode("critique");
+    if (demo) {
+      const result = (await (await fetch(demo)).json()) as Result | VerdictResult;
+      const layout = q.get("layout") ? ((await (await fetch(q.get("layout")!)).json()) as Layout) : null;
+      renderResult({ kind: "verdict" in result ? "critique" : "synthesize", question: q.get("q") ?? "Demo result",
+        nTranscripts: parseInt(q.get("n") ?? "0", 10), result, layout, jobId: "demo", when: Date.now() });
+    }
   })().catch((e) => console.error("harness:", e));
 }

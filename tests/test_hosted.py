@@ -190,6 +190,8 @@ def test_critique_job_and_corpus_reuse(client):
     j = wait_done(client, job_id)
     assert j["state"] == "done" and j["result"]["verdict"]["pass"] is True and j["result"]["summary"]["n_fail"] == 0
     assert "missing_theme" in j["result"]["verdict"]["skipped_rules"] and "run_dir" not in j["result"]
+    b = client.get(f"/v1/jobs/{job_id}/board").json()
+    assert b["board"]["kind"] == "verdict" and b["board"]["card"]["claims"] == 2 and b["board"]["card"]["pass"] is True
     # a second critique on the same corpus, no re-upload
     j2_id = client.post("/v1/jobs", json={"kind": "critique", "insights": GOOD_INSIGHTS, "corpus_job_id": job_id},
                         headers=KEY).json()["job_id"]

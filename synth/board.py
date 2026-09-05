@@ -83,11 +83,98 @@ def layout(insights: list[dict], meta: dict | None = None, columns: int = 2,
         })
     return {
         "title": f"Motif synthesis — run {meta.get('run_id', '')}".strip(" —"),
+        "kind": "synthesis",
         "run_id": meta.get("run_id"),
         "columns": columns,
         "origin": list(origin),
         "n_sections": len(sections),
         "sections": sections,
+        "card": _card(meta, {
+            "insights": len(insights),
+            "contested": [i.get("id") for i in insights if i.get("critic_flags")],
+        }),
+    }
+
+
+def _card(meta: dict, counts: dict) -> dict:
+    """What a board's run card says: the run, the question, the numbers, and any open objections."""
+    cfg = meta.get("config") or {}
+    corpus = meta.get("corpus") or {}
+    return {
+        "run_id": meta.get("run_id"),
+        "question": cfg.get("question"),
+        "transcripts": corpus.get("transcripts") or cfg.get("transcripts") or [],
+        "words": corpus.get("words"),
+        "condition": meta.get("condition"),
+        "iterations": meta.get("iterations"),
+        "stop_reason": meta.get("stop_reason"),
+        "cost": meta.get("cost"),
+        "wall_seconds": meta.get("wall_seconds"),
+        "started": meta.get("started"),
+        **counts,
+    }
+
+
+VERDICT_STICKY = {"claim_pass": STICKY["claim_high"], "claim_fail": STICKY["counter"],
+                  "claim_warn": STICKY["claim_medium"], "fail": STICKY["counter"],
+                  "warn": STICKY["claim_medium"], "theme": STICKY["contested"]}
+
+
+def verdict_layout(insights: list[dict], verdict: dict, meta: dict | None = None, columns: int = 2,
+                   origin: tuple[float, float] = (0, 0)) -> dict:
+    """A critic verdict as a board: one section per checked claim, coloured by outcome, with one
+    sticky per objection; a final section for corpus-level objections (insight_id '*')."""
+    meta = meta or {}
+    failures = verdict.get("failures") or []
+    by_id: dict = {}
+    for f in failures:
+        by_id.setdefault(f.get("insight_id") or "*", []).append(f)
+    sections = []
+
+    def place(n: int) -> tuple[float, float]:
+        return origin[0] + (n % columns) * (SECTION_W + GAP), origin[1] + (n // columns) * (SLOT_H + GAP)
+
+    for n, ins in enumerate(insights):
+        objections = by_id.pop(ins.get("id"), [])
+        worst = "fail" if any(f.get("severity", "fail") == "fail" for f in objections) else \
+                "warn" if objections else "pass"
+        stickies = [{"key": "claim", "role": "claim", "wide": True, "row": 1,
+                     "color": VERDICT_STICKY[f"claim_{worst}"],
+                     "text": f"{ins.get('id', '?')} · {worst.upper()}\n{ins.get('title', '')}\n\n{ins.get('claim', '')}"}]
+        for i, f in enumerate(objections):
+            sev = f.get("severity", "fail")
+            turns = ", ".join(f.get("turns") or [])
+            stickies.append({"key": f"objection{i}", "role": sev, "wide": True, "row": 2,
+                             "color": VERDICT_STICKY[sev],
+                             "text": f"{sev.upper()} · {f.get('rule')}\n{f.get('detail', '')}" + (f"\n\nturns: {turns}" if turns else "")})
+        x, y = place(n)
+        sections.append({"insight_id": ins.get("id", f"I-{n + 1:02d}"),
+                         "name": f"{ins.get('id', '?')} · {worst} · {ins.get('title', '')}"[:80],
+                         "x": x, "y": y, "width": SECTION_W, "fill": SECTION_FILL,
+                         "stickies": stickies, "connectors": [], "sources": ins.get("sources", []),
+                         "turns": turn_ids(ins.get("evidence")) + turn_ids(ins.get("counter_evidence"))})
+    rest = [f for fs in by_id.values() for f in fs]
+    if rest:
+        stickies = [{"key": f"corpus{i}", "role": "theme", "wide": True, "row": 1, "color": VERDICT_STICKY["theme"],
+                     "text": f"{f.get('rule', '').upper()} (whole corpus)\n{f.get('detail', '')}"
+                             + (f"\n\nturns: {', '.join(f.get('turns') or [])}" if f.get("turns") else "")}
+                    for i, f in enumerate(rest)]
+        x, y = place(len(sections))
+        sections.append({"insight_id": "*", "name": "Objections about the whole corpus", "x": x, "y": y,
+                         "width": SECTION_W, "fill": SECTION_FILL, "stickies": stickies, "connectors": [],
+                         "sources": [], "turns": []})
+    n_fail = sum(1 for f in failures if f.get("severity", "fail") == "fail")
+    n_warn = sum(1 for f in failures if f.get("severity") == "warn")
+    return {
+        "title": f"Motif critique — run {meta.get('run_id', '')}".strip(" —"),
+        "kind": "verdict",
+        "run_id": meta.get("run_id"),
+        "columns": columns,
+        "origin": list(origin),
+        "n_sections": len(sections),
+        "sections": sections,
+        "card": _card(meta, {"claims": len(insights), "pass": bool(verdict.get("pass")), "fails": n_fail,
+                             "warns": n_warn, "skipped_rules": verdict.get("skipped_rules") or []}),
     }
 
 
@@ -113,8 +200,9 @@ for (const st of S.stickies) {{
   made[st.key] = s;
 }}
 // Row 1: claim then receipts; row 2: counters then opportunity/contested. Two-pass: measure, then place.
-const row1 = S.stickies.filter(s => s.role === 'claim' || s.role === 'receipt').map(s => made[s.key]);
-const row2 = S.stickies.filter(s => s.role !== 'claim' && s.role !== 'receipt').map(s => made[s.key]);
+const rowOf = (s) => s.row || ((s.role === 'claim' || s.role === 'receipt') ? 1 : 2);
+const row1 = S.stickies.filter(s => rowOf(s) === 1).map(s => made[s.key]);
+const row2 = S.stickies.filter(s => rowOf(s) === 2).map(s => made[s.key]);
 let y = {pad}, maxRight = 0;
 for (const row of [row1, row2]) {{
   if (!row.length) continue;

@@ -1,0 +1,408 @@
+{
+ "title": "Motif critique — run 20260904-165114-critique-doc",
+ "kind": "verdict",
+ "run_id": "20260904-165114-critique-doc",
+ "columns": 2,
+ "origin": [
+  0,
+  0
+ ],
+ "n_sections": 9,
+ "sections": [
+  {
+   "insight_id": "I-01",
+   "name": "I-01 · fail · Consent treated as a one-time event",
+   "x": 0,
+   "y": 0,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "row": 1,
+     "color": "FFA8DB",
+     "text": "I-01 · FAIL\nConsent treated as a one-time event\n\nConsent is treated as a one-time event, but participants' right to withdraw data later remains unresolved."
+    },
+    {
+     "key": "objection0",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · bad_citation\nnonexistent turns=[]; evidence_count=0"
+    },
+    {
+     "key": "objection1",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · unsupported\nNo turns are cited at all (evidence/sources empty), so the claim cannot be verified. Additionally, the claim that 'the right to withdraw remains unresolved' as a blanket statement ignores that several participants describe active, if imperfect, solutions to this exact problem (e.g. jamie discusses working with a colleague on a 'right to be forgotten' clause and ongoing dynamic consent; david describes continuous reminders and re-confirmation of consent throughout the project). The insight should be evidenced and should acknowledge these emerging practices rather than presenting the issue as wholly unaddressed.\n\nturns: jamie:0024, david:0030, david:0034"
+    }
+   ],
+   "connectors": [],
+   "sources": [],
+   "turns": []
+  },
+  {
+   "insight_id": "I-02",
+   "name": "I-02 · fail · Anonymization fails for small or high-profile samples",
+   "x": 1720,
+   "y": 0,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "row": 1,
+     "color": "FFA8DB",
+     "text": "I-02 · FAIL\nAnonymization fails for small or high-profile samples\n\nAnonymization frequently fails for small, niche, or high-profile samples, and some participants actively want attribution instead."
+    },
+    {
+     "key": "objection0",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · bad_citation\nnonexistent turns=[]; evidence_count=0"
+    },
+    {
+     "key": "objection1",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · unsupported\nNo turns cited. The claim is plausible (ana wants to be named/identified as a 'symbolic' actor; lisa's artist participants explicitly want attribution; bruce notes anonymity is hard to achieve fully), but without citations this cannot be checked against the transcripts as written.\n\nturns: ana:0091, lisa:0026, bruce:0023"
+    }
+   ],
+   "connectors": [],
+   "sources": [],
+   "turns": []
+  },
+  {
+   "insight_id": "I-03",
+   "name": "I-03 · fail · Depositing data feels like relational betrayal",
+   "x": 0,
+   "y": 1320,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "row": 1,
+     "color": "FFA8DB",
+     "text": "I-03 · FAIL\nDepositing data feels like relational betrayal\n\nDepositing data in archives can feel like betraying the researcher-participant relationship."
+    },
+    {
+     "key": "objection0",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · bad_citation\nnonexistent turns=[]; evidence_count=0"
+    },
+    {
+     "key": "objection1",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · unsupported\nNo turns cited. The specific framing 'relational betrayal' does not closely match what any participant said. The closest source is michelle, who describes the loss of a co-created 'partnership' and discomfort about ethics of relinquishing shared knowledge, but she does not describe it as 'betrayal' and this is a single-participant view being generalized into a field-wide insight.\n\nturns: michelle:0040, michelle:0042"
+    },
+    {
+     "key": "objection2",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · missing_counterexample\nThis insight presents a single participant's (michelle's) framing as a general finding without noting that several other participants explicitly reject this framing: lisa argues that NOT sharing data, given her participants' desire for exposure, would be 'a disservice' to them; ana's participants asked for reciprocity via publication; jessica and kelly frame open deposit as fulfilling a duty to participants, not betraying them. This is a significant, easily-findable counter-perspective that should be surfaced.\n\nturns: lisa:0026, lisa:0040, ana:0125"
+    },
+    {
+     "key": "objection3",
+     "role": "warn",
+     "wide": true,
+     "row": 2,
+     "color": "FFE299",
+     "text": "WARN · vague_opportunity\nThe opportunity ('use staged consent with re-contact points to maintain the researcher-participant relationship') duplicates I-01's opportunity almost verbatim and does not specifically address the 'relational betrayal' feeling described (e.g., co-ownership of knowledge, loss of partnership) — it's a generic consent-process fix bolted onto a distinct relational/ethical concern."
+    }
+   ],
+   "connectors": [],
+   "sources": [],
+   "turns": []
+  },
+  {
+   "insight_id": "I-04",
+   "name": "I-04 · fail · Anonymization and transcript prep are unfunded labor",
+   "x": 1720,
+   "y": 1320,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "row": 1,
+     "color": "FFA8DB",
+     "text": "I-04 · FAIL\nAnonymization and transcript prep are unfunded labor\n\nAnonymization, metadata, and transcript preparation are unfunded, time-intensive tasks rarely budgeted for."
+    },
+    {
+     "key": "objection0",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · bad_citation\nnonexistent turns=[]; evidence_count=0"
+    },
+    {
+     "key": "objection1",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · unsupported\nNo turns cited. Claim is well-supported thematically (ana, bruce, kelly, jim all discuss unfunded time costs of anonymization/transcription), but citations are required to verify the specific claim as stated.\n\nturns: ana:0071, bruce:0023, kelly:0025, jim:0040"
+    }
+   ],
+   "connectors": [],
+   "sources": [],
+   "turns": []
+  },
+  {
+   "insight_id": "I-05",
+   "name": "I-05 · fail · AV data and non-English languages complicate de-identification",
+   "x": 0,
+   "y": 2640,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "row": 1,
+     "color": "FFA8DB",
+     "text": "I-05 · FAIL\nAV data and non-English languages complicate de-identification\n\nAudio-visual data, non-English languages, and dialects create de-identification and interpretability challenges beyond text transcripts."
+    },
+    {
+     "key": "objection0",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · bad_citation\nnonexistent turns=[]; evidence_count=0"
+    },
+    {
+     "key": "objection1",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · unsupported\nNo turns cited. Claim is supported (bruce on Northeast England accents/dialect transcription; jamie on Chinese/Japanese translation and anonymization; david on AV/face-blurring), but lacks the citations needed to confirm precise wording.\n\nturns: bruce:0023, jamie:0018, david:0010"
+    }
+   ],
+   "connectors": [],
+   "sources": [],
+   "turns": []
+  },
+  {
+   "insight_id": "I-06",
+   "name": "I-06 · fail · Secondary reuse of qualitative data is rare",
+   "x": 1720,
+   "y": 2640,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "row": 1,
+     "color": "FFA8DB",
+     "text": "I-06 · FAIL\nSecondary reuse of qualitative data is rare\n\nSecondary reuse is rare because researchers don't know how to find or evaluate existing qualitative datasets."
+    },
+    {
+     "key": "objection0",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · bad_citation\nnonexistent turns=[]; evidence_count=0"
+    },
+    {
+     "key": "objection1",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · unsupported\nNo turns cited to support the causal claim that reuse is rare specifically because researchers 'don't know how to find or evaluate' datasets."
+    },
+    {
+     "key": "objection2",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · missing_counterexample\nSam — whose profile differs markedly from most interviewees (works at a research-intensive university with mature open-research infrastructure, professional open-research advocate) — directly contradicts this insight. He describes successfully browsing and reusing UK Data Service datasets by subject search and citing methods/questions from others' qualitative work. His account of a working discovery workflow is exactly the kind of counter-evidence that should be surfaced given the claim that reuse is 'rare' due to lack of know-how.\n\nturns: sam:0065, sam:0068, sam:0069"
+    },
+    {
+     "key": "objection3",
+     "role": "warn",
+     "wide": true,
+     "row": 2,
+     "color": "FFE299",
+     "text": "WARN · merged_insights\nThe opportunity text is nearly identical to I-05's opportunity (publish qualitative-specific metadata standards/glossaries), collapsing two distinct problems — AV/multilingual de-identification difficulty (I-05) and discovery/evaluation of existing datasets for reuse (I-06) — into the same proposed fix, obscuring that these need different solutions (de-identification tooling and guidance vs. a searchable/quality-labelled discovery infrastructure)."
+    }
+   ],
+   "connectors": [],
+   "sources": [],
+   "turns": []
+  },
+  {
+   "insight_id": "I-07",
+   "name": "I-07 · fail · Open-science norms are built around quantitative standards",
+   "x": 0,
+   "y": 3960,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "row": 1,
+     "color": "FFA8DB",
+     "text": "I-07 · FAIL\nOpen-science norms are built around quantitative standards\n\nOpen-science reward structures, quality criteria (reproducibility, inter-rater reliability), and guidance are built around quantitative norms, disadvantaging qualitative researchers."
+    },
+    {
+     "key": "objection0",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · bad_citation\nnonexistent turns=[]; evidence_count=0"
+    },
+    {
+     "key": "objection1",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · unsupported\nNo turns cited. Claim is well supported (bruce's inter-rater reliability discussion, jim's explicit worry about qualitative researchers being disadvantaged, kelly's comments on grant funders/hiring criteria), but citations are required.\n\nturns: bruce:0021, jim:0080, kelly:0049"
+    }
+   ],
+   "connectors": [],
+   "sources": [],
+   "turns": []
+  },
+  {
+   "insight_id": "I-08",
+   "name": "I-08 · fail · Funder mandates drive openness unevenly",
+   "x": 1720,
+   "y": 3960,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "row": 1,
+     "color": "FFA8DB",
+     "text": "I-08 · FAIL\nFunder mandates drive openness unevenly\n\nFunder mandates drive openness unevenly — non-grant-funded sectors need sector-specific bodies (e.g. GSR) instead."
+    },
+    {
+     "key": "objection0",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · bad_citation\nnonexistent turns=[]; evidence_count=0"
+    },
+    {
+     "key": "objection1",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · unsupported\nNo turns cited.\n\nturns: penni:0057, penni:0059, penni:0111"
+    },
+    {
+     "key": "objection2",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · overconfident\nThis insight is drawn essentially from a single participant (penni), whose comments were highly speculative and repeatedly hedged ('I don't know', 'it would have to come from GSR', 'maybe'). Presenting 'non-grant-funded sectors need sector-specific bodies (e.g. GSR) instead' as a settled finding overstates what was actually a tentative suggestion from one agency researcher who explicitly said she hadn't looked into it yet.\n\nturns: penni:0057, penni:0059, penni:0111"
+    }
+   ],
+   "connectors": [],
+   "sources": [],
+   "turns": []
+  },
+  {
+   "insight_id": "I-09",
+   "name": "I-09 · fail · Copyright policy and APC costs block openness",
+   "x": 0,
+   "y": 5280,
+   "width": 1600,
+   "fill": "F5FBFF",
+   "stickies": [
+    {
+     "key": "claim",
+     "role": "claim",
+     "wide": true,
+     "row": 1,
+     "color": "FFA8DB",
+     "text": "I-09 · FAIL\nCopyright policy and APC costs block openness\n\nUniversity copyright policies, unresponsive copyright holders, and high APC fees block openness even when researchers intend it."
+    },
+    {
+     "key": "objection0",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · bad_citation\nnonexistent turns=[]; evidence_count=0"
+    },
+    {
+     "key": "objection1",
+     "role": "fail",
+     "wide": true,
+     "row": 2,
+     "color": "FFA8DB",
+     "text": "FAIL · unsupported\nNo turns cited. Claim is reasonably supported by ana (university copyright/APC costs) and pauline (unresponsive copyright holders, underfunded humanities), but requires citation.\n\nturns: ana:0085, ana:0097, pauline:0058"
+    }
+   ],
+   "connectors": [],
+   "sources": [],
+   "turns": []
+  }
+ ],
+ "card": {
+  "run_id": "20260904-165114-critique-doc",
+  "question": "Q",
+  "transcripts": [
+   "sam",
+   "michelle"
+  ],
+  "words": 0,
+  "condition": "critique",
+  "iterations": null,
+  "stop_reason": null,
+  "cost": null,
+  "wall_seconds": null,
+  "started": null,
+  "claims": 9,
+  "pass": false,
+  "fails": 21,
+  "warns": 2,
+  "skipped_rules": [
+   "missing_theme"
+  ]
+ }
+}
