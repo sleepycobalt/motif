@@ -29,3 +29,13 @@ Happened: 19 offline tests pass; ingest byte-identical; regression run $0.55/441
 Happened (cont.): Acceptance recorded — structuring passes (deterministic and model identical); verdict agreement partial: unsupported 25/32, P-03 5/8, P-05 2/8. Client needed log_level for log notifications; progress now sent on every emit. `motif` registered in Claude Code and connected.
 Ruling: accept the measured gap, no instrument changes; recorded. Step 5 done: host install snippets (Claude Code, Cursor, Claude Desktop), SKILL.md wrapper, listing copy, registry server.json (validated; description cap 100 chars).
 Next: User records the sample-corpus Claude Code session; publish `etot-motif` to PyPI, then the registry entry.
+
+## 2026-09-04 — PyPI publish (entry added retroactively in the part-3 session)
+Tried: Build and publish `etot-motif` 0.2.0, verify from PyPI in a fresh venv, submit the registry manifest.
+Happened: The wheel would have shipped without `synth.yaml`; fixed first (config moved into the package, `config/synth.yaml` symlinked). Published; fresh-venv install gives working `motif` and `motif-mcp` (five tools over stdio). Registry entry `io.github.sleepycobalt/motif` 0.2.0 active. Notes in `docs/part2-notes.md`.
+Next: Part 3 — hosted engine, plugin, board writer, listing.
+
+## 2026-09-04 — Part 3 planning
+Tried: Read the plugin spec, the MCP spec, and CONTRIBUTING; propose architecture and build order before code.
+Happened: Proposal in `docs/specs/part3-build-plan.md`: one hosted job API over the unchanged engine, plugin free tier as its client with the user's key forwarded per job, board writer from the existing layout data, paid tier designed behind a flag. Found: per-request key needs a context-var client in `core/llm.py`; stickies are FigJam-only; credits need a Stripe-fed ledger.
+Next: Ruling on hosting, Design-editor timing, and payment rails; then stage 1 (hosted service, remote mode, offline tests, deploy).
