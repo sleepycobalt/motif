@@ -1,0 +1,11 @@
+# Build context for surfaces/hosted/Dockerfile: only what pip install needs.
+*
+!pyproject.toml
+!README.md
+!LICENSE
+!core/
+!synth/
+!surfaces/
+**/__pycache__/
+**/*.pyc
+surfaces/mcp/skills/

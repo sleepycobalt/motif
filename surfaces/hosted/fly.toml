@@ -8,7 +8,7 @@ app = "motif-hosted"
 primary_region = "ord"
 
 [build]
-  dockerfile = "surfaces/hosted/Dockerfile"
+  dockerfile = "Dockerfile"
 
 [env]
   MOTIF_RUNS_DIR = "/data/runs"

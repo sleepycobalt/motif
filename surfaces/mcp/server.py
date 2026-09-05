@@ -271,6 +271,8 @@ async def motif_board(ctx: Context, run_id: str, columns: int = 2, origin_x: flo
 
 
 def main() -> None:
+    from dotenv import load_dotenv
+    load_dotenv()  # remote mode never loads the config, so the key must be read here
     logging.basicConfig(level=logging.WARNING, stream=__import__("sys").stderr,
                         format="%(name)s %(levelname)s %(message)s")
     log.setLevel(logging.INFO)
