@@ -1,0 +1,49 @@
+{
+  "run_id": "tvlHta4iJRZXnxHoxdYUzVPu",
+  "stop_reason": "max_iterations",
+  "iterations": 1,
+  "n_insights": 13,
+  "contested": [
+    "I-04",
+    "I-11"
+  ],
+  "cost_usd": 0.458,
+  "wall_seconds": 338.3,
+  "verdicts": [
+    {
+      "pass": false,
+      "failures": [
+        {
+          "id": "I-11",
+          "insight_id": "I-11",
+          "rule": "unsupported",
+          "severity": "fail",
+          "detail": "The claim states that BOTH researchers find UKDA's trust/security 'makes them more willing to deposit their own data and more willing to reuse others' data.' This is well supported for David (david:0050, david:0056), but the cited Michelle turns do not support it. michelle:0079 is simply naming UKDS as a contact point for support, not evidence of trust reducing her deposit hesitation. michelle:0099 actually expresses continued anxiety and uncertainty ('I'm not at that stage yet,' 'those fears may be laid... just by understanding the process') and frames comfort as conditional on having a human conversation, not on repository accreditation per se. This contradicts Michelle's extensively documented reluctance elsewhere in the transcript (e.g. michelle:0024, michelle:0026, michelle:0040) about depositing her own data. The insight overstates what Michelle said and elides her more skeptical position.",
+          "turns": [
+            "michelle:0079",
+            "michelle:0099",
+            "michelle:0024",
+            "michelle:0026"
+          ]
+        },
+        {
+          "id": "I-04",
+          "insight_id": "I-04",
+          "rule": "vague_opportunity",
+          "severity": "warn",
+          "detail": "The opportunity ('explicitly separate in-principle support from practice-level conditions... attaching specific, named safeguards') does not specify what a designer would actually build \u2014 no concrete artifact, workflow step, or mechanism is named, unlike other insights in the set (e.g. I-01's triage tool, I-03's context capsule field).",
+          "turns": []
+        }
+      ],
+      "notes": "Most insights are reasonably well-grounded in the cited turns, and several (I-01, I-03, I-05, I-06, I-09, I-12) do a good job of surfacing the David/Michelle contrast as counter-evidence, which is the main axis of dissent in this two-person corpus. The clearest problem is I-11, which asserts a shared 'trust in UKDA reduces barriers' finding across both participants but only genuinely holds for David; the Michelle quotes cited are about locating support contacts and about desiring human conversation to resolve sensitivity categorization, not about trust-driven willingness to deposit or reuse, and this glosses over Michelle's much more guarded stance expressed elsewhere. I-04's opportunity statement is too generic to action. Because the corpus only contains two transcripts, the missing_theme rule (which requires three or more transcripts) cannot be triggered here, so no missing_theme failures were reported despite several topics (e.g. audio-visual challenges, metadata/context limits) appearing prominently in both intake maps."
+    }
+  ],
+  "hosted_run_id": "20260905-164234-C-hosted",
+  "client_wall_seconds": 339.2,
+  "n_progress": 13,
+  "receipt_turn": "david:0022",
+  "receipt_found": true,
+  "board_sections": 13,
+  "run_redacted": true,
+  "run_calls": 4
+}

@@ -49,3 +49,8 @@ Next: `fly auth login`, create app + volume, deploy, then the QA gate: MCP remot
 Tried: Fly login (separate terminal), app + 1 GB volume, deploy with remote builder, health check, QA gate: MCP server in remote mode synthesising michelle + david through the live service, then receipts / board / run record by job id, then inspect the volume over ssh.
 Happened: Deployed at https://motif-hosted.fly.dev after two fixes (dockerfile path relative to fly.toml; .dockerignore cut a 250 MB context). QA passed: 15 insights, 3 contested, $1.14, 719.5 s engine / 721.4 s client, 21 progress notifications; volume holds digests only, no corpus. Fixed: remote mode did not load .env.
 Next: Publish 0.3.0 to PyPI (remote mode for installed users); start stage 2 (plugin, free tier).
+
+## 2026-09-05 — Release 0.3.0 (remote contract) and registry update
+Tried: Bump to 0.3.0, build, publish to PyPI, verify from PyPI in an empty venv (CLI, local stdio handshake, zero-cost remote probes, one live remote synthesis), publish the registry manifest at 0.3.0.
+Happened: All passed. PyPI 0.3.0 live; registry lists 0.3.0 as latest. Live remote run from the installed package: 13 insights, 2 contested, $0.458, 338.3 s engine / 339.2 s client. Gotchas: the publisher token expires within a day (device flow again); pip's index lagged the upload by about two minutes.
+Next: Stage 2, the Figma plugin on the free tier, against the live service.

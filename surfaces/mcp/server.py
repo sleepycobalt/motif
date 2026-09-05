@@ -59,7 +59,7 @@ server = MCPServer(
         "motif_board (a run as a FigJam layout plus use_figma scripts for the host to execute), "
         "motif_runs_get (a run's log and verdicts). Citations are turn ids like 'michelle:0042'."
     ),
-    version="0.2.0",
+    version="0.3.0",
 )
 
 
