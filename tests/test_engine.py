@@ -278,3 +278,35 @@ def test_redact_mode_keeps_transcripts_off_disk(raw, tmp_path, monkeypatch):
     call = json.load(open(sorted((res.run_dir / "calls").glob("*.json"))[0]))
     assert set(call["user"]) == {"chars", "sha256"} and "Alice" not in json.dumps(call["user"])
     assert res.meta["redacted"] is True and res.meta["corpus"]["transcripts"] == ["alice", "bob"]
+
+
+def test_motif_report_round_trips_through_the_critic(raw, tmp_path, monkeypatch):
+    """Motif's own report must come back through critique_document with zero mechanical failures:
+    receipts for evidence and counter-evidence are printed, parsed, and pass the deterministic checks."""
+    from synth.corpus import Corpus
+    from synth.report import to_markdown
+    monkeypatch.setattr(llm, "call", make_stub(happy))
+    processed = engine.ingest(raw, tmp_path / "processed")
+    corpus = Corpus(processed)
+    ins = json.loads(json.dumps(GOOD_INSIGHTS))
+    ins[1]["sources"] = ["bob"]; ins[0]["sources"] = ["alice", "bob"]
+    md = to_markdown(ins, corpus, {"run_id": "r", "condition": "C", "iterations": 1, "stop_reason": "critic_pass"})
+    assert 'receipt alice:0004: "Our library team were absolutely brilliant"' in md
+    parsed = engine.parse_motif_markdown(md)
+    assert parsed[1]["counter_evidence"] == [{"turn": "alice:0004", "quote": "Our library team were absolutely brilliant"}]
+    out = engine.critique_document(md, processed, runs_root=tmp_path / "runs")
+    assert out["source_format"] == "motif_markdown"
+    mechanical = [f for f in out["verdict"]["failures"] if f["rule"] in ("quote_mismatch", "bad_citation", "interviewer_cited")]
+    assert mechanical == [], mechanical
+
+
+def test_counter_without_receipt_is_not_a_quote_mismatch(raw, tmp_path, monkeypatch):
+    """A pre-2026-09-05 report (no counter receipts) parses to counters with empty quotes; that is absence, not mismatch."""
+    monkeypatch.setattr(llm, "call", make_stub(happy))
+    processed = engine.ingest(raw, tmp_path / "processed")
+    ins = json.loads(json.dumps(GOOD_INSIGHTS))
+    ins[1]["counter_evidence"] = [{"turn": "alice:0004", "quote": ""}]
+    ins[0]["evidence"][0]["quote"] = ""   # an evidence receipt that is missing still fails
+    out = engine.critique(ins, processed, runs_root=tmp_path / "runs")
+    qm = [f for f in out["verdict"]["failures"] if f["rule"] == "quote_mismatch"]
+    assert [f["insight_id"] for f in qm] == ["I-01"] and "alice:0002" in qm[0]["detail"]

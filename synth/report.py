@@ -28,7 +28,9 @@ def to_markdown(insights: list[dict], corpus, meta: dict) -> str:
         lines.append("<details><summary>Cited turns</summary>")
         lines.append("")
         lines.append("```")
-        for item in ins.get("evidence") or []:
+        # Receipts for evidence AND counter-evidence, so the report round-trips through the critic
+        # (parse_motif_markdown reads every receipt line; a counter without one used to fail quote_mismatch).
+        for item in (ins.get("evidence") or []) + (ins.get("counter_evidence") or []):
             if isinstance(item, dict) and item.get("quote"):
                 lines.append(f"  receipt {item['turn']}: \"{item['quote']}\"")
         lines.append(corpus.render_turns(ev))

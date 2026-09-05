@@ -504,6 +504,11 @@ listeners.push((m) => {
     if (m.editor === "figma") $("editor-note").hidden = false;
     show(keyMasked ? "setup" : "key");
     if (!keyMasked) keyInput.focus();
+    // A saved result opens first, with Build board ready; "New run" leads back to the form.
+    // A run still in flight takes precedence, since following it is the more urgent offer.
+    if (keyMasked && m.hasLastResult && !lastJob && !new URLSearchParams(location.search).has("files")) {
+      void ask({ type: "get-last-result" }, "last-result").then(({ payload }) => { if (payload) renderResult(payload); });
+    }
   } else if (m.type === "key") {
     keyMasked = m.keyMasked;
     $("key-masked").textContent = keyMasked ?? "";

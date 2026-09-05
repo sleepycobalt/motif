@@ -127,13 +127,19 @@ def deterministic_checks(corpus: Corpus, insights: list[dict], rules: list[dict]
 
         if "quote_mismatch" in by_id:
             bad_q = []
-            for item in (ins.get("evidence") or []) + (ins.get("counter_evidence") or []):
-                if not isinstance(item, dict):
-                    bad_q.append(f"{item} (no quote given)")
-                    continue
-                t = corpus.turns.get(item.get("turn", ""))
-                if t and not quote_matches(item.get("quote", ""), t["text"]):
-                    bad_q.append(f"{item['turn']}: \"{item.get('quote', '')[:60]}\"")
+            for kind, items in (("evidence", ins.get("evidence") or []), ("counter", ins.get("counter_evidence") or [])):
+                for item in items:
+                    if not isinstance(item, dict):
+                        bad_q.append(f"{item} (no quote given)")
+                        continue
+                    quote = item.get("quote", "") or ""
+                    if kind == "counter" and not quote.strip():
+                        # No receipt in the source is not a mismatched receipt: reports written before
+                        # 2026-09-05 carried no counter quotes, and a structured document may not either.
+                        continue
+                    t = corpus.turns.get(item.get("turn", ""))
+                    if t and not quote_matches(quote, t["text"]):
+                        bad_q.append(f"{item['turn']}: \"{quote[:60]}\"")
             if bad_q:
                 failures.append({
                     "insight_id": iid, "rule": "quote_mismatch", "severity": "fail",

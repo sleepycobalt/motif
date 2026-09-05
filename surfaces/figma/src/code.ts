@@ -94,8 +94,10 @@ figma.ui.onmessage = async (msg: ToMain) => {
     case "build-board": {
       try {
         const res = await renderBoard(msg.layout);
-        const nodes = res.nodeIds.map((id) => figma.getNodeById(id)).filter((n): n is SceneNode => !!n && "x" in n);
-        figma.viewport.scrollAndZoomIntoView(nodes);
+        // documentAccess: dynamic-page forbids the sync lookup; the async form is the only one allowed.
+        const found = await Promise.all(res.nodeIds.map((id) => figma.getNodeByIdAsync(id)));
+        const nodes = found.filter((n): n is SceneNode => !!n && "x" in n);
+        if (nodes.length) figma.viewport.scrollAndZoomIntoView(nodes);
         send({ type: "board-done", counts: res.counts, editor: res.editor, bounds: res.bounds });
         figma.notify(`Motif board: ${res.counts.sections} sections, ${res.counts.stickies} stickies` +
           (res.counts.connectors ? `, ${res.counts.connectors} connectors` : ""));
