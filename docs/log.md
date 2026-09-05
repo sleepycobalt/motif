@@ -44,3 +44,8 @@ Next: Ruling on hosting, Design-editor timing, and payment rails; then stage 1 (
 Tried: Per-context LLM client for BYOK, hosted job API (submit / SSE events / result / board / receipts / run record) with per-IP and size caps, credit ledger designed behind a flag, remote client and MCP remote mode rewired, offline tests, Fly config.
 Happened: 30 tests pass. The tests caught a privacy leak (redact mode kept response text, which quotes transcripts; fixed) and a run-id collision in the remote client. Fly CLI installed but needs the user's login; deploy and the live QA run are pending.
 Next: `fly auth login`, create app + volume, deploy, then the QA gate: MCP remote mode against the deployed service on the sample corpus; record numbers; then 0.3.0 to PyPI.
+
+## 2026-09-05 — Part 3 stage 1 deploy and QA gate
+Tried: Fly login (separate terminal), app + 1 GB volume, deploy with remote builder, health check, QA gate: MCP server in remote mode synthesising michelle + david through the live service, then receipts / board / run record by job id, then inspect the volume over ssh.
+Happened: Deployed at https://motif-hosted.fly.dev after two fixes (dockerfile path relative to fly.toml; .dockerignore cut a 250 MB context). QA passed: 15 insights, 3 contested, $1.14, 719.5 s engine / 721.4 s client, 21 progress notifications; volume holds digests only, no corpus. Fixed: remote mode did not load .env.
+Next: Publish 0.3.0 to PyPI (remote mode for installed users); start stage 2 (plugin, free tier).

@@ -1,0 +1,323 @@
+{
+  "run_id": "20260905-054758-C-hosted",
+  "run_dir": "/data/runs/20260905-054758-C-hosted",
+  "meta": {
+    "run_id": "20260905-054758-C-hosted",
+    "condition": "C",
+    "tag": "hosted",
+    "started": "2026-09-05T05:47:58.195672+00:00",
+    "redacted": true,
+    "config": {
+      "models": {
+        "intake": "claude-haiku-4-5-20251001",
+        "synthesis": "claude-sonnet-5",
+        "critic": "claude-sonnet-5"
+      },
+      "loop": {
+        "max_iterations": 3
+      },
+      "synthesis": {
+        "min_insights": 8,
+        "max_insights": 14,
+        "max_tokens": 64000
+      },
+      "critic": {
+        "max_tokens": 32000,
+        "rules": [
+          {
+            "id": "unsupported",
+            "severity": "fail",
+            "check": "model",
+            "description": "The cited turns do not actually support the claim as stated. The claim goes beyond what the participants said, paraphrases them inaccurately, or the cited turns are about something else.\n"
+          },
+          {
+            "id": "single_source_generalisation",
+            "severity": "fail",
+            "check": "deterministic",
+            "description": "The claim is stated as a general pattern but rests on evidence from only one participant, and confidence is marked medium or high. A single-source insight must be marked low confidence and must name the participant and their context in the claim.\n"
+          },
+          {
+            "id": "missing_counterexample",
+            "severity": "fail",
+            "check": "model",
+            "description": "The corpus contains a participant who clearly disagrees with, complicates, or reframes the claim, and the insight does not surface this as counter-evidence. Look actively for dissent; absence of counter-evidence should be rare and must be earned. Check especially the participant whose sector, career stage, or method differs from the rest (see profiles) — their dissent is the easiest to overlook and the most valuable to surface.\n"
+          },
+          {
+            "id": "missing_theme",
+            "severity": "fail",
+            "check": "model",
+            "description": "A topic that appears in the intake topic maps of THREE OR MORE transcripts has no insight covering it. Report it with insight_id \"*\", name the topic, and list one turn per transcript where it appears, so the synthesis agent can add the insight. This rule checks the corpus, not the page: the synthesis must not lose findings in revision.\n"
+          },
+          {
+            "id": "silent_deletion",
+            "severity": "fail",
+            "check": "deterministic",
+            "description": "An insight present before revision is absent after it and was not listed under \"dropped\" with a reason. Objections are fixed or downgraded, not deleted.\n"
+          },
+          {
+            "id": "confidence_threshold",
+            "severity": "fail",
+            "check": "deterministic",
+            "high_min_sources": 4,
+            "medium_min_sources": 2,
+            "high_forbids_counter": true,
+            "description": "Confidence is defined numerically so the synthesis and critic agree on it: high = 4+ participants and no counter-evidence; medium = 2-3 participants, or 4+ with counter-evidence; low = 1 participant. Checked in code.\n"
+          },
+          {
+            "id": "overconfident",
+            "severity": "fail",
+            "check": "model",
+            "description": "Beyond the numeric threshold: the cited turns are weak, hedged, or tangential, so even the numerically permitted confidence overstates what the participants actually said.\n"
+          },
+          {
+            "id": "vague_opportunity",
+            "severity": "warn",
+            "check": "model",
+            "description": "The opportunity statement is generic (\"improve guidance\", \"raise awareness\") rather than specific enough that a designer could act on it.\n"
+          },
+          {
+            "id": "merged_insights",
+            "severity": "warn",
+            "check": "model",
+            "description": "Two distinct findings have been collapsed into one insight, losing a dimension (for example, epistemic loss of context and the labour cost of anonymisation are different findings).\n"
+          },
+          {
+            "id": "quote_mismatch",
+            "severity": "fail",
+            "check": "deterministic",
+            "description": "A citation's receipt (the verbatim quote) does not appear in the cited turn. The model cited a turn without reading it, or paraphrased instead of quoting. Every citation must carry a matching receipt.\n"
+          },
+          {
+            "id": "interviewer_cited",
+            "severity": "fail",
+            "check": "deterministic",
+            "description": "A cited evidence turn belongs to the interviewer (Researcher), not a participant. The interviewer's summaries and prompts are not evidence of what the participant thinks.\n"
+          },
+          {
+            "id": "bad_citation",
+            "severity": "fail",
+            "check": "deterministic",
+            "description": "A cited turn ID does not exist in the corpus, or an insight has no evidence at all. (The sources list is derived in code from the evidence, so it is never checked — nothing to get wrong.)\n"
+          }
+        ]
+      },
+      "transcripts": [
+        "david",
+        "michelle"
+      ],
+      "question": "What do these researchers tell us about the practical and epistemic barriers to making qualitative research data open, what tensions do they experience, and what would help?"
+    },
+    "corpus": {
+      "source": "/tmp/motif/motif-job-cxgr9cup/processed",
+      "transcripts": [
+        "david",
+        "michelle"
+      ],
+      "words": 11482
+    },
+    "iterations": 3,
+    "stop_reason": "max_iterations",
+    "finished": "2026-09-05T05:59:57.669886+00:00",
+    "wall_seconds": 719.5,
+    "in_tok": 224535,
+    "out_tok": 73279,
+    "cost": 1.1409,
+    "calls": 8
+  },
+  "verdicts": [
+    {
+      "pass": false,
+      "failures": [
+        {
+          "insight_id": "I-06",
+          "rule": "unsupported",
+          "severity": "fail",
+          "detail": "The claim asserts both researchers suggest open-access norms 'may be imported uncritically from quantitative research culture rather than fitted to qualitative epistemology.' Only Michelle explicitly raises this quant-derived framing (michelle:0070: 'has it come from the idea, from like a quant space thing'). David's cited turn (david:0026) is entirely about funder mandates being 'regulatory' versus culture-driven ('I don't always think that's the right spirit of doing... it's a bit more sort of regulatory, like I have to do it because otherwise, I'm not going to get from them'), and never mentions or implies a quantitative origin for open-data norms. Attributing the quant-derived skepticism to David misrepresents his stated concern, which is about top-down compliance versus organic culture change, not about disciplinary origin of the norm.",
+          "turns": [
+            "david:0026"
+          ]
+        },
+        {
+          "insight_id": "I-06",
+          "rule": "merged_insights",
+          "severity": "warn",
+          "detail": "This insight collapses two distinct findings: (1) David's concern that funder-mandated (regulatory) compliance is a worse enabler than genuine culture change, and (2) Michelle's specific epistemic critique that open-access norms may be borrowed uncritically from quantitative paradigms and may not fit qualitative research. These are different critiques (procedural/motivational vs. epistemic/disciplinary) and should be reported separately rather than fused into one 'skepticism' insight.",
+          "turns": [
+            "david:0026",
+            "michelle:0070"
+          ]
+        },
+        {
+          "insight_id": "I-07",
+          "rule": "missing_counterexample",
+          "severity": "fail",
+          "detail": "The insight claims David treats gated/tiered access as 'reassurance rather than a compromise.' But David's own broader stated position directly complicates this: he says he starts 'from the position of everything's open then kind of get negotiated down' and explicitly warns 'if you start from the position of closed, you can't really move' (david:0040), and separately states he wants to 'open it all up... where possible, where legal, where ethical' (david:0020). This shows David treats restricted/gated access as a negotiated compromise from an open-by-default starting position, not as an independently preferred, reassuring end-state as the insight implies. This dissenting framing from David—the participant whose stated general philosophy is pro-openness—is not surfaced.",
+          "turns": [
+            "david:0040",
+            "david:0020"
+          ]
+        }
+      ],
+      "notes": "The synthesis is mostly well-grounded in the two transcripts, and several insights (I-01, I-03, I-04, I-05, I-08 through I-13) are adequately supported by their cited turns with appropriate counter-evidence noted where relevant. The corpus only contains two transcripts, so the missing_theme rule (which requires three or more transcripts) cannot be triggered here. The main problems are (a) I-06, which misattributes a specific 'quantitative-derived' epistemic critique to David based on a turn that is actually about funder-mandate regulation rather than disciplinary origin, and which also merges two distinct concerns (regulatory compliance vs. epistemic borrowing) into one insight; and (b) I-07, which asserts David treats gated access as pure reassurance without surfacing his own explicit 'open first, negotiate down' framing, which complicates that reading. These should be corrected before the synthesis proceeds to design."
+    },
+    {
+      "pass": false,
+      "failures": [
+        {
+          "insight_id": "I-07",
+          "rule": "unsupported",
+          "severity": "fail",
+          "detail": "The claim states 'both researchers express comfort with tiered or gated access mechanisms...as reassurance compared to fully unrestricted deposit.' David's quote (david:0056) clearly expresses reassurance from password-gating. But Michelle's cited quote (michelle:0099) does not express comfort with the tiered system itself — she describes uncertainty about the UK Data Service's three access levels and says she would feel MORE comfortable only if she could have a human conversation about categorisation. This is a claim about wanting guidance/validation, not comfort with gating as a reassuring mechanism. The insight overstates Michelle's position to make it parallel David's.",
+          "turns": [
+            "michelle:0099"
+          ]
+        },
+        {
+          "insight_id": "I-09",
+          "rule": "missing_counterexample",
+          "severity": "fail",
+          "detail": "The insight presents Michelle's 'partnership extinguished' framing as her settled ethical position without surfacing her own qualifying statements elsewhere in the transcript that complicate this. At michelle:0050 she says she would 'think differently about this' if she could see benefits, and handled with care; at michelle:0070 she says participants may want their voice heard 'in years to come.' These show Michelle's stance is conditional/negotiable rather than a flat claim that sharing simply extinguishes the co-produced partnership, which the current insight does not acknowledge.",
+          "turns": [
+            "michelle:0050",
+            "michelle:0070"
+          ]
+        },
+        {
+          "insight_id": "I-01",
+          "rule": "merged_insights",
+          "severity": "warn",
+          "detail": "The insight collapses two distinct findings into one: (1) David's general concern about respecting participant anonymity/consent rights as an ethical/practical barrier (david:0022, a broad statement about rights), and (2) Michelle's specific, narrower finding that a particular consent-form clause referencing upload to UK Data Service can itself deter potential participants from taking part at all (michelle:0026). These are different phenomena — a general ethical constraint versus a specific recruitment-chilling mechanism tied to wording — and merging them risks the design team missing the more actionable, narrower finding about consent-form wording.",
+          "turns": [
+            "david:0022",
+            "michelle:0026"
+          ]
+        },
+        {
+          "insight_id": "I-06",
+          "rule": "vague_opportunity",
+          "severity": "warn",
+          "detail": "The opportunity ('Reframe funder and institutional communications...as discipline-specific responsible sharing practice with qualitative-specific rationale and examples') is directional but not concrete enough for a designer to act on — it does not specify what the reframed communication would contain, who owns it, or what 'qualitative-specific rationale and examples' would look like in practice.",
+          "turns": []
+        }
+      ],
+      "notes": "Most insights are well-grounded and appropriately hedged given the two-participant corpus, and several (I-02, I-07 in its David half, I-14) do a good job of surfacing internal tension as counter-evidence. However, I-07 stretches Michelle's cautious, guidance-seeking comment into an equivalent expression of comfort with gating that David clearly states but she does not. I-09 treats Michelle's co-production/extinguishment concern as unconditional when her own later remarks show conditional openness to sharing given care and demonstrated benefit — this nuance should be surfaced as counter-evidence. I-01 would benefit from being split or more clearly distinguishing the general consent-rights barrier from the specific consent-clause-deters-recruitment mechanism, since the latter is a more actionable and distinct finding. The missing_theme rule does not apply here since the corpus only contains two transcripts, so no topic can meet the '3+ transcripts' threshold."
+    },
+    {
+      "pass": false,
+      "failures": [
+        {
+          "insight_id": "I-08",
+          "rule": "missing_counterexample",
+          "severity": "fail",
+          "detail": "The claim states Michelle believes 'no amount of metadata can restore the context needed to interpret them later,' framed as an unqualified epistemic position. But elsewhere Michelle explicitly asks for a richer, narrative form of contextual metadata as something that COULD help future users understand the circumstances of data production ('I'd like some guidance - other than just really basic metadata, just have that really rich kind of setting about - this is what happened with it', michelle:0075; and her 'read me' file proposal at michelle:0091). This complicates the absolutist framing and should be surfaced as a qualifying counter-view rather than left as counter_evidence: [].",
+          "turns": [
+            "michelle:0075",
+            "michelle:0091"
+          ]
+        },
+        {
+          "insight_id": "I-02",
+          "rule": "unsupported",
+          "severity": "fail",
+          "detail": "The claim attributes to Michelle a view that interpretive multiplicity is 'fundamentally incompatible with reproducibility as understood in quantitative research,' but the cited Michelle turn (michelle:0058) only describes interpretive variation between analysts ('we would interpret that differently') and never mentions reproducibility. Michelle's actual explicit remark on replicability/reproducibility appears at michelle:0101 ('perhaps we can't replicate what you do with quantitative'), which is not cited. As written, the Michelle citation does not support the specific 'incompatible with reproducibility' framing attributed to her.",
+          "turns": [
+            "michelle:0058",
+            "michelle:0101"
+          ]
+        },
+        {
+          "insight_id": "I-05",
+          "rule": "unsupported",
+          "severity": "fail",
+          "detail": "The claim asserts both researchers ask for concrete procedural guidelines 'rather than general awareness-raising.' David's own cited turn (david:0058) explicitly endorses awareness-raising alongside concrete guidelines ('it comes back to awareness... raise awareness of doing something. Then that would definitely foster open research'), so the 'rather than' framing overstates and misrepresents David's actual dual position.",
+          "turns": [
+            "david:0058"
+          ]
+        }
+      ],
+      "notes": "The synthesis is mostly careful and several insights (I-07, I-09, I-14, I-15) already do a good job of surfacing internal tensions and counter-evidence, which is commendable. However, three issues need fixing: I-08 makes an absolute epistemic claim about metadata's inability to restore context without acknowledging Michelle's own hedge toward richer narrative metadata elsewhere in the transcript; I-02 stretches a Michelle quote about interpretive variation into an explicit claim about 'reproducibility' that she only makes in a different, uncited turn; and I-05 frames the desire for concrete training as opposed to awareness-raising when David's cited turn shows he values both. I also flag (as a non-blocking warning) that I-03 quietly merges two distinct rationales for data sensitivity — David's technical/identifiability concern (faces/voices in AV data) and Michelle's relational/content concern (personal narrative vs. instruments) — under one 'safe vs sensitive' claim; this is not necessarily wrong but could lose a dimension useful to designers. Since only two transcripts exist in this corpus, the missing_theme rule (which requires three or more transcripts) cannot be triggered here."
+    }
+  ],
+  "calls": [
+    {
+      "label": "intake_david",
+      "model": "claude-haiku-4-5-20251001",
+      "in_tok": 8815,
+      "out_tok": 2443,
+      "seconds": 28.6,
+      "cost": 0.02103,
+      "stop_reason": "end_turn",
+      "json_error": null
+    },
+    {
+      "label": "intake_michelle",
+      "model": "claude-haiku-4-5-20251001",
+      "in_tok": 8533,
+      "out_tok": 2286,
+      "seconds": 26.43,
+      "cost": 0.019963,
+      "stop_reason": "end_turn",
+      "json_error": null
+    },
+    {
+      "label": "synthesis",
+      "model": "claude-sonnet-5",
+      "in_tok": 29312,
+      "out_tok": 24390,
+      "seconds": 229.96,
+      "cost": 0.302524,
+      "stop_reason": "end_turn",
+      "json_error": null
+    },
+    {
+      "label": "critic",
+      "model": "claude-sonnet-5",
+      "in_tok": 38004,
+      "out_tok": 8126,
+      "seconds": 86.32,
+      "cost": 0.157268,
+      "stop_reason": "end_turn",
+      "json_error": null
+    },
+    {
+      "label": "revise",
+      "model": "claude-sonnet-5",
+      "in_tok": 29482,
+      "out_tok": 7747,
+      "seconds": 66.72,
+      "cost": 0.136434,
+      "stop_reason": "end_turn",
+      "json_error": null
+    },
+    {
+      "label": "critic",
+      "model": "claude-sonnet-5",
+      "in_tok": 39744,
+      "out_tok": 8181,
+      "seconds": 89.32,
+      "cost": 0.161298,
+      "stop_reason": "end_turn",
+      "json_error": null
+    },
+    {
+      "label": "revise",
+      "model": "claude-sonnet-5",
+      "in_tok": 30295,
+      "out_tok": 9848,
+      "seconds": 84.72,
+      "cost": 0.15907,
+      "stop_reason": "end_turn",
+      "json_error": null
+    },
+    {
+      "label": "critic",
+      "model": "claude-sonnet-5",
+      "in_tok": 40350,
+      "out_tok": 10258,
+      "seconds": 107.38,
+      "cost": 0.18328,
+      "stop_reason": "end_turn",
+      "json_error": null
+    }
+  ]
+}

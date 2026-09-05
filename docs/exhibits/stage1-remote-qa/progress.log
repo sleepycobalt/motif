@@ -1,0 +1,21 @@
+00:47:57 hosted job 5GfWRXE3yUt43vfGyPhNSmzb submitted
+00:47:58 david        74 turns    6037 words  speakers=['Researcher 1', 'David']
+00:47:58 michelle    128 turns    5445 words  speakers=['Researcher 1', 'Michelle']
+00:47:58 2 transcripts, 11,482 words -> /tmp/motif/motif-job-cxgr9cup/processed/
+00:47:58 run 20260905-054758-C-hosted: condition C, 2 transcripts, 11,482 words
+00:48:26 [intake_david] claude-haiku-4-5-20251001  8815→2443 tok  28.6s  $0.0210
+00:48:53 [intake_michelle] claude-haiku-4-5-20251001  8533→2286 tok  26.43s  $0.0200
+00:52:43 [synthesis] claude-sonnet-5  29312→24390 tok  229.96s  $0.3025
+00:52:43 · deterministic checks: 0 failure(s)
+00:54:09 [critic] claude-sonnet-5  38004→8126 tok  86.32s  $0.1573
+00:54:09 · iteration 1: 3 failure(s), pass=False
+00:55:16 [revise] claude-sonnet-5  29482→7747 tok  66.72s  $0.1364
+00:55:16 · deterministic checks: 0 failure(s)
+00:56:45 [critic] claude-sonnet-5  39744→8181 tok  89.32s  $0.1613
+00:56:45 · iteration 2: 4 failure(s), pass=False
+00:58:10 [revise] claude-sonnet-5  30295→9848 tok  84.72s  $0.1591
+00:58:10 · deterministic checks: 0 failure(s)
+00:59:57 [critic] claude-sonnet-5  40350→10258 tok  107.38s  $0.1833
+00:59:57 · iteration 3: 3 failure(s), pass=False
+00:59:57 run 20260905-054758-C-hosted: 3 iteration(s), stop=max_iterations, 719.5s, 224,535→73,279 tok, $1.1409
+00:59:57 15 insights -> /data/runs/20260905-054758-C-hosted/output.md

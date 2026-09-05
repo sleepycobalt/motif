@@ -1,0 +1,28 @@
+{
+  "receipts": {
+    "receipts": [
+      {
+        "turn": "david:0022",
+        "found": true,
+        "transcript": "david",
+        "speaker": "David",
+        "interviewer": false,
+        "words": 309,
+        "text": "Okay, yes, definitely. The first one I have thoughts about, which is a respective participant’s right to anonymity, or respecting the basis of consent of which you've collected data from them. I think. That's a particular barrier with audio data. Sorry, are really reiterate, that one - and I think another one is, well, is, I think it might come more for me, but it's kind of having that confidence of asking the right questions to the right people. So it's there is a there is a bit of a barrier in who do I go to? So I know you should go to the university library, go and talk to the RDM, to the research data management people, but it's a bit like, where do I even start? I think the same applies to UKDA as well, because they, I mean, they've got a fantastic website of how to deposit things, but then there's that question of money, of the funding that's needed to deposit it. So, if you do need to put it in U DA, which is attractive me - because as a security, audio-visual stuff - and it's just, it's just trying to find that part of money to do that, yeah, to do that for me. And I don't really want to delete the data, but then, you know, that's what I told the participants I would do - if that's what they, that's they’ve signed for. So, but I think a way around that particular barrier is that, it's the, sort your participant information for consent mechanisms out really early on, and have that working relationship with the participant all the way through with what you're doing. So, when it comes to UKDA or ORDA or, you know, deposited it with, yeah, that's fine. So it's all my data management plan. So, Yeah."
+      },
+      {
+        "turn": "nobody:0001",
+        "found": false
+      }
+    ],
+    "missing": [
+      "nobody:0001"
+    ],
+    "transcripts": [
+      "david",
+      "michelle"
+    ]
+  },
+  "board_sections": 15,
+  "board_scripts": 15
+}
