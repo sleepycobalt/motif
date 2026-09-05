@@ -64,3 +64,8 @@ Next: User runs the ten-minute Figma QA (import manifest, key, sample corpus) an
 Tried: Verdict layout and run card in board.py; plugin board writer for FigJam and Design with a real-board check through Figma's MCP; Build board, stored last result, Check-a-synthesis mode, confidence chip wording; harness at three widths.
 Happened: Real FigJam board: 4 sections, 20 stickies, 1 connector, all palette colours on readback; Design file: frames hug text. Fake-API tests cover 15- and 9-section layouts and failure paths. Fixed: bare number formatting in the sandbox, connector bounds, harness count. Zero layout issues.
 Next: User's Figma QA: build a board from a run (or a verdict from Check a synthesis) in a fresh FigJam file and in a Design file; compare with the recorded-run exhibit; then stage 4, the listing.
+
+## 2026-09-05 — Stage 3 fixes after the Figma QA run
+Tried: Fix the three findings from the user's Check-a-synthesis run: counter receipts missing from the report (quote_mismatch on every counter), getNodeById forbidden under dynamic-page access, plugin not opening on the stored result.
+Happened: Report prints counter receipts and the check treats an absent counter receipt as absence; async node lookup; open-on-result. Live re-check on the old-format report: 0 mechanical failures, 1 model fail (I-11, correct), 1 warn. 35 tests pass. Deployed.
+Next: User re-runs the synthesis and Build board in a fresh FigJam file and in a Design file; then stage 4, the listing.

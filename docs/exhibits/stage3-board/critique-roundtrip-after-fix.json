@@ -1,0 +1,45 @@
+{
+  "job_id": "lmIPSVZ36Q0pAf8xM4Sd5lcS",
+  "run_id": "20260905-215912-critique-doc",
+  "document": "docs/exhibits/stage2-plugin/browser-run-report.md (pre-fix report format, no counter receipts)",
+  "source_format": "motif_markdown",
+  "n_claims": 12,
+  "pass": false,
+  "n_fail": 1,
+  "n_warn": 1,
+  "by_rule": {
+    "unsupported": [
+      "I-11"
+    ],
+    "merged_insights": [
+      "I-01"
+    ]
+  },
+  "mechanical_failures": [],
+  "failures": [
+    {
+      "insight_id": "I-11",
+      "rule": "unsupported",
+      "severity": "fail",
+      "detail": "The claim asserts Michelle 'has not experienced it herself, indicating an asymmetry' with David's direct motivation, but the only Michelle turn cited (michelle:0050) is a hedged hypothetical about future benefit and does not itself establish that she has never experienced reuse benefit. The turn that actually supports 'has not experienced it herself' (michelle:0024, 'I can't say that I've ever benefited from it') is not cited anywhere in the evidence list, so this specific sub-claim is not backed by the cited turns as required.",
+      "turns": [
+        "michelle:0050",
+        "michelle:0024"
+      ]
+    },
+    {
+      "insight_id": "I-01",
+      "rule": "merged_insights",
+      "severity": "warn",
+      "detail": "The insight treats David's barrier (protecting anonymity/honouring consent terms when depositing already-collected audio-visual data) and Michelle's example (a consent-form clause stating data will go to UK Data Service, which deters some prospective participants from taking part at all) as the same phenomenon ('consent-form restrictions as a barrier'). These are functionally different barriers \u2014 one is about safeguarding data post-collection, the other is about a chilling effect on recruitment/participation before data even exists \u2014 and collapsing them risks obscuring that Michelle's concrete example is not structurally equivalent to David's stated primary barrier.",
+      "turns": [
+        "david:0022",
+        "michelle:0026"
+      ]
+    }
+  ],
+  "skipped_rules": [
+    "missing_theme"
+  ],
+  "wall_seconds": 241.6
+}
