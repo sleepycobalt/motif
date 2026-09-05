@@ -74,3 +74,8 @@ Next: User re-runs the synthesis and Build board in a fresh FigJam file and in a
 - tried: user's FigJam and Figma Design runs of the full stage-3 surface (critique → verdict board, synthesis → board, stored result in a fresh file); fifteen screenshots read for counts, colours, clipping.
 - happened: gate passed; 16 / 71 / 4 on both boards and the counts reconcile against the insight structure; pre-fix critique board kept as the 6-fail exhibit; section-title truncation noted as a cosmetic open item; MCP spec v1-on-disk discrepancy recorded.
 - next: stage 4, the Community listing (free tier only).
+
+## 2026-09-05 — stage 4 start (listing draft)
+- tried: listing copy from the spec's § Listing and the registry copy; screenshot picks from the stage-3 exhibits; manifest and review-requirements check; live read of etot.design for links and a privacy page.
+- happened: `surfaces/figma/listing.md` drafted (not submitted); links corrected to `/tools/motif/`; needed from the user: post-fix verdict screenshot, icon; gaps: real plugin id at publish, privacy policy URL, support contact with response time; paid-tier control hide-or-label awaiting ruling.
+- next: user reviews the copy and rules on the paid-tier control; then the submission session.
