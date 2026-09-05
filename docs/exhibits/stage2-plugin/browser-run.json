@@ -1,0 +1,153 @@
+{
+  "job_id": "ngqJoYXl17yhFKHVFdosoV84",
+  "state": "done",
+  "run_id": "20260905-171330-C-hosted",
+  "words": 11482,
+  "n_events": 20,
+  "launched_from": "plugin UI in the browser harness (440 px frame), docx extracted client-side",
+  "stop_reason": "max_iterations",
+  "iterations": 3,
+  "n_insights": 12,
+  "contested": [
+    "I-05",
+    "I-11"
+  ],
+  "cost_usd": 1.0328,
+  "wall_seconds": 660.1,
+  "verdicts": [
+    {
+      "pass": false,
+      "failures": [
+        {
+          "insight_id": "I-09",
+          "rule": "quote_mismatch",
+          "severity": "fail",
+          "detail": "receipt does not match transcript (quote not found verbatim in the cited turn, or missing): michelle:0091: \"great not to be such a set format... this is what it was lik\"",
+          "turns": [
+            "michelle:0091"
+          ]
+        },
+        {
+          "insight_id": "I-11",
+          "rule": "interviewer_cited",
+          "severity": "fail",
+          "detail": "evidence cites the interviewer, not a participant: ['michelle:0063']; replace with the participant's own turns",
+          "turns": [
+            "michelle:0063"
+          ]
+        },
+        {
+          "insight_id": "I-13",
+          "rule": "quote_mismatch",
+          "severity": "fail",
+          "detail": "receipt does not match transcript (quote not found verbatim in the cited turn, or missing): michelle:0056: \"that's completely, I think this - this obviously - learn you\"",
+          "turns": [
+            "michelle:0056"
+          ]
+        },
+        {
+          "insight_id": "I-01",
+          "rule": "missing_counterexample",
+          "severity": "fail",
+          "detail": "The insight claims both researchers identify anonymity/consent protection as 'the primary practical barrier...more than technical or legal obstacles,' but Michelle explicitly downplays this as a major barrier: 'I don't think it's a massive issue. Technically... I don't think there's many barriers ethically' (michelle:0048). Her stated primary concerns are epistemic (loss of context) and relational (co-production/extinguished partnership), not anonymity/consent protection in the way David frames it. The chosen counter_evidence (michelle:0070, about wanting one's voice heard) is a softer, tangential complication and does not surface this much more direct contradiction of the claim's core framing.",
+          "turns": [
+            "michelle:0048"
+          ]
+        },
+        {
+          "insight_id": "I-11",
+          "rule": "unsupported",
+          "severity": "fail",
+          "detail": "The claim states that 'the same researchers separately voice concern that reuse risks losing essential context,' implying this tension exists for both David and Michelle individually. However, the counter_evidence and full transcript search show only Michelle voicing context-loss concerns (michelle:0028, 0032, 0058); David nowhere expresses a comparable worry that reuse could strip context from his data \u2014 his stated concerns are about anonymity, consent, cost, and epistemology of reproducibility, not context-loss-on-reuse. Attributing this tempering concern to 'the same researchers' (plural) overstates what David actually said.",
+          "turns": [
+            "david:0012",
+            "michelle:0028"
+          ]
+        }
+      ],
+      "notes": "The synthesis is generally well-grounded, with most insights supported by accurately quoted turns and reasonable opportunity statements. However, two insights overreach: I-01 flattens a real point of divergence \u2014 Michelle, working in a different sector (criminal justice, practice-based) from David's information-science/self-tracking research, at one point explicitly minimises anonymity/consent as a 'massive issue' and instead centres epistemic and relational concerns, which complicates the claim that both researchers share the same primary barrier. I-11 attributes a context-loss concern to 'both researchers' when only Michelle voices it, so the claim overgeneralises from single-participant evidence. No missing_theme failures were found, since only two transcripts exist in this corpus and the 3+-transcript threshold for that rule cannot be met. Confidence levels elsewhere appear appropriately calibrated (mostly low/medium) and matched to the strength of the cited quotes, and opportunity statements are mostly concrete and actionable rather than generic."
+    },
+    {
+      "pass": false,
+      "failures": [
+        {
+          "insight_id": "I-05",
+          "rule": "unsupported",
+          "severity": "fail",
+          "detail": "The claim states both researchers 'prefer direct human contact to self-service web guidance,' but the Michelle turns cited (michelle:0079, michelle:0101) do not support this. michelle:0079 is about not knowing which office/service to approach (a different problem from disliking self-service web guidance), and michelle:0101 is about not understanding the technical requirements for different UKDA access tiers -- a topic already covered by I-06, not a statement about preferring human contact over web resources. Only David's quotes (david:0022, david:0056) actually support the 'preference for human contact' component.",
+          "turns": [
+            "michelle:0079",
+            "michelle:0101"
+          ]
+        },
+        {
+          "insight_id": "I-05",
+          "rule": "missing_counterexample",
+          "severity": "fail",
+          "detail": "The insight frames Michelle as uncertain 'who to ask,' but immediately after voicing that uncertainty she names specific resources (library services, UK Data Service, White Rose DTP) and reports a confident, positive experience using the library DMP service ('they were absolutely brilliant', michelle:0081). This complicates the 'don't know who to ask' framing for Michelle and is not surfaced.",
+          "turns": [
+            "michelle:0081"
+          ]
+        },
+        {
+          "insight_id": "I-11",
+          "rule": "overconfident",
+          "severity": "fail",
+          "detail": "The claim treats David and Michelle as symmetrically motivated by anticipated reuse value, but Michelle's cited evidence (michelle:0050) is heavily hedged and conditional ('I think perhaps if you can see benefits... I would think differently about this I suppose'), unlike David's direct, unhedged statements (david:0012, david:0040). Presenting this at 'medium' confidence as a shared motivator overstates what Michelle actually said; her turn is a hypothetical, not an expressed current motivation.",
+          "turns": [
+            "michelle:0050"
+          ]
+        }
+      ],
+      "notes": "Most insights are reasonably well-grounded and several (I-01, I-07, I-11) already do good work surfacing Michelle's dissent or hedging via counter_evidence fields, which is commendable given she is the participant whose sector/method differs from David's. However, I-05 conflates two distinct problems (not knowing who to contact vs. not understanding access-tier technicalities) and cites Michelle turns that don't support the 'prefers human contact' claim, while also omitting Michelle's own positive, confident account of using library DMP support -- a direct complication of the 'uncertainty' framing. I-11 overstates the symmetry of motivation between the two participants given how hedged Michelle's supporting quote is. No missing_theme failures apply since the corpus contains only two transcripts (david, michelle), so the three-transcript threshold for that rule can never be met. Other insights are supported by their cited quotes and do not show detectable merged findings or unaddressed dissent beyond what is already flagged in the review."
+    },
+    {
+      "pass": false,
+      "failures": [
+        {
+          "insight_id": "I-11",
+          "rule": "unsupported",
+          "severity": "fail",
+          "detail": "The claim asserts David 'states plainly and without qualification' that reuse motivates him, explicitly contrasting this with Michelle's hedged language. But the cited turn david:0012 itself is hedged ('I feel like maybe that's a contribution as well, that if I can put open, then somebody else can use that...'). The insight overstates the directness/confidence of David's statement relative to the actual quoted language, undermining the asymmetry claim as stated (though the general direction of the finding \u2014 David more consistently framing reuse as a benefit than Michelle \u2014 is plausible using david:0040 as support).",
+          "turns": [
+            "david:0012"
+          ]
+        },
+        {
+          "insight_id": "I-05",
+          "rule": "merged_insights",
+          "severity": "warn",
+          "detail": "This insight collapses two distinct findings: (1) an epistemic/practical barrier of not knowing who/where to go for guidance, and (2) a behavioural preference (David's) for direct human contact over self-service web resources once a channel is known. These are different dimensions \u2014 one about wayfinding uncertainty, the other about channel preference/trust \u2014 and merging them risks losing the second as a standalone, actionable finding (which is closely related to, but distinct from, the trust-in-governance finding already captured separately in I-06).",
+          "turns": [
+            "david:0022",
+            "david:0056",
+            "michelle:0079"
+          ]
+        }
+      ],
+      "notes": "Most insights are well-evidenced, appropriately hedged, and actively surface Michelle's dissent where it exists (I-01, I-05, I-07, I-11 all include counter-evidence blocks), which is good practice given she is the participant whose sector and stance most often diverges from David's. The missing_theme rule cannot be meaningfully applied here since only one transcript's topic map (david's) was supplied and the corpus contains only two participants, so the three-transcript threshold can never be met. The main problems found are: (1) I-11 overstates the confidence/directness of David's reuse-motivation quote, which is actually hedged in the same way it criticises Michelle's hedging, weakening the asymmetry claim as framed; and (2) I-05 merges two conceptually separate findings (not knowing who to contact vs. preferring human over web-based contact) into a single insight, which risks losing the second dimension when design teams act on it. Opportunities across the set are generally specific and actionable; no clear vague_opportunity failures were found."
+    }
+  ],
+  "insight_ids": [
+    "I-01",
+    "I-02",
+    "I-03",
+    "I-04",
+    "I-05",
+    "I-06",
+    "I-07",
+    "I-08",
+    "I-09",
+    "I-10",
+    "I-11",
+    "I-13"
+  ],
+  "contested_flags": {
+    "I-05": [
+      "merged_insights: This insight collapses two distinct findings: (1) an epistemic/practical barrier of not knowing who/where to go for guidance, and (2) a behavioural preference (David's) for direct human contact over self-service web resources once a channel is known. These are different dimensions \u2014 one about wayfinding uncertainty, the other about channel preference/trust \u2014 and merging them risks losing the second as a standalone, actionable finding (which is closely related to, but distinct from, the trust-in-governance finding already captured separately in I-06)."
+    ],
+    "I-11": [
+      "unsupported: The claim asserts David 'states plainly and without qualification' that reuse motivates him, explicitly contrasting this with Michelle's hedged language. But the cited turn david:0012 itself is hedged ('I feel like maybe that's a contribution as well, that if I can put open, then somebody else can use that...'). The insight overstates the directness/confidence of David's statement relative to the actual quoted language, undermining the asymmetry claim as stated (though the general direction of the finding \u2014 David more consistently framing reuse as a benefit than Michelle \u2014 is plausible using david:0040 as support)."
+    ]
+  }
+}

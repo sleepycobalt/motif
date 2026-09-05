@@ -77,6 +77,10 @@ Or, with [uv](https://docs.astral.sh/uv/) and no install step, `claude mcp add m
 
 Five tools: `motif_synthesize`, `motif_critique` (check any synthesis, yours or someone else's, against the transcripts), `motif_receipts` (verbatim turn text for a citation), `motif_board` (a run laid out for FigJam, executed by the host through Figma's MCP server), `motif_runs_get`. Install snippets for Claude Code, Cursor, and Claude Desktop, plus a skill that teaches an agent the verify-before-you-quote workflow: [surfaces/mcp/README.md](surfaces/mcp/README.md).
 
+## Use it from Figma
+
+Motif for Figma (FigJam and Figma Design) is in `surfaces/figma/`: paste your Anthropic key once, drop transcripts, get the synthesis in the plugin and as Markdown. Development build for now; the Community listing and the board writer follow. Build and import steps: [surfaces/figma/README.md](surfaces/figma/README.md).
+
 ## Tune it
 
 Everything a team might want to change lives in [`config/synth.yaml`](config/synth.yaml):

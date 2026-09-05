@@ -54,3 +54,8 @@ Next: Publish 0.3.0 to PyPI (remote mode for installed users); start stage 2 (pl
 Tried: Bump to 0.3.0, build, publish to PyPI, verify from PyPI in an empty venv (CLI, local stdio handshake, zero-cost remote probes, one live remote synthesis), publish the registry manifest at 0.3.0.
 Happened: All passed. PyPI 0.3.0 live; registry lists 0.3.0 as latest. Live remote run from the installed package: 13 insights, 2 contested, $0.458, 338.3 s engine / 339.2 s client. Gotchas: the publisher token expires within a day (device flow again); pip's index lagged the upload by about two minutes.
 Next: Stage 2, the Figma plugin on the free tier, against the live service.
+
+## 2026-09-05 — Part 3 stage 2 build (plugin, free tier, no board)
+Tried: Figma plugin in TypeScript with client-side docx extraction, CORS on the service, a browser harness at 440/375/320 px with overflow scans of every screen, a live run launched from the plugin UI against the hosted engine.
+Happened: Parity with python-docx on 1,868 turns (one in-paragraph break becomes a space by design). Harness caught a hidden-card CSS bug and a clipboard fallback gap; both fixed. Live browser-path run: 12 insights, 2 contested, $1.03, 660 s. Zero layout issues at any width.
+Next: User runs the ten-minute Figma QA (import manifest, key, sample corpus) and reports timing plus whether copy works inside Figma; then stage 3, the board writer.

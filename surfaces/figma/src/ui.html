@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motif</title>
+<style>/*CSS*/</style>
+</head>
+<body>
+<main id="app" class="app">
+
+  <!-- Key -->
+  <section id="screen-key" class="screen" hidden>
+    <header class="top">
+      <h1>Motif</h1>
+      <p class="lede">Interview transcripts in. A synthesis out, where every insight carries cited evidence, a confidence level, and the counter-evidence against it.</p>
+    </header>
+    <div class="card">
+      <h2>Your Anthropic key</h2>
+      <p>Runs use your own key and your own bill. The key is kept on this device by Figma, sent to Motif's engine only with a run, used for that run, and never stored by Motif.</p>
+      <label class="field">
+        <span>API key</span>
+        <input id="key-input" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…" inputmode="text">
+      </label>
+      <div class="row">
+        <button id="key-save" class="primary" disabled>Save key</button>
+        <a class="link" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">Get a key</a>
+      </div>
+      <p class="fine">Credits without a key are not available yet.</p>
+    </div>
+  </section>
+
+  <!-- Setup -->
+  <section id="screen-setup" class="screen" hidden>
+    <header class="top compact">
+      <h1>Motif</h1>
+      <p class="keyline">Key <span id="key-masked" class="mono"></span> · <button id="key-change" class="textbtn">change</button></p>
+    </header>
+
+    <div id="resume-card" class="card notice" hidden>
+      <p>A run is still going from last time.</p>
+      <div class="row"><button id="resume-btn" class="primary">Follow it</button><button id="resume-dismiss" class="ghost">Forget it</button></div>
+    </div>
+
+    <div class="card">
+      <h2>1. Transcripts</h2>
+      <p>One speaker turn per paragraph, each starting with the speaker's name and a colon. Label the interviewer <span class="mono">Interviewer</span> or <span class="mono">Researcher</span>.</p>
+      <div id="drop" class="drop" tabindex="0" role="button" aria-label="Add transcripts">
+        <span>Drop .docx, .txt, or .md files here, or</span>
+        <label class="filebtn">choose files<input id="file-input" type="file" multiple accept=".docx,.txt,.md"></label>
+      </div>
+      <ul id="file-list" class="files"></ul>
+      <p id="file-summary" class="fine"></p>
+    </div>
+
+    <div class="card">
+      <h2>2. Question</h2>
+      <label class="field">
+        <span class="visually-hidden">Research question</span>
+        <textarea id="question" rows="3" placeholder="What do you want to learn from these interviews? e.g. What frustrates users about onboarding?"></textarea>
+      </label>
+    </div>
+
+    <div class="card">
+      <h2>3. Run</h2>
+      <fieldset class="tiers">
+        <legend class="visually-hidden">Tier</legend>
+        <label class="tier"><input type="radio" name="tier" value="byok" checked> <span>Free · your key</span></label>
+        <label class="tier disabled"><input type="radio" name="tier" value="paid" disabled> <span>Credits · not yet</span></label>
+      </fieldset>
+      <p class="fine">Takes minutes and spends API budget on your key: about $0.50 for two transcripts, about $5 for fifteen. Condition C: intake → synthesis → critic → revise, up to three rounds.</p>
+      <button id="run-btn" class="primary wide" disabled>Synthesise</button>
+    </div>
+  </section>
+
+  <!-- Running -->
+  <section id="screen-running" class="screen" hidden>
+    <header class="top compact">
+      <h1>Synthesising</h1>
+      <p class="keyline"><span id="elapsed" class="mono">0:00</span> · job <span id="job-id" class="mono"></span></p>
+    </header>
+    <div class="card grow">
+      <pre id="log" class="log" aria-live="polite"></pre>
+    </div>
+    <p class="fine">You can close this window. The run continues on the engine, and the plugin offers to pick it up next time.</p>
+    <div class="row"><button id="stop-follow" class="ghost">Stop following</button></div>
+  </section>
+
+  <!-- Result -->
+  <section id="screen-result" class="screen" hidden>
+    <header class="top compact">
+      <h1>Synthesis</h1>
+      <p id="result-question" class="keyline"></p>
+    </header>
+    <div class="tiles">
+      <div class="tile"><span class="num" id="t-insights">–</span><span class="lbl">insights</span></div>
+      <div class="tile warn"><span class="num" id="t-contested">–</span><span class="lbl">contested</span></div>
+      <div class="tile"><span class="num" id="t-iterations">–</span><span class="lbl">rounds</span></div>
+      <div class="tile"><span class="num" id="t-cost">–</span><span class="lbl">API cost</span></div>
+      <div class="tile"><span class="num" id="t-time">–</span><span class="lbl">minutes</span></div>
+    </div>
+    <p id="contested-note" class="fine" hidden></p>
+    <div class="row wrap">
+      <button id="copy-report" class="primary">Copy report (Markdown)</button>
+      <button id="build-board" class="ghost" disabled title="Arrives in the next release">Build board · next release</button>
+      <button id="new-run" class="ghost">New run</button>
+    </div>
+    <p id="clip-note" class="fine" hidden>Clipboard access is blocked here. The full report is selected below: press Cmd+C (Ctrl+C on Windows) to copy it.</p>
+    <textarea id="clip" class="clip" rows="6" readonly aria-label="Report as Markdown" hidden></textarea>
+    <ol id="insights" class="insights"></ol>
+  </section>
+
+  <!-- Error -->
+  <section id="screen-error" class="screen" hidden>
+    <header class="top compact"><h1>That did not work</h1></header>
+    <p id="error-hint" hidden></p>
+    <div class="card error">
+      <p id="error-text" class="mono wrap"></p>
+    </div>
+    <p class="fine">The message above is the engine's own, unedited. A run that fails never counts as a result.</p>
+    <div class="row"><button id="error-back" class="primary">Back</button></div>
+  </section>
+
+</main>
+<script>/*JS*/</script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+/* Motif plugin UI. Fluid from 320px up; Figma's theme variables with fallbacks so the
+   standalone harness (a plain browser tab) renders the same layout. */
+
+:root {
+  --bg: var(--figma-color-bg, #ffffff);
+  --bg2: var(--figma-color-bg-secondary, #f5f5f5);
+  --bg3: var(--figma-color-bg-tertiary, #e6e6e6);
+  --fg: var(--figma-color-text, #1e1e1e);
+  --fg2: var(--figma-color-text-secondary, #6b6b6b);
+  --line: var(--figma-color-border, #e0e0e0);
+  --accent: var(--figma-color-bg-brand, #0d99ff);
+  --accent-fg: var(--figma-color-text-onbrand, #ffffff);
+  --warn-bg: var(--figma-color-bg-warning-tertiary, #fff3d6);
+  --warn-fg: var(--figma-color-text-warning, #8a5a00);
+  --err-bg: var(--figma-color-bg-danger-tertiary, #ffe3e0);
+  --err-fg: var(--figma-color-text-danger, #b3261e);
+  --ok: var(--figma-color-text-success, #1a7f37);
+  --radius: 6px;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }  /* the .card display rule must not resurrect hidden cards */
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--bg); color: var(--fg);
+  font: 12px/1.5 Inter, -apple-system, "Segoe UI", system-ui, sans-serif;
+  overflow-wrap: anywhere;
+}
+.app { min-height: 100%; display: flex; flex-direction: column; }
+.screen { display: flex; flex-direction: column; gap: 10px; padding: 12px; min-height: 100%; }
+
+h1 { font-size: 15px; font-weight: 600; margin: 0; }
+h2 { font-size: 12px; font-weight: 600; margin: 0 0 4px; }
+p { margin: 0; }
+.top { display: flex; flex-direction: column; gap: 4px; }
+.top.compact { gap: 2px; }
+.lede { color: var(--fg2); }
+.keyline { color: var(--fg2); font-size: 11px; }
+.fine { color: var(--fg2); font-size: 11px; }
+.mono { font-family: var(--mono); font-size: 11px; }
+.wrap { white-space: pre-wrap; }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.card { background: var(--bg2); border-radius: var(--radius); padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.card.grow { flex: 1 1 auto; min-height: 160px; }
+.card.notice { background: var(--warn-bg); color: var(--warn-fg); }
+.card.error { background: var(--err-bg); color: var(--err-fg); }
+
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field > span { font-size: 11px; color: var(--fg2); }
+input[type="password"], input[type="text"], textarea {
+  width: 100%; min-width: 0; font: inherit; color: var(--fg); background: var(--bg);
+  border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 8px;
+}
+textarea { resize: vertical; min-height: 56px; }
+input:focus, textarea:focus, .drop:focus { outline: 2px solid var(--accent); outline-offset: 0; }
+
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+button { font: inherit; border-radius: var(--radius); padding: 6px 12px; cursor: pointer; border: 1px solid transparent; max-width: 100%; }
+button:disabled { opacity: .5; cursor: default; }
+.primary { background: var(--accent); color: var(--accent-fg); }
+.primary.wide { width: 100%; }
+.ghost { background: transparent; color: var(--fg); border-color: var(--line); }
+.textbtn { background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; font-size: 11px; }
+.link { color: var(--accent); font-size: 11px; }
+
+.drop {
+  border: 1px dashed var(--line); border-radius: var(--radius); padding: 14px 10px; text-align: center;
+  color: var(--fg2); display: flex; flex-direction: column; gap: 4px; align-items: center; cursor: pointer;
+}
+.drop.over { border-color: var(--accent); color: var(--fg); background: var(--bg); }
+.filebtn { color: var(--accent); text-decoration: underline; cursor: pointer; }
+.filebtn input { display: none; }
+
+.files { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.files li { display: flex; gap: 8px; align-items: baseline; min-width: 0; }
+.files .name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.files .meta { color: var(--fg2); font-size: 11px; white-space: nowrap; }
+.files .bad { color: var(--err-fg); }
+.files .rm { background: none; border: 0; padding: 0 2px; color: var(--fg2); font-size: 14px; line-height: 1; }
+
+.tiers { border: 0; margin: 0; padding: 0; display: flex; gap: 12px; flex-wrap: wrap; }
+.tier { display: inline-flex; gap: 4px; align-items: center; }
+.tier.disabled { color: var(--fg2); }
+
+.log {
+  margin: 0; font-family: var(--mono); font-size: 11px; line-height: 1.45; white-space: pre-wrap;
+  overflow: auto; max-height: 50vh; flex: 1 1 auto; min-height: 120px;
+}
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); gap: 6px; }
+.tile { background: var(--bg2); border-radius: var(--radius); padding: 8px 6px; display: flex; flex-direction: column; align-items: center; min-width: 0; }
+.tile.warn { background: var(--warn-bg); color: var(--warn-fg); }
+.tile .num { font-size: 18px; font-weight: 600; line-height: 1.2; }
+.tile .lbl { font-size: 10px; color: inherit; opacity: .8; }
+
+.clip { width: 100%; font-family: var(--mono); font-size: 11px; }
+.insights { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.insight { background: var(--bg2); border-radius: var(--radius); padding: 8px 10px; min-width: 0; }
+.insight summary { cursor: pointer; display: flex; gap: 6px; align-items: baseline; list-style: none; }
+.insight summary::-webkit-details-marker { display: none; }
+.insight .id { font-family: var(--mono); font-size: 11px; color: var(--fg2); flex: 0 0 auto; }
+.insight .title { flex: 1 1 auto; min-width: 0; font-weight: 600; }
+.badge { flex: 0 0 auto; font-size: 10px; padding: 1px 6px; border-radius: 10px; background: var(--bg3); color: var(--fg2); white-space: nowrap; }
+.badge.high { background: #d7f5dd; color: var(--ok); }
+.badge.medium { background: #fff1c2; color: #7a5a00; }
+.badge.low { background: #ffe0c2; color: #8a4b00; }
+.badge.contested { background: #e9dcff; color: #5b3aa8; }
+.insight .body { margin-top: 6px; display: flex; flex-direction: column; gap: 4px; }
+.insight .flags { color: #5b3aa8; font-size: 11px; }
+.insight .quote { color: var(--fg2); font-size: 11px; border-left: 2px solid var(--line); padding-left: 6px; }
+.insight .opp { font-size: 11px; }
+
+@media (max-width: 359px) {
+  .screen { padding: 8px; }
+  .tiles { grid-template-columns: repeat(3, 1fr); }
+}

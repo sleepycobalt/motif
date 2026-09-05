@@ -48,6 +48,7 @@ from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, Header, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
@@ -120,6 +121,12 @@ def create_app(store: JobStore | None = None, *, max_file_mb: int | None = None,
     max_job = (max_job_mb or _env_int("MOTIF_MAX_JOB_MB", 64)) * 1_000_000
     app = FastAPI(title="Motif hosted engine", version="0.3.0", docs_url=None, redoc_url=None)
     app.state.store = store
+    # The Figma plugin's UI runs in a sandboxed iframe whose origin is "null", so the browser
+    # sends a CORS preflight for every call. The key travels in a request header, never a cookie,
+    # so allowing any origin exposes nothing that the caller did not already hold.
+    app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET", "POST"],
+                       allow_headers=["Content-Type", "X-Motif-Key", "Authorization", "Last-Event-ID"],
+                       expose_headers=["Content-Type"], max_age=600)
 
     def job_or_404(job_id: str):
         try:

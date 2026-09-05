@@ -1,0 +1,13 @@
+{
+  "name": "Motif",
+  "id": "1546218811003944207",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "editorType": ["figjam", "figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["https://motif-hosted.fly.dev"],
+    "reasoning": "Transcripts and the research question are sent to Motif's hosted engine, which runs the synthesis on the Anthropic key you supply and returns the result. Nothing is stored after the run."
+  }
+}

@@ -7,3 +7,4 @@ __pycache__/
 report.md
 dist/
 build/
+surfaces/figma/node_modules/

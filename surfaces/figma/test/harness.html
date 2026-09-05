@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Motif UI width harness</title>
+<style>
+  body { margin: 0; padding: 16px; background: #ddd; font: 12px system-ui, sans-serif; display: flex; gap: 24px; align-items: flex-start; }
+  figure { margin: 0; }
+  figcaption { margin-bottom: 6px; color: #333; }
+  iframe { border: 1px solid #999; background: #fff; display: block; }
+</style>
+</head>
+<body>
+<!-- Real viewports at plugin and phone widths. Open as:
+     harness.html?u=/surfaces/figma/dist/ui.html?files=...   (the ?harness flag is appended for you) -->
+<figure><figcaption>440 × 660 (plugin default)</figcaption><iframe id="f440" width="440" height="660"></iframe></figure>
+<figure><figcaption>375 × 667 (phone)</figcaption><iframe id="f375" width="375" height="667"></iframe></figure>
+<figure><figcaption>320 × 568 (smallest)</figcaption><iframe id="f320" width="320" height="568"></iframe></figure>
+<script>
+  const u = new URLSearchParams(location.search).get("u") || "/surfaces/figma/dist/ui.html";
+  const src = u + (u.includes("?") ? "&" : "?") + "harness=1";
+  for (const f of document.querySelectorAll("iframe")) f.src = src;
+</script>
+</body>
+</html>

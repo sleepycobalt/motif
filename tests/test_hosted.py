@@ -111,6 +111,15 @@ def test_synthesize_job_end_to_end(client, store):
     assert len(lines) == 2  # the last message and the end event
 
 
+def test_cors_preflight_for_the_plugin_iframe(client):
+    r = client.options("/v1/jobs", headers={"Origin": "null", "Access-Control-Request-Method": "POST",
+                                             "Access-Control-Request-Headers": "x-motif-key,content-type"})
+    assert r.status_code == 200 and r.headers["access-control-allow-origin"] == "*"
+    assert "x-motif-key" in r.headers["access-control-allow-headers"].lower()
+    r = client.get("/healthz", headers={"Origin": "null"})
+    assert r.headers["access-control-allow-origin"] == "*"
+
+
 def test_no_key_is_refused_and_paid_tier_is_off(client):
     r = client.post("/v1/jobs", json={"kind": "synthesize", "transcripts": TRANSCRIPTS})
     assert r.status_code == 403 and "X-Motif-Key" in r.json()["detail"]
