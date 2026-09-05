@@ -39,3 +39,8 @@ Next: Part 3 — hosted engine, plugin, board writer, listing.
 Tried: Read the plugin spec, the MCP spec, and CONTRIBUTING; propose architecture and build order before code.
 Happened: Proposal in `docs/specs/part3-build-plan.md`: one hosted job API over the unchanged engine, plugin free tier as its client with the user's key forwarded per job, board writer from the existing layout data, paid tier designed behind a flag. Found: per-request key needs a context-var client in `core/llm.py`; stickies are FigJam-only; credits need a Stripe-fed ledger.
 Next: Ruling on hosting, Design-editor timing, and payment rails; then stage 1 (hosted service, remote mode, offline tests, deploy).
+
+## 2026-09-04 — Part 3 stage 1 build (hosted engine)
+Tried: Per-context LLM client for BYOK, hosted job API (submit / SSE events / result / board / receipts / run record) with per-IP and size caps, credit ledger designed behind a flag, remote client and MCP remote mode rewired, offline tests, Fly config.
+Happened: 30 tests pass. The tests caught a privacy leak (redact mode kept response text, which quotes transcripts; fixed) and a run-id collision in the remote client. Fly CLI installed but needs the user's login; deploy and the live QA run are pending.
+Next: `fly auth login`, create app + volume, deploy, then the QA gate: MCP remote mode against the deployed service on the sample corpus; record numbers; then 0.3.0 to PyPI.

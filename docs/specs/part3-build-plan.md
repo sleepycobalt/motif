@@ -1,6 +1,6 @@
 # Part 3 build plan — hosted engine, Figma plugin, board writer, listing
 
-*Proposed 2026-09-04 from `docs/specs/motif-figma-plugin.md`, `docs/specs/motif-mcp-server.md`, and `CONTRIBUTING.md`. Status: awaiting ruling. Nothing below is built.*
+*Proposed 2026-09-04 from `docs/specs/motif-figma-plugin.md`, `docs/specs/motif-mcp-server.md`, and `CONTRIBUTING.md`. Status: approved 2026-09-04 (Fly.io; Design renderer at the end of stage 3; Stripe Checkout with an ETOT ledger, designed in stage 1, built when the prerequisites are dated; per-IP concurrency and per-job transcript size caps on the BYOK path; the listing icon comes from the Motif field thumbnail, supplied by the user). Stage 1 in progress.*
 
 ## The shape in one paragraph
 
@@ -58,7 +58,7 @@ GET /v1/jobs/{id}/board?columns=2&origin_x=0&origin_y=0   the dict `synth/board.
 POST /v1/jobs/{id}/receipts     {"turn_ids": [...]} -> same shape as `motif_receipts`
 ```
 
-Ingest runs server-side (python-docx is already a dependency), so the plugin never parses documents. Transcripts travel as base64 file bytes; a 15-file corpus is well under a megabyte.
+Ingest runs server-side (python-docx is already a dependency), so the plugin never parses documents. Transcripts travel as base64 file bytes. The sample corpus's `.docx` files are about 6 MB each because they embed fonts (the text inside totals 620 KB), so the caps are 12 MB per file and 64 MB per job, and stage 2 should consider extracting paragraphs in the plugin before upload.
 
 **Plugin (`surfaces/figma/`).** TypeScript, built with esbuild into `code.js` (main thread) and `ui.html` (iframe). No framework: the UI is a drop zone, a question field, a tier switch, a progress log, and one button. Manifest: `editorType: ["figjam", "figma"]`, `networkAccess.allowedDomains` set to the service host only, `documentAccess: "dynamic-page"`. The Anthropic key lives in `figma.clientStorage` and is read in `code.ts`, passed to the iframe only at submit time, and sent only in the request header to the service. `code.ts` owns the board writer; `ui.ts` owns the network. They talk over `postMessage` with a typed message set.
 

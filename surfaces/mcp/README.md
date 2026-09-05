@@ -127,13 +127,20 @@ report markdown in the reply, or read it from the run directory.
 
 ## Remote mode
 
-Set `MOTIF_REMOTE_URL` (and `MOTIF_REMOTE_TOKEN`) and the same five tools
-forward to the hosted Motif service instead of running the engine locally.
-The contract is in `remote.py`. In remote mode this server logs only run ids
-and timings; the hosted engine runs with the logger's `redact=True`, which
-stores prompt bodies as length + SHA-256 and does not snapshot corpora.
-**The hosted service is not live yet**; remote mode fails with a clear error
-until it is.
+Set `MOTIF_REMOTE_URL` and the same five tools forward to the hosted Motif
+service (`surfaces/hosted/`) instead of running the engine locally: no Python
+dependencies beyond the server itself, and the same results. Your
+`ANTHROPIC_API_KEY` is forwarded with each job and used for that job only.
+In remote mode a tool's `run_id` is the hosted job id, valid for an hour after
+the job finishes; `motif_receipts`, `motif_board`, and `motif_runs_get` take
+it. The hosted engine runs with the logger's `redact=True`: prompt and
+response bodies are stored as length + SHA-256, corpora are never snapshotted,
+and the job's uploads are deleted at expiry. `MOTIF_REMOTE_TOKEN` selects the
+paid tier, which is not switched on yet.
+
+```bash
+claude mcp add motif -e MOTIF_REMOTE_URL=https://motif-hosted.fly.dev -e ANTHROPIC_API_KEY=your-key-here -- motif-mcp
+```
 
 ## Board output through Figma's MCP server
 

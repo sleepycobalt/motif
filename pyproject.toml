@@ -17,11 +17,13 @@ dependencies = ["anthropic>=0.40", "python-dotenv", "pyyaml", "python-docx"]
 
 [project.optional-dependencies]
 mcp = ["mcp>=2,<3"]
-dev = ["pytest"]
+hosted = ["fastapi>=0.115", "uvicorn[standard]>=0.30"]
+dev = ["pytest", "httpx"]
 
 [project.scripts]
 motif = "synth.cli:main"
 motif-mcp = "surfaces.mcp.server:main"
+motif-hosted = "surfaces.hosted.app:main"
 
 [project.urls]
 Homepage = "https://etot.design"
@@ -33,7 +35,7 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["core", "synth", "surfaces", "surfaces.mcp"]
+packages = ["core", "synth", "surfaces", "surfaces.mcp", "surfaces.hosted"]
 
 [tool.setuptools.package-data]
 synth = ["synth.yaml"]

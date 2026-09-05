@@ -14,8 +14,10 @@ Environment:
     MOTIF_RUNS_DIR      where run logs go (default: runs/ in a checkout, else ~/.motif/runs)
     MOTIF_CONFIG        YAML config (default: the packaged synth.yaml, config/synth.yaml in a checkout)
     MOTIF_PROCESSED     fallback processed corpus for runs made before corpus snapshots
-    MOTIF_REMOTE_URL    switch to remote mode
-    ANTHROPIC_API_KEY   local mode only (also read from .env in the working directory)
+    MOTIF_REMOTE_URL    switch to remote mode: tools become calls to the hosted job API
+                        (surfaces/hosted); run_id then means the hosted job id
+    MOTIF_REMOTE_TOKEN  paid-tier bearer token for remote mode (otherwise the key below is forwarded)
+    ANTHROPIC_API_KEY   the key runs use (also read from .env in the working directory)
 """
 
 from __future__ import annotations
@@ -108,7 +110,8 @@ async def _in_thread(fn, *args, **kw):
         "max_iterations; B skips the critic; A is a single-prompt baseline. Takes minutes and spends API "
         "budget (about $2.50 for 15 transcripts). Returns the run id, the insights JSON, and the report "
         "markdown; full logs are under the run directory. Insights the critic still objected to when the "
-        "loop stopped are listed in 'contested'."
+        "loop stopped are listed in 'contested'. In remote mode (MOTIF_REMOTE_URL) the run id is the hosted job id, "
+        "valid for an hour after the job finishes."
     ),
 )
 async def motif_synthesize(
@@ -124,12 +127,8 @@ async def motif_synthesize(
     loop = asyncio.get_running_loop()
     emit = _emitter(ctx, loop)
     if REMOTE:
-        source = files or transcripts_dir
-        processed = await _in_thread(engine.ingest, source, None, None)
-        manifest = json.load(open(processed / "manifest.json"))
-        transcripts = [{"name": m["name"], "text": (processed / f"{m['name']}.txt").read_text()} for m in manifest]
-        return await _in_thread(remote.synthesize, transcripts, question=question, condition=condition,
-                                max_iterations=max_iterations)
+        return await _in_thread(remote.synthesize, files or transcripts_dir, question=question,
+                                condition=condition, max_iterations=max_iterations, emit=emit)
 
     source = files or transcripts_dir
     processed = await _in_thread(engine.ingest, source, None, emit)
@@ -181,7 +180,8 @@ async def motif_critique(
     emit = _emitter(ctx, loop)
     if REMOTE:
         return await _in_thread(remote.critique, insights=insights, document=document, run_id=run_id,
-                                transcripts_dir=transcripts_dir, question=question)
+                                source=transcripts_dir, transcripts=transcripts, question=question,
+                                structure_with_model=structure_with_model, emit=emit)
 
     processed, names = await _in_thread(_resolve_corpus, run_id, transcripts_dir, emit)
     names = transcripts or names
@@ -223,7 +223,9 @@ async def motif_receipts(
     loop = asyncio.get_running_loop()
     emit = _emitter(ctx, loop)
     if REMOTE:
-        return await _in_thread(remote.receipts, turn_ids=turn_ids, run_id=run_id)
+        if not run_id:
+            raise ToolFailure("in remote mode receipts need run_id (the hosted job id whose corpus to read)")
+        return await _in_thread(remote.receipts, run_id, turn_ids, transcripts)
     processed, names = await _in_thread(_resolve_corpus, run_id, transcripts_dir, emit)
     return await _in_thread(engine.receipts, turn_ids, processed, transcripts or names)
 
@@ -243,7 +245,7 @@ async def motif_runs_get(
     include: list[str] | None = None,
 ) -> dict[str, Any]:
     if REMOTE:
-        return await _in_thread(remote.get_run, run_id)
+        return await _in_thread(remote.get_run, run_id, include)
     inc = tuple(include) if include else ("meta", "notes", "iterations", "verdicts")
     inc = tuple(sorted(set(inc) | {"meta"}))
     return await _in_thread(engine.load_run, run_id, RUNS_ROOT, inc)
@@ -264,7 +266,7 @@ async def motif_runs_get(
 )
 async def motif_board(ctx: Context, run_id: str, columns: int = 2, origin_x: float = 0, origin_y: float = 0) -> dict[str, Any]:
     if REMOTE:
-        return await _in_thread(remote.get_run, run_id)
+        return await _in_thread(remote.board, run_id, max(1, columns), origin_x, origin_y)
     return await _in_thread(engine.board, run_id, RUNS_ROOT, max(1, columns), (origin_x, origin_y))
 
 

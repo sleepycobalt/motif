@@ -3,9 +3,11 @@ Thin Claude client. Every agent goes through `call` so that usage,
 latency, and raw prompts/responses are captured uniformly.
 """
 
+import contextvars
 import json
 import re
 import time
+from contextlib import contextmanager
 
 from anthropic import Anthropic
 
@@ -19,13 +21,36 @@ PRICES = {
 }
 
 _client = None
+# A client bound to the current context (thread or task). Set by `using_key` so a
+# hosted job runs on its caller's key; concurrent jobs with different keys never mix.
+_ctx_client: contextvars.ContextVar = contextvars.ContextVar("motif_anthropic_client", default=None)
 
 
 def client() -> Anthropic:
+    c = _ctx_client.get()
+    if c is not None:
+        return c
     global _client
     if _client is None:
         _client = Anthropic()
     return _client
+
+
+def has_context_key() -> bool:
+    return _ctx_client.get() is not None
+
+
+@contextmanager
+def using_key(api_key: str):
+    """Route every `call` inside the block through a client built from api_key.
+    The key lives only in that client object for the block's duration; it is never logged."""
+    if not api_key or not api_key.strip():
+        raise ValueError("empty API key")
+    token = _ctx_client.set(Anthropic(api_key=api_key.strip()))
+    try:
+        yield
+    finally:
+        _ctx_client.reset(token)
 
 
 def estimate_cost(model: str, in_tok: int, out_tok: int) -> float:

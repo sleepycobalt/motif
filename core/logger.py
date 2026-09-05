@@ -16,9 +16,9 @@ Progress lines go through `emit`. The default writes to stderr, never stdout:
 an MCP server on stdio transport owns stdout for the protocol, and one stray
 print corrupts the session. Surfaces pass their own emit (a notification, a UI).
 
-`redact=True` (remote mode) keeps token counts and timings but stores prompt
-bodies as length + SHA-256, and does not snapshot the corpus. Transcript
-content never lands on disk on a machine the user does not own.
+`redact=True` (hosted mode) keeps token counts and timings but stores prompt
+and response bodies as length + SHA-256, and does not snapshot the corpus.
+Transcript content never lands on disk on a machine the user does not own.
 """
 
 import hashlib
@@ -77,7 +77,11 @@ class RunLogger:
         self.totals["out_tok"] += result["out_tok"]
         self.totals["cost"] += result["cost"]
         if self.redact:
-            rec = {"label": label, "system": _digest(system), "user": _digest(user), **result}
+            # Prompts carry the transcripts and responses quote them; both become digests.
+            # Usage, timing, and stop reason stay: that is the metering record.
+            rec = {"label": label, "system": _digest(system), "user": _digest(user),
+                   **{k: v for k, v in result.items() if k not in ("text", "data")},
+                   "text": _digest(result.get("text") or "")}
         else:
             rec = {"label": label, "system": system, "user": user, **result}
         self._write(f"calls/{self.n_calls:03d}_{label}.json", rec)
