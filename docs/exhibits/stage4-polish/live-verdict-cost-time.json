@@ -1,0 +1,20 @@
+{
+  "job_id": "6R0hYQM-Rccnlk6Yj0STOHCq",
+  "run_id": "20260906-010935-critique-doc",
+  "document": "docs/exhibits/stage1-remote-qa/report.md (15 insights, pre-fix format)",
+  "cost_usd": 0.1546,
+  "wall_seconds": 88.4,
+  "n_claims": 15,
+  "n_fail": 3,
+  "n_warn": 0,
+  "source_format": "motif_markdown",
+  "by_rule": {
+    "unsupported": [
+      "I-01",
+      "I-02"
+    ],
+    "missing_counterexample": [
+      "I-08"
+    ]
+  }
+}
