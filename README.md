@@ -94,17 +94,17 @@ Everything a team might want to change lives in [`config/synth.yaml`](config/syn
 
 Tested on 15 real research interviews (University of Sheffield, CC-BY-NC) against a human-built ground truth of 16 themes and 12 traps, with blind scoring:
 
-| | Single prompt | Motif |
-|---|---|---|
-| Insights whose cited evidence doesn't support them | 1.7 of 4 checked | 0.7 |
-| Insights with overstated confidence | 1.3 | 0.7 |
-| Themes found | 75% | 69% |
-| Time | 4 min | 22 min |
-| Cost | $0.37 | $2.28 |
+| | Single prompt | Motif v2 | Motif v3 |
+|---|---|---|---|
+| Insights whose cited evidence doesn't support them | 1.7 of 4 checked | 0.7 | 0.0 |
+| Insights with overstated confidence | 1.3 | 0.7 | 0.0 |
+| Themes found | 75% | 69% | 88% |
+| Time | 4 min | 22 min | 25 min |
+| Cost | $0.37 | $2.28 | $2.51 |
 
-The loop makes fewer errors and finds slightly less. Its first version found much less (51%) — the critic only checked what was on the page, and the reviser's cheapest fix was deletion. A recall check that compares the report against the intake topic maps recovered most of the gap. Full results: [docs/eval1-results.md](docs/eval1-results.md), [docs/eval2-results.md](docs/eval2-results.md).
+The loop makes fewer errors and, since v3, finds more. Its first version found much less (51%) — the critic only checked what was on the page, and the reviser's cheapest fix was deletion. A recall check against the intake topic maps recovered most of that gap; a second check, which asks whether an already-cited turn contains a *second* finding nobody used, recovered the rest (3 of 3 runs, on the two themes that were missed in every report of the previous eval). Full results: [docs/eval1-results.md](docs/eval1-results.md), [docs/eval2-results.md](docs/eval2-results.md), [docs/eval3-results.md](docs/eval3-results.md).
 
-Known gaps: the critic still misses some dissent from outlier participants, and when a turn contains two findings the synthesis tends to extract only one.
+Known gaps: the loop never reaches `critic_pass` — 0 of 10 runs in Eval 3, at three rounds and at five — so it always stops on the iteration cap with objections outstanding; a newly added insight arrives without counter-evidence and the counter-evidence check does not revisit it; and the unsupported-evidence figure above is zero *in a fixed sample of four insights per report*, not zero outright.
 
 ## Repo layout
 

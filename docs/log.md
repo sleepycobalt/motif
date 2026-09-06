@@ -124,3 +124,9 @@ Next: User re-runs the synthesis and Build board in a fresh FigJam file and in a
 - tried: draft part 3 case-study copy from docs/part3-notes.md, matching part 2's structure and register
 - happened: docs/case-study/part3-draft.md written, nine sections plus ledger, nine [not in notes] brackets left open
 - next: fill the Community review outcome and the hosting invoice when they land; build session to place figures and port to motif-build-part3.py
+
+## 2026-09-06 — Eval 3 scored blind and written up
+- tried: score all ten blind reports R1→R10 against `docs/ground-truth.md` with the key and metrics closed, one report at a time for user review; then open `eval3/key.json`, join with `eval3/metrics.csv` and the run verdicts, and write `docs/eval3-results.md`.
+- happened: ten sheets in `eval3/scoring.md` with seven dated, user-ruled conventions applied identically from the point each was set. Theme sums R1 8.0, R2 10.5, R3 7.5, R4 10.5, R5 9.5, R6 10.0, R7 10.5, R8 11.0, R9 8.5, R10 10.5. Unsupported 0 of 40 spot-checks (fixed positions 1/4/7/10, rule set before scoring), miscalibrated 0 of 171 insights, one under-confidence (R6). Key: control R3/R6/R9, all-v3 R2/R4/R10, opus-critic R5/R8, cap5 R1/R7. Bars 1, 2, 3, 8, 9 pass; 4 and 5 pass unattributed (`duplicate_insight` never fired; control passed P-03 too); 6's rule says adopt on n=2; 7 says do not raise the cap; 10 not run. `second_finding` fired 25 times across the three all-v3 runs and named `david:0022` and `penni:0031` in iteration 1 of each — T-11 and T-15 went 0/3 to 3/3. `critic_pass` reached in 0 of 10 runs at both caps.
+- next: v4 items — hand a newly added insight to the counter-evidence search; count a source only when its turn carries the claim; a stopping rule the loop can reach; run bar 10's live pass; `confidence_threshold` scaling.
+
