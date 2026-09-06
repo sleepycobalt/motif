@@ -4,7 +4,7 @@ Copy for the Figma Community page as submitted on 2026-09-06 00:31 CDT under
 the ETOT team profile @etot, plugin id 1678295978273812914 (manifest, commit
 7cd99fd). Free tier only: the plugin runs on the user's own Anthropic key.
 Numbers are the plugin's own words or come from the files named in
-`docs/part3-notes.md`. Listing link: pending (to be recorded on approval).
+`docs/part3-notes.md`. Listing: https://www.figma.com/community/plugin/1678295978273812914
 
 ## Name
 
