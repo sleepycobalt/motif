@@ -109,3 +109,8 @@ Next: User re-runs the synthesis and Build board in a fresh FigJam file and in a
 - tried: publish flow in the Figma desktop app under @etot; listing copy, five tags, category, carousel, data-security answers, settings.
 - happened: submitted 00:31 CDT, plugin id 1678295978273812914 (second generated id, commit 7cd99fd); category is Design tools › Content generation since the spec's category does not exist; raw exhibits with chrome caught before submission and a no-raw-screenshots rule added to CONTRIBUTING and the plan; listing.md updated to what was submitted.
 - next: await review; record the listing link and outcome; Blossom comparable check; first installs and feedback into the notes per the spec's success criteria.
+
+## 2026-09-06 — history scrub of the raw stage-3 exhibits
+- tried: record pre-scrub HEAD; mirror backup; `git filter-repo --invert-paths` on `docs/exhibits/stage3-plugin/` in a fresh clone; cropped replacements with the same 22 names; user force-pushed; working checkout re-cloned with `.venv`, `runs/`, `.env`, and the plugin's `node_modules` copied across.
+- happened: folder absent from every commit of the new history; pack 43.47 → 24.22 MiB; origin main is `fcea463`; the fresh checkout at the same path runs 36 tests and the plugin typecheck clean with the copied venv; 32 run dirs intact. Old checkout kept at `~/opt/claude/agentic-loop/motif-old-2026-09-06`, mirror at `~/opt/claude/motif-mirror-backup-2026-09-06`, scrub clone at `~/opt/claude/motif-scrub`; none deleted.
+- next: delete the old checkout and the scrub clone once the user is satisfied; keep the mirror until the Community review is through; exhibits 01–22 are the cropped set from here on.
