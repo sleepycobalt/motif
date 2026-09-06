@@ -59,10 +59,12 @@ uploads, processed corpus, and the run's output files are deleted.
 
 - During a job and its TTL: the uploads and processed corpus, on the machine's
   scratch disk (never on the volume).
-- Permanently, on the volume: the redacted run record. Prompt and response
-  bodies are stored as length and SHA-256; token counts, timings, cost, stop
-  reason, the critic's verdict summaries, and notes remain. That is the
-  metering record, and it holds no transcript text.
+- For 30 days (`MOTIF_RETENTION_DAYS`), on the volume: the redacted run
+  record. Prompt and response bodies are stored as length and SHA-256; token
+  counts, timings, cost, stop reason, the critic's verdict summaries, and
+  notes remain. That is the metering record, and it holds no transcript text.
+  A retention sweep runs at startup and hourly and deletes records whose run
+  started more than 30 days ago.
 
 ## Caps (public path)
 

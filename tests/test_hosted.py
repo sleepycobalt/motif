@@ -220,6 +220,35 @@ def test_expiry_drops_corpus_and_run_content(tmp_path, monkeypatch):
     assert (run_dir / "meta.json").exists() and list((run_dir / "calls").glob("*.json"))
 
 
+def test_retention_sweep_removes_old_records_and_keeps_young(tmp_path):
+    """Records older than retention_days go, everything the hour sweep leaves behind included."""
+    from datetime import datetime, timedelta, timezone
+    runs = tmp_path / "runs"
+    def record(name, days_ago):
+        d = runs / name
+        (d / "calls").mkdir(parents=True)
+        (d / "iterations").mkdir()
+        (d / "calls" / "001_intake.json").write_text("{}")
+        (d / "iterations" / "00_produce.json").write_text("{}")
+        (d / "notes.txt").write_text("note\n")
+        started = (datetime.now(timezone.utc) - timedelta(days=days_ago)).isoformat()
+        (d / "meta.json").write_text(json.dumps({"run_id": name, "started": started, "redacted": True}))
+        return d
+    old = record("20260801-000000-C-hosted", 31)
+    young = record("20260904-000000-C-hosted", 1)
+    edge = record("20260806-000000-C-hosted", 29.9)
+    no_meta = runs / "junk-without-meta"; no_meta.mkdir(); (no_meta / "x").write_text("x")
+    os.utime(no_meta, (time.time() - 40 * 86400, time.time() - 40 * 86400))
+    store = JobStore(runs, retention_days=30, work_dir=str(tmp_path))   # sweeps on construction
+    assert not old.exists() and not no_meta.exists()
+    assert young.exists() and (young / "calls" / "001_intake.json").exists() and edge.exists()
+    # a second call within the hour is a no-op through sweep(); a direct call still works and is idempotent
+    assert store.sweep_records() == 0
+    client = TestClient(create_app(store))
+    h = client.get("/healthz").json()
+    assert h["retention_days"] == 30 and h["records_swept_at"] > 0
+
+
 # ------------------------------------------------------------------ credits
 
 def test_ledger_reserve_settle_refuse(tmp_path):

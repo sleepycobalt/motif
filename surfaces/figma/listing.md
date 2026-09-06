@@ -84,9 +84,10 @@ the processed transcripts only while the run is in progress and for one hour
 afterwards so the plugin can fetch receipts and the board layout, then deletes
 them. What remains on the engine is a redacted run record: token counts,
 timings, cost, and the critic's verdicts, with prompt and response bodies
-stored as lengths and hashes, never as text. This was checked on the live
-server, not just in code: see `docs/part3-notes.md`, 2026-09-05, "Privacy
-check on the volume itself". Your last result and its board layout stay on
+stored as lengths and hashes, never as text, and that record is deleted 30
+days after the run. This was checked on the live server, not just in code:
+see `docs/part3-notes.md`, 2026-09-05, "Privacy check on the volume itself"
+and the retention sweep entry. Your last result and its board layout stay on
 your device so you can build the board later.
 
 **What does a run cost?**

@@ -34,6 +34,7 @@ Environment:
     MOTIF_MAX_JOB_MB        per job, all files decoded (64)
     MOTIF_PAID_ENABLED      "1" to enable the credit tier (off)
     MOTIF_LEDGER            SQLite path for credits (/data/credits.db)
+    MOTIF_RETENTION_DAYS    days a redacted run record stays on the volume (30)
 """
 
 from __future__ import annotations
@@ -106,7 +107,8 @@ def store_from_env() -> JobStore:
                     per_ip_concurrent=_env_int("MOTIF_IP_CONCURRENT", 2),
                     per_ip_daily=_env_int("MOTIF_IP_DAILY", 20),
                     config_path=os.environ.get("MOTIF_CONFIG") or None,
-                    work_dir=os.environ.get("MOTIF_WORK_DIR") or None, ledger=ledger)
+                    work_dir=os.environ.get("MOTIF_WORK_DIR") or None, ledger=ledger,
+                    retention_days=float(os.environ.get("MOTIF_RETENTION_DAYS") or 30))
 
 
 def client_ip(request: Request) -> str:
@@ -136,7 +138,9 @@ def create_app(store: JobStore | None = None, *, max_file_mb: int | None = None,
 
     @app.get("/healthz")
     async def healthz() -> dict:
-        return {"ok": True, "paid_tier": store.ledger is not None, "jobs": len(store.jobs)}
+        store.sweep()
+        return {"ok": True, "paid_tier": store.ledger is not None, "jobs": len(store.jobs),
+                "retention_days": store.retention_days, "records_swept_at": store._records_swept_at}
 
     @app.post("/v1/jobs", status_code=202)
     async def submit(req: JobRequest, request: Request,

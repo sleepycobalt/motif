@@ -89,3 +89,8 @@ Next: User re-runs the synthesis and Build board in a fresh FigJam file and in a
 - tried: confirm commit `508975c` (other session) was complete and pushed; deploy the engine change it could not deploy; verify cost and time on a live critique pass; re-run the harness scan with the script.
 - happened: nothing redone; deployed; live critique returns cost $0.1546 and 88.4 s on 15 claims; harness scan 0 issues at three widths on four screens; post-fix critique pass cost re-read from the volume (0.1793 / 116.6 s).
 - next: icon at `surfaces/figma/listing/icon.png` with its source path; privacy page in an etot-site session; then the submission session. Not submitted.
+
+## 2026-09-05 — hosted engine: 30-day retention sweep
+- tried: sweep of redacted run records older than 30 days (startup + hourly), test with an old and a young record, deploy, plant a 67-day-old record on the live volume and confirm the startup sweep removes only it.
+- happened: 36 tests pass; live volume after deploy holds the 11 real records and not the planted one; `/healthz` reports the retention setting and the last sweep time; README and listing FAQ state the 30 days.
+- next: privacy page on etot.design can state "deleted 30 days after the run"; cover image; plugin id at first publish; then the submission session.

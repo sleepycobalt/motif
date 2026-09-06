@@ -15,7 +15,9 @@ What is kept where:
   - the run log: written by the engine under `runs_root` with redact=True
     (prompt bodies as digests, no corpus snapshot). At expiry the run's
     output files (insights and report, which quote the transcripts) are
-    removed too, leaving meta, notes, and per-call usage: the metering record.
+    removed too, leaving meta, notes, and per-call usage: the metering record,
+    which the retention sweep deletes `retention_days` (default 30) after the
+    run started.
 
 Silence is never approval: an empty synthesis, a missing verdict, a parse
 failure, or an exception ends the job as `failed` with the message.
@@ -24,6 +26,8 @@ failure, or an exception ends the job as `failed` with the message.
 from __future__ import annotations
 
 import contextlib
+import json
+import logging
 import os
 import re
 import secrets
@@ -33,12 +37,15 @@ import threading
 import time
 from collections import defaultdict
 from dataclasses import dataclass, field
+from datetime import datetime
 from pathlib import Path
 
 from core import llm
 from synth import engine
 from synth.ingest import EXTENSIONS
 from surfaces.hosted import credits
+
+log = logging.getLogger("motif.hosted.jobs")
 
 KINDS = ("synthesize", "critique")
 TERMINAL = ("done", "failed")
@@ -94,10 +101,13 @@ class Job:
 class JobStore:
     def __init__(self, runs_root: str | Path, *, ttl_seconds: int = 3600, per_ip_concurrent: int = 2,
                  per_ip_daily: int = 20, config_path: str | None = None, work_dir: str | None = None,
-                 ledger: credits.Ledger | None = None):
+                 ledger: credits.Ledger | None = None, retention_days: float = 30):
         self.runs_root = Path(runs_root)
         self.runs_root.mkdir(parents=True, exist_ok=True)
         self.ttl = ttl_seconds
+        self.retention_days = retention_days
+        self._records_swept_at = 0.0
+        self.sweep_records()
         self.per_ip_concurrent = per_ip_concurrent
         self.per_ip_daily = per_ip_daily
         self.config_path = config_path
@@ -251,9 +261,36 @@ class JobStore:
 
     # --------------------------------------------------------------- sweep
 
+    def sweep_records(self, now: float | None = None) -> int:
+        """Delete redacted run records older than `retention_days`: everything the hour sweep leaves
+        behind (meta.json, calls/, iterations/, notes.txt). Age is the run's `started` timestamp from
+        meta.json; a record with no readable meta falls back to its directory mtime. Returns the count."""
+        now = now if now is not None else time.time()
+        cutoff = now - self.retention_days * 86400
+        removed = 0
+        for d in sorted(self.runs_root.iterdir()) if self.runs_root.is_dir() else []:
+            if not d.is_dir():
+                continue
+            started = None
+            try:
+                meta = json.load(open(d / "meta.json", encoding="utf-8"))
+                started = datetime.fromisoformat(meta["started"]).timestamp()
+            except (OSError, ValueError, KeyError, TypeError):
+                started = d.stat().st_mtime
+            if started < cutoff:
+                shutil.rmtree(d, ignore_errors=True)
+                removed += 1
+        self._records_swept_at = now
+        if removed:
+            log.info("retention sweep: removed %d run record(s) older than %s days", removed, self.retention_days)
+        return removed
+
     def sweep_locked(self) -> int:
-        """Drop expired jobs: delete their scratch directory and the content files of their run."""
+        """Drop expired jobs: delete their scratch directory and the content files of their run.
+        Once an hour, also run the retention sweep over the run records on disk."""
         now = time.time()
+        if now - self._records_swept_at > 3600:
+            self.sweep_records(now)
         gone = [j for j in self.jobs.values() if j.finished and now - j.finished > self.ttl]
         for j in gone:
             del self.jobs[j.id]
