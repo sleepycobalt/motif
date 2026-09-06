@@ -94,3 +94,8 @@ Next: User re-runs the synthesis and Build board in a fresh FigJam file and in a
 - tried: sweep of redacted run records older than 30 days (startup + hourly), test with an old and a young record, deploy, plant a 67-day-old record on the live volume and confirm the startup sweep removes only it.
 - happened: 36 tests pass; live volume after deploy holds the 11 real records and not the planted one; `/healthz` reports the retention setting and the last sweep time; README and listing FAQ state the 30 days.
 - next: privacy page on etot.design can state "deleted 30 days after the run"; cover image; plugin id at first publish; then the submission session.
+
+## 2026-09-06 — listing: privacy URL
+- tried: fill the `[privacy URL]` placeholder in `surfaces/figma/listing.md` now that etot.design/privacy/ is live (etot-site 698104c).
+- happened: Links entry points at https://etot.design/privacy/; blocker 3 dropped from § Blockers before submission. `manifest.json` has no privacy field (the URL is a Community listing form field, recorded in listing.md), so it is unchanged.
+- next: cover image; plugin id at first publish; then the submission session.

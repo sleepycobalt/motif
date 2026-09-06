@@ -121,7 +121,7 @@ credits follows in a later release.
 - Case study: https://etot.design/tools/motif/case-study/ and https://ericfrye.info/ui/ux/motif
 - Source and method: https://github.com/sleepycobalt/motif (MIT)
 - Support: hello@etot.design (we reply within two working days)
-- Privacy policy: [privacy URL]
+- Privacy policy: https://etot.design/privacy/
 
 ## Tags
 
@@ -164,5 +164,6 @@ flag).
 
 1. Real plugin `id` in `manifest.json`, assigned by Figma at first publish.
 2. A 1920 × 960 cover (the icon is in place).
-3. Privacy policy page on etot.design; replace `[privacy URL]` above. Last
-   blocker: the page is an etot-site session.
+
+The privacy policy page is live at https://etot.design/privacy/ (etot-site
+698104c, 2026-09-06) and linked above; it is no longer a blocker.
