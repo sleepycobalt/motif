@@ -49,12 +49,13 @@ def fired(failures, rule):
 # --------------------------------------------------------------- the configs
 
 def test_control_is_the_frozen_instrument():
-    """control.yaml must be synth/synth.yaml as tagged; the other three differ only where stated."""
-    base = yaml.safe_load((ROOT / "synth" / "synth.yaml").read_text())
-    ctl = yaml.safe_load((CONFIGS / "control.yaml").read_text())
-    assert ctl == base
-    assert not ctl.get("features")
-    assert rules_of(ctl) == rules_of(base)
+    """control.yaml is the frozen v2.1-eval instrument; the other three configs differ from it only
+    where stated. It does not have to equal the live synth/synth.yaml: that file has since taken on
+    second_finding as its shipped default (docs/eval3-results.md, decided after this eval scored it),
+    so the two are expected to diverge. This test's job is to keep the four eval configs mutually
+    consistent with the frozen baseline, not to pin the live default to a historical tag."""
+    base = yaml.safe_load((CONFIGS / "control.yaml").read_text())
+    assert not base.get("features")
     for name, key, value in [("opus-critic", ("models", "critic"), "claude-opus-5"),
                              ("cap5", ("loop", "max_iterations"), 5)]:
         c = yaml.safe_load((CONFIGS / f"{name}.yaml").read_text())

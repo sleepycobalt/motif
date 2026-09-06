@@ -1,6 +1,6 @@
 [project]
 name = "etot-motif"
-version = "0.3.0"
+version = "0.4.0"
 description = "Motif: an agentic loop that turns interview transcripts into a cited, critic-checked research synthesis."
 readme = "README.md"
 license = "MIT"

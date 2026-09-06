@@ -121,7 +121,7 @@ def create_app(store: JobStore | None = None, *, max_file_mb: int | None = None,
     store = store or store_from_env()
     max_file = (max_file_mb or _env_int("MOTIF_MAX_FILE_MB", 12)) * 1_000_000
     max_job = (max_job_mb or _env_int("MOTIF_MAX_JOB_MB", 64)) * 1_000_000
-    app = FastAPI(title="Motif hosted engine", version="0.3.0", docs_url=None, redoc_url=None)
+    app = FastAPI(title="Motif hosted engine", version="0.4.0", docs_url=None, redoc_url=None)
     app.state.store = store
     # The Figma plugin's UI runs in a sandboxed iframe whose origin is "null", so the browser
     # sends a CORS preflight for every call. The key travels in a request header, never a cookie,
@@ -139,8 +139,9 @@ def create_app(store: JobStore | None = None, *, max_file_mb: int | None = None,
     @app.get("/healthz")
     async def healthz() -> dict:
         store.sweep()
-        return {"ok": True, "paid_tier": store.ledger is not None, "jobs": len(store.jobs),
-                "retention_days": store.retention_days, "records_swept_at": store._records_swept_at}
+        return {"ok": True, "version": app.version, "paid_tier": store.ledger is not None,
+                "jobs": len(store.jobs), "retention_days": store.retention_days,
+                "records_swept_at": store._records_swept_at}
 
     @app.post("/v1/jobs", status_code=202)
     async def submit(req: JobRequest, request: Request,

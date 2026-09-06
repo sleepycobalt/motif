@@ -59,6 +59,20 @@ critic:
         can add the insight. This rule checks the corpus, not the page: the
         synthesis must not lose findings in revision.
 
+    - id: second_finding
+      severity: warn
+      check: model
+      description: >
+        A turn already cited by some insight contains a SECOND, distinct finding that no insight
+        uses. Eval 2 found the model extracts one finding per turn and stops: two themes were
+        absent from every report while the turns carrying them were cited in every report for
+        something else. Work through the CITED TURNS list: for each, ask what else this turn says
+        that the synthesis has not used. Report with insight_id "*", name the finding in the
+        detail, and give the turn. Only report a finding that could stand as its own insight, not
+        a rephrasing of the insight that already cites the turn. Default since Eval 3
+        (docs/eval3-results.md): fired 25 times across 3 runs and closed the gap on both missed
+        themes, 0/3 to 3/3, with no coverage or precision cost measured.
+
     - id: silent_deletion
       severity: fail
       check: deterministic
@@ -124,3 +138,42 @@ critic:
         A cited turn ID does not exist in the corpus, or an insight has no
         evidence at all. (The sources list is derived in code from the
         evidence, so it is never checked — nothing to get wrong.)
+
+    - id: duplicate_receipt
+      severity: warn
+      check: deterministic
+      description: >
+        The same turn is cited more than once in one insight's evidence (or counter-evidence),
+        inflating the receipt count without adding evidence. Checked in code. Warn, not fail: the
+        claim is still supported, so this is padding to remove, not a claim to rewrite. Default
+        since Eval 3 (docs/eval3-results.md): fired 5 times across the all-v3 runs and every
+        instance was fixed before the final output.
+
+    - id: critic_citation
+      severity: warn
+      check: deterministic
+      description: >
+        The critic's own objections cite turns that are not usable evidence: a turn that does not
+        exist, or an interviewer turn. Checked in code after the verdict is produced; the turns are
+        removed from the objection before revision so the reviser is never sent to them, and the
+        strip is reported here. Default since Eval 3 (docs/eval3-results.md): caught the exact
+        failure it was written for and stripped it silently while still reporting it.
+
+    # ---- present, off by default: tested in Eval 3 (docs/eval3-results.md), not yet shipped ----
+    #
+    # - id: duplicate_insight        # "dedupe": flags near-duplicate insight pairs for the reviser
+    #   severity: warn               # to merge or differentiate. Never fired in any Eval 3 run at
+    #   check: deterministic         # this threshold, so it ships untested — uncomment to use it.
+    #   similarity_threshold: 0.55
+    #   description: >
+    #     Two insights state the same finding in different words. Checked in code by vocabulary
+    #     overlap on title and claim; the reviser must merge them or sharpen each so they state
+    #     different findings. Adding insights under pressure from missing_theme can over-split
+    #     (Eval 2, R4: I-03/I-06 and I-15/I-16).
+
+# Intake asks each participant's minority positions directly, and the critic receives that list as
+# its shortlist for missing_counterexample (see missing_counterexample above). Off by default: its
+# Eval 3 bar passed, but the control condition (without this feature) passed the same check at a
+# similar rate, so the improvement could not be attributed to it. Uncomment to re-test.
+# features:
+#   dissent_at_intake: true
