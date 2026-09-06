@@ -119,3 +119,8 @@ Next: User re-runs the synthesis and Build board in a fresh FigJam file and in a
 - tried: read the v3 spec, `docs/eval2-results.md`, CONTRIBUTING § Run the evaluation and every "v3 eval item" line; add items (a)–(d) to the change list; freeze and tag `v2.1-eval`; write pre-registered bars with their arithmetic; cost the run plan; build the changes config-switchable with offline tests on the real critic path.
 - happened: tag `v2.1-eval` = `3675228`, its "one deterministic change since Eval 2" claim verified against four paths. Four condition configs in `eval3/configs/` (control is the frozen instrument byte-for-byte). New: `second_finding` (model), `duplicate_insight`, `duplicate_receipt`, `critic_citation` (deterministic), `features.dissent_at_intake`, `features.report_unevaluated_sections`. 52 tests pass, 16 of them new. Plan A costs $38.49 against a $25–40 band, leaving less than one run of margin; Plan B is $30.80.
 - next: user's ruling on Plan A vs Plan B and on the bars; nothing is spent before it. Then the runs, the blind pack, and `docs/eval3-results.md`.
+
+## 2026-09-06
+- tried: draft part 3 case-study copy from docs/part3-notes.md, matching part 2's structure and register
+- happened: docs/case-study/part3-draft.md written, nine sections plus ledger, nine [not in notes] brackets left open
+- next: fill the Community review outcome and the hosting invoice when they land; build session to place figures and port to motif-build-part3.py
