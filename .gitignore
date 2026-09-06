@@ -8,3 +8,4 @@ report.md
 dist/
 build/
 surfaces/figma/node_modules/
+surfaces/figma/test/.board.mjs

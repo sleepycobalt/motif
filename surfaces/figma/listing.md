@@ -111,14 +111,16 @@ Not in the plugin. The rules are plain-language and live in the open-source
 engine's config; teams that run Motif from the repo can edit them.
 
 **Is there a paid version?**
-Not yet. Everything here runs on your own key.
+Not yet. Everything here runs on your own key. A paid tier with ETOT-provided
+credits follows in a later release.
 
 ## Links
 
 - Motif: https://etot.design/tools/motif/
 - Case study: https://etot.design/tools/motif/case-study/ and https://ericfrye.info/ui/ux/motif
 - Source and method: https://github.com/sleepycobalt/motif (MIT)
-- Support: etot.design@gmail.com
+- Support: hello@etot.design (we reply within two working days)
+- Privacy policy: [privacy URL]
 
 ## Tags
 
@@ -127,8 +129,10 @@ citations, evidence, affinity mapping, whiteboard
 
 ## Assets
 
-- Icon: the Motif field thumbnail, reduced (supplied by the user; path to be
-  recorded here when it arrives).
+- Icon: `surfaces/figma/listing/icon.png`, 128 × 128. Per ETOT's per-tool
+  identity rule each tool's icon is its own generated field, one colour, no
+  letterform; the monogram is reserved for the studio. Exported by the user
+  from the Motif field; source path: to be recorded when supplied.
 - Cover: the recorded run's I-09 section, `docs/exhibits/recorded-run/board-I-09-contested.png`
   (the spec's choice; from the 2026-09-04 recorded run, drawn through the MCP
   `motif_board` scripts, same layout as the plugin draws).
@@ -138,14 +142,25 @@ citations, evidence, affinity mapping, whiteboard
      board beside it if two boards are wanted in one frame).
   2. Contested section: `docs/exhibits/stage3-plugin/08-board-I-01-contested-zoom.png`.
   3. Plugin UI: `docs/exhibits/stage3-plugin/04-synthesis-result-before-board.png`.
-  4. Critique verdict: **needed from the user** — a post-fix Check-a-synthesis
-     result in the panel. `01-critique-verdict-prefix-panel-and-board.png` is
-     the pre-fix run (six `quote_mismatch` fails that no longer occur) and
-     must not be used.
+  4. Critique verdict: `docs/exhibits/stage3-plugin/21-critique-verdict-board-built.png`
+     (post-fix Check-a-synthesis on the live plugin path, 2026-09-05: FAIL,
+     16 claims, 2 fails, 0 warnings, board built beside the synthesis board).
+     `01-critique-verdict-prefix-panel-and-board.png` is the pre-fix run (six
+     `quote_mismatch` fails that no longer occur) and must not be used.
   Optional fifth: `docs/exhibits/stage3-plugin/14-design-board-built-overview.png`
   for Figma Design.
 
 ## Version notes (first release)
 
 Motif 0.3: synthesise transcripts, check a synthesis, build the board.
-FigJam and Figma Design. Bring your own Anthropic key.
+FigJam and Figma Design. Bring your own Anthropic key. The Credits control is
+hidden in this build; a paid tier with ETOT-provided credits follows in a
+later release (the code path stays behind the server's `MOTIF_PAID_ENABLED`
+flag).
+
+## Blockers before submission
+
+1. Real plugin `id` in `manifest.json`, assigned by Figma at first publish.
+2. Icon at `surfaces/figma/listing/icon.png` and a 1920 × 960 cover.
+3. Privacy policy page on etot.design; replace `[privacy URL]` above. Last
+   blocker: the page is an etot-site session.

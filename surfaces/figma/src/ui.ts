@@ -189,8 +189,18 @@ function setMode(m: Mode): void {
 
 function updateRun(): void {
   const haveFiles = files.some((f) => !f.error);
-  runBtn.disabled = mode === "critique" ? !(haveFiles && document_.value.trim().length > 20)
-    : !(haveFiles && question.value.trim().length > 0);
+  const haveText = document_.value.trim().length > 20;
+  const haveQuestion = question.value.trim().length > 0;
+  runBtn.disabled = mode === "critique" ? !(haveFiles && haveText) : !(haveFiles && haveQuestion);
+  // Say why the button is off, under it, rather than leave a disabled control unexplained.
+  const missing: string[] = [];
+  if (!haveFiles) missing.push(files.length ? "transcripts that can be read (see the note beside each file)"
+    : mode === "critique" ? "the transcripts the synthesis rests on" : "at least one transcript");
+  if (mode === "critique" && !haveText) missing.push("the synthesis to check, pasted above (a few sentences at least)");
+  if (mode !== "critique" && !haveQuestion) missing.push("the research question");
+  const why = $("run-why");
+  why.hidden = !runBtn.disabled || !missing.length;
+  why.textContent = missing.length ? `Needs ${missing.join(" and ")}.` : "";
 }
 
 drop.onclick = () => fileInput.click();
@@ -333,6 +343,8 @@ function renderResult(s: Stored): void {
     tile(String(r.insights.length), "claims");
     tile(String(r.summary.n_fail), "fails", r.summary.n_fail > 0);
     tile(String(r.summary.n_warn), "warnings");
+    tile(r.cost_usd != null ? `$${r.cost_usd.toFixed(2)}` : "–", "API cost");
+    tile(r.wall_seconds != null ? (r.wall_seconds / 60).toFixed(1) : "–", "minutes");
     const skipped = r.verdict.skipped_rules ?? [];
     const notes = (r.verdict.notes ?? "").replace(/\s*\[not checked:[^\]]*\]\s*$/i, "").trim();
     note.hidden = false;

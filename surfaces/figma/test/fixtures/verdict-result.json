@@ -399,5 +399,7 @@
     "unsupported"
    ]
   }
- }
+ },
+ "cost_usd": 0.4905,
+ "wall_seconds": 101.5
 }

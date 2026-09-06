@@ -85,6 +85,7 @@ export function cardText(layout: Layout): string {
   if (layout.kind === "verdict") {
     lines.push(`${c.pass ? "PASS" : "FAIL"}: ${c.fails ?? 0} fail(s), ${c.warns ?? 0} warning(s) on ${c.claims ?? layout.n_sections} claim(s)`);
     if (c.skipped_rules?.length) lines.push(`Not checked: ${c.skipped_rules.join(", ")}`);
+    if (cost || mins) lines.push([cost, mins].filter(Boolean).join(", "));
   } else {
     lines.push(`${c.insights ?? layout.n_sections} insights` + (c.contested?.length ? `, ${c.contested.length} contested: ${c.contested.join(", ")}` : ", none contested"));
     lines.push([c.condition ? `Condition ${c.condition}` : "", c.iterations != null ? `${c.iterations} round(s)` : "",

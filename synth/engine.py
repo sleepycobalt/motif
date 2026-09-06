@@ -201,7 +201,8 @@ def _critique(insights: list[dict], corpus: Corpus, cfg: dict, logger: RunLogger
     logger.finish({"insights": insights, "verdict": verdict, "source_format": source_format},
                   stop_reason=stop, iterations=1)
     return {"run_id": logger.run_id, "run_dir": str(logger.dir), "source_format": source_format,
-            "insights": insights, "verdict": verdict, "summary": summary}
+            "insights": insights, "verdict": verdict, "summary": summary,
+            "cost_usd": logger.meta.get("cost"), "wall_seconds": logger.meta.get("wall_seconds")}
 
 
 def summarise_verdict(verdict: dict) -> dict:

@@ -84,10 +84,12 @@
       <fieldset class="tiers">
         <legend class="visually-hidden">Tier</legend>
         <label class="tier"><input type="radio" name="tier" value="byok" checked> <span>Free · your key</span></label>
-        <label class="tier disabled"><input type="radio" name="tier" value="paid" disabled> <span>Credits · not yet</span></label>
+        <!-- Paid tier: hidden in the published build (ruling 2026-09-05); the code path stays behind the server's MOTIF_PAID_ENABLED flag. -->
+        <label class="tier disabled" hidden><input type="radio" name="tier" value="paid" disabled> <span>Credits · not yet</span></label>
       </fieldset>
       <p id="run-fine" class="fine"></p>
       <button id="run-btn" class="primary wide" disabled>Synthesise</button>
+      <p id="run-why" class="fine" aria-live="polite" hidden></p>
     </div>
   </section>
 

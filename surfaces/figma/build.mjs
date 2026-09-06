@@ -27,7 +27,9 @@ const uiJs = {
 function assembleUi(js) {
   const html = readFileSync("src/ui.html", "utf8");
   const css = readFileSync("src/ui.css", "utf8");
-  const out = html.replace("/*CSS*/", css).replace("/*JS*/", js.replaceAll("</script", "<\\/script"));
+  // Function replacers: a string replacement would read "$$" and "$&" in the code as
+  // replacement patterns (a `$${x}` template literal lost its dollar sign this way).
+  const out = html.replace("/*CSS*/", () => css).replace("/*JS*/", () => js.replaceAll("</script", "<\\/script"));
   writeFileSync("dist/ui.html", out);
   console.log(`dist/ui.html  ${(out.length / 1024).toFixed(1)}kb`);
 }

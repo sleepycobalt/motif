@@ -90,6 +90,10 @@ open "http://127.0.0.1:8788/surfaces/figma/dist/ui.html?demo=/docs/exhibits/stag
 The hooks after `?` only work outside Figma. `test/harness.html?u=<one of the URLs above>` frames
 the same page at 440, 375, and 320 px for the width check.
 
+## Support
+
+hello@etot.design — we reply within two working days.
+
 ## QA gate (from the spec)
 
 Install to run-start in a fresh FigJam file in under ten minutes on the free

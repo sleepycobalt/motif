@@ -26,6 +26,7 @@ export interface Failure { insight_id: string; rule: string; severity: "fail" | 
 
 export interface VerdictResult {
   run_id: string; source_format: string; insights: Insight[];
+  cost_usd?: number | null; wall_seconds?: number | null;
   verdict: { pass: boolean; failures: Failure[]; notes?: string; skipped_rules?: string[]; question_assumed?: boolean };
   summary: { pass: boolean; n_fail: number; n_warn: number; by_rule: Record<string, string[]>; by_insight: Record<string, string[]> };
 }
