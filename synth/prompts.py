@@ -59,6 +59,25 @@ Aim for 8-15 topics and 6-12 notable positions. Use exact turn IDs as they appea
 TRANSCRIPT:
 {transcript}"""
 
+# v3, features.dissent_at_intake. Same schema; "dissent_or_unusual" is asked for far more directly,
+# because in Eval 2 the critic missed Penni's pro-validation view in 5 of 6 reports even with profiles.
+INTAKE_USER_DISSENT = INTAKE_USER.replace(
+    """  "dissent_or_unusual": [
+    {{"point": "anything that seems to differ from what most researchers would say", "turn": "{name}:0040"}}
+  ]""",
+    """  "dissent_or_unusual": [
+    {{"point": "a position THIS person holds that most other researchers in this field would not: a view they
+               argue for while others reject it, a practice they defend, or a benefit they see where others see
+               only cost. State it as the position, not as a topic.", "turn": "{name}:0040",
+     "against": "what the majority view they are contradicting would say"}}
+  ]""",
+).replace(
+    "Aim for 8-15 topics and 6-12 notable positions.",
+    "Aim for 8-15 topics, 6-12 notable positions, and 2-5 entries under dissent_or_unusual — this participant\n"
+    "holds some minority position, and finding it is the point of this field. Do not return an empty list\n"
+    "without having looked for one.",
+)
+
 SYNTHESIS_SYSTEM = """You are a senior design researcher synthesising qualitative interviews.
 Your output will be used by a product design team to make decisions. Your standard is: every
 claim traceable to specific turns, confidence honest, dissent surfaced, opportunities concrete.
@@ -121,6 +140,15 @@ COVERAGE_BLOCK = """INTAKE TOPIC MAPS (one per transcript, from the intake agent
 PARTICIPANT PROFILES (use these for the missing_counterexample rule — look hardest at the participant
 whose sector, career stage, or method differs from the others):
 {profiles}
+"""
+
+# v3, features.dissent_at_intake: the same block plus the per-participant dissent list intake
+# collected. Kept as its own constant so the block above stays byte-identical when the feature is off.
+COVERAGE_BLOCK_DISSENT = COVERAGE_BLOCK + """
+POSITIONS EACH PARTICIPANT HOLDS THAT MOST OTHERS DO NOT (from the intake agent; this is the
+missing_counterexample rule's shortlist — for every claim, check this list before deciding that no
+counter-evidence exists, and cite the turn given here when one applies):
+{dissent}
 """
 
 REVISE_USER = """Research question: {question}

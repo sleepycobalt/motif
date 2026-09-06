@@ -54,7 +54,8 @@ def intake(corpus: Corpus, cfg: dict, logger) -> dict[str, dict]:
         r = llm.call(
             model=cfg["models"]["intake"],
             system=prompts.INTAKE_SYSTEM,
-            user=prompts.INTAKE_USER.format(name=name, profile=profile, transcript=corpus.text[name]),
+            user=(prompts.INTAKE_USER_DISSENT if cfg.get("features", {}).get("dissent_at_intake")
+                  else prompts.INTAKE_USER).format(name=name, profile=profile, transcript=corpus.text[name]),
             max_tokens=6000,
             logger=logger,
             label=f"intake_{name}",
@@ -167,6 +168,28 @@ def deterministic_checks(corpus: Corpus, insights: list[dict], rules: list[dict]
                     "turns": bad_ev,
                 })
 
+        if "duplicate_receipt" in by_id:
+            # v3 item (c). The same turn cited twice as two receipts inflates the evidence line
+            # without adding evidence (I-06/david:0026, 2026-09-05; R1's I-04 and I-11 in Eval 2).
+            # Warn, not fail: the claim is still supported, so a fail would send the reviser to
+            # rewrite a sound insight.
+            dupes = []
+            for field, ids in (("evidence", ev), ("counter_evidence", ce)):
+                seen, rep = set(), []
+                for t in ids:
+                    if t in seen and t not in rep:
+                        rep.append(t)
+                    seen.add(t)
+                dupes += [f"{field}: {t}" for t in rep]
+            if dupes:
+                failures.append({
+                    "insight_id": iid, "rule": "duplicate_receipt",
+                    "severity": by_id["duplicate_receipt"].get("severity", "warn"),
+                    "detail": "the same turn is cited more than once in one field (" + "; ".join(dupes)
+                              + "); keep one receipt per turn, or cite a different turn that adds evidence",
+                    "turns": [d.split(": ", 1)[1] for d in dupes][:4],
+                })
+
         if "confidence_threshold" in by_id:
             thr = by_id["confidence_threshold"]
             n_sources = len({corpus.transcript_of(t) for t in ev if corpus.has(t)})
@@ -198,7 +221,81 @@ def deterministic_checks(corpus: Corpus, insights: list[dict], rules: list[dict]
                               f"{ins.get('confidence')}; must be low and the claim must name the participant's context",
                     "turns": ev[:2],
                 })
+
+    if "duplicate_insight" in by_id:
+        failures += _duplicate_insights(insights, by_id["duplicate_insight"])
     return failures
+
+
+_STOP = {"the", "a", "an", "and", "or", "but", "of", "to", "in", "on", "for", "with", "as", "is",
+         "are", "was", "were", "be", "been", "that", "this", "it", "its", "their", "they", "them",
+         "from", "by", "at", "not", "no", "than", "then", "so", "if", "when", "what", "which", "who",
+         "can", "do", "does", "did", "have", "has", "had", "would", "could", "should", "more", "most",
+         "some", "any", "all", "own", "other", "others", "one", "two", "about", "into", "over"}
+
+
+def _bag(ins: dict) -> set:
+    words = _norm(f"{ins.get('title', '')} {ins.get('claim', '')}").split()
+    return {w for w in words if w not in _STOP and len(w) > 2}
+
+
+def _duplicate_insights(insights: list[dict], rule: dict) -> list[dict]:
+    """v3 `dedupe`. Flag insight pairs whose title+claim vocabulary overlaps above a threshold, so the
+    reviser merges or differentiates them. Jaccard over content words: symmetric, needs no model call,
+    and catches the R4 pattern (I-03/I-06, I-15/I-16) where missing_theme pressure over-split a finding."""
+    thr = float(rule.get("similarity_threshold", 0.55))
+    bags = [(ins, _bag(ins)) for ins in insights]
+    out = []
+    for i, (a, ba) in enumerate(bags):
+        for b, bb in bags[i + 1:]:
+            union = ba | bb
+            if not union:
+                continue
+            sim = len(ba & bb) / len(union)
+            if sim >= thr:
+                out.append({
+                    "insight_id": a.get("id", "?"), "rule": "duplicate_insight",
+                    "severity": rule.get("severity", "warn"),
+                    "detail": f"{a.get('id', '?')} and {b.get('id', '?')} overlap {sim:.0%} on their "
+                              f"title and claim vocabulary ({a.get('title', '')!r} vs {b.get('title', '')!r}); "
+                              f"merge them into one insight, or sharpen each so they state different findings",
+                    "turns": [],
+                })
+    return out
+
+
+def check_critic_turns(corpus: Corpus, failures: list[dict], rule: dict) -> tuple[list[dict], list[dict]]:
+    """v3 item (a). The critic's own `turns` lists never passed through the interviewer check, so a
+    model-judged failure could send the reviser to an interviewer turn (sam:0068 in
+    runs/20260904-165114-critique-doc). Run them through the same existence-and-interviewer check the
+    synthesis's citations get: a bad turn is removed from the failure, and one warn records the strip
+    so the critic's error is reported rather than hidden. Returns (cleaned failures, warnings)."""
+    cleaned, stripped = [], []
+    for f in failures:
+        turns = f.get("turns") or []
+        keep, bad = [], []
+        for t in turns:
+            if not isinstance(t, str):
+                bad.append(f"{t!r} (not a turn id)")
+            elif not corpus.has(t):
+                bad.append(f"{t} (no such turn)")
+            elif corpus.is_researcher(t):
+                bad.append(f"{t} (interviewer)")
+            else:
+                keep.append(t)
+        if bad:
+            stripped.append(f"{f.get('rule', '?')} on {f.get('insight_id', '?')}: " + ", ".join(bad))
+            f = {**f, "turns": keep}
+        cleaned.append(f)
+    warnings = []
+    if stripped:
+        warnings.append({
+            "insight_id": "*", "rule": "critic_citation", "severity": rule.get("severity", "warn"),
+            "detail": "the critic cited turns that are not usable evidence; they were removed from the "
+                      "objections above before revision: " + "; ".join(stripped),
+            "turns": [],
+        })
+    return cleaned, warnings
 
 
 def _profiles(intake_notes: dict | None) -> str:
@@ -216,6 +313,28 @@ def _topic_maps(intake_notes: dict | None) -> str:
             turns = ", ".join((t.get("turns") or [])[:3])
             out.append(f"- [{n}] {t.get('topic', '')}: {t.get('note', '')} ({turns})")
     return "\n".join(out)
+
+
+def _coverage_block(cfg: dict, intake_notes: dict | None) -> str:
+    if not intake_notes:
+        return ""
+    notes, profiles = _topic_maps(intake_notes), _profiles(intake_notes)
+    if cfg.get("features", {}).get("dissent_at_intake"):
+        return prompts.COVERAGE_BLOCK_DISSENT.format(notes=notes, profiles=profiles,
+                                                     dissent=_dissent(intake_notes))
+    return prompts.COVERAGE_BLOCK.format(notes=notes, profiles=profiles)
+
+
+def _dissent(intake_notes: dict | None) -> str:
+    """v3 `dissent_at_intake`: the per-participant minority positions, as the critic's shortlist."""
+    if not intake_notes:
+        return "(none)"
+    out = []
+    for n, v in intake_notes.items():
+        for d in v.get("dissent_or_unusual", []) or []:
+            against = f" — against the majority view that {d['against']}" if d.get("against") else ""
+            out.append(f"- [{n}] {d.get('point', '')} ({d.get('turn', '')}){against}")
+    return "\n".join(out) or "(none reported)"
 
 
 def critique(corpus: Corpus, cfg: dict, logger, question: str, insights: list[dict],
@@ -254,8 +373,7 @@ def critique(corpus: Corpus, cfg: dict, logger, question: str, insights: list[di
             system=prompts.CRITIC_SYSTEM.format(rules=rules_text),
             user=prompts.CRITIC_USER.format(
                 question=question, insights=_j(insights), cited=cited, transcripts=corpus.render_all(),
-                coverage_block=prompts.COVERAGE_BLOCK.format(
-                    notes=_topic_maps(intake_notes), profiles=_profiles(intake_notes)) if intake_notes else "",
+                coverage_block=_coverage_block(cfg, intake_notes),
             ),
             max_tokens=cfg["critic"].get("max_tokens", 32000),
             logger=logger,
@@ -276,7 +394,14 @@ def critique(corpus: Corpus, cfg: dict, logger, question: str, insights: list[di
                           "detail": "critic produced no parseable verdict after 2 attempts", "turns": []}],
             "notes": "critic error",
         }
-    failures = det + list(verdict.get("failures", []))
+    model_failures = list(verdict.get("failures", []))
+    if "critic_citation" in {r["id"] for r in rules}:
+        rule = next(r for r in rules if r["id"] == "critic_citation")
+        model_failures, critic_warnings = check_critic_turns(corpus, model_failures, rule)
+        if critic_warnings and logger:
+            logger.note(critic_warnings[0]["detail"])
+        model_failures += critic_warnings
+    failures = det + model_failures
     verdict["failures"] = failures
     verdict["pass"] = not any(f.get("severity", "fail") == "fail" for f in failures)
     return verdict

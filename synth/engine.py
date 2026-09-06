@@ -234,6 +234,13 @@ def critique(insights: list, processed_dir: str | Path, *, question: str | None 
 
 
 MOTIF_HEADING = re.compile(r"^## (?P<id>\S+) — (?P<title>.*?)\s*$", re.M)
+# v3 item (b): a document's recommendations section is reported as unevaluated, never structured into
+# claims. Structuring a recommendation as a claim would invent an evidence set the document never
+# offered, and the critic would then fail it under bad_citation — noise, not signal.
+ANY_HEADING = re.compile(r"^(?P<hashes>#{1,4})\s*(?P<text>.+?)\s*$", re.M)
+RECOMMENDATION_HEADING = re.compile(
+    r"^(key |design |product |our |the )?(opportunit|recommendation|next step|implication|"
+    r"what to do|suggested action|action)", re.I)
 TURN_ID = re.compile(r"\b[a-z0-9][a-z0-9-]*:\d{4}\b")
 RECEIPT = re.compile(r'^\s*receipt (\S+:\d{4}): "(.*)"\s*$', re.M)
 
@@ -273,6 +280,30 @@ def parse_motif_markdown(document: str) -> list[dict]:
             "opportunity": _field(body, "Opportunity"),
         })
     return insights
+
+
+def unevaluated_sections(document: str, insights: list[dict]) -> list[dict]:
+    """Headed sections of a pasted document that state recommendations and did not become claims.
+    Returned so the verdict can say what was not checked; `silence is never approval` applies to the
+    critic's own coverage as much as to the synthesis."""
+    heads = list(ANY_HEADING.finditer(document or ""))
+    known = {(i.get("id") or "").lower() for i in insights} | {(i.get("title") or "").lower() for i in insights}
+    out = []
+    for n, m in enumerate(heads):
+        text = m.group("text").strip()
+        if not RECOMMENDATION_HEADING.match(text):
+            continue
+        if text.lower() in known or any(text.lower().startswith(k) for k in known if k):
+            continue                                    # the structuring did turn it into a claim
+        end = heads[n + 1].start() if n + 1 < len(heads) else len(document)
+        body = document[m.end():end].strip()
+        if not body:
+            continue
+        items = [ln for ln in body.splitlines() if re.match(r"^\s*([-*+•]|\d+[.)])\s+", ln)]
+        out.append({"heading": text, "items": len(items) or None,
+                    "lines": len([ln for ln in body.splitlines() if ln.strip()]),
+                    "chars": len(body)})
+    return out
 
 
 def structure_document(document: str, corpus_names: list[str], *, cfg: dict, logger: RunLogger,
@@ -317,8 +348,25 @@ def critique_document(document: str, processed_dir: str | Path, *, question: str
     insights, fmt = structure_document(document, corpus.names, cfg=cfg, logger=logger,
                                        question=question, force_model=force_model)
     insights = _validate_insights(insights)
-    logger.record_iteration(0, {"stage": "structure", "source_format": fmt, "insights": insights})
-    return _critique(insights, corpus, cfg, logger, q, None, fmt, question is None)
+    unevaluated = (unevaluated_sections(document, insights)
+                   if cfg.get("features", {}).get("report_unevaluated_sections") else [])
+    if unevaluated:
+        logger.note("not evaluated (stated as recommendations, not claims with citations): "
+                    + "; ".join(u["heading"] for u in unevaluated))
+    logger.record_iteration(0, {"stage": "structure", "source_format": fmt, "insights": insights,
+                               "unevaluated_sections": unevaluated})
+    out = _critique(insights, corpus, cfg, logger, q, None, fmt, question is None)
+    if unevaluated:
+        out["unevaluated_sections"] = unevaluated
+        out["verdict"]["unevaluated_sections"] = unevaluated
+        note = ("Sections stated as recommendations were not evaluated: "
+                + "; ".join(f"{u['heading']}"
+                            + (f" ({u['items']} items)" if u["items"] else f" ({u['lines']} lines)")
+                            for u in unevaluated)
+                + ". They make no citations, so there is nothing to check them against; they are "
+                  "reported here rather than absorbed into the claims.")
+        out["verdict"]["notes"] = (out["verdict"].get("notes") or "") + " " + note
+    return out
 
 
 # ---------------------------------------------------------------- receipts
