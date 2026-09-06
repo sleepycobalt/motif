@@ -76,6 +76,7 @@ Another loop (design critique, accessibility audit) reuses `core/` unchanged: su
 - Every citation is a turn id (`name:0042`) plus a verbatim receipt. No exceptions.
 - Silence is never approval: a missing verdict, an empty result, or a parse failure is a hard failure.
 - Bad runs are evidence. Keep them (they're gitignored, not deleted).
+- Raw screenshots never leave the repo and never enter it. Every exhibit and every publication asset is cropped to the product surface (the plugin panel, the canvas, the dialog) and checked for personal information (menu bar, browser tabs, clock, avatar, file names) before it is saved. Publication assets live under `surfaces/figma/listing/` or `docs/figures/`. Rule added 2026-09-06 after raw exhibits with the menu bar, tabs, clock, and avatar were nearly submitted to the Community listing.
 - Log durable decisions in `docs/log.md`; things worth writing up in `docs/case-study-notes.md` (part 1) and `docs/part2-notes.md` (surfaces).
 
 ## Data

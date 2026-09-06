@@ -76,7 +76,7 @@ Ingest runs server-side (python-docx is already a dependency), so the plugin nev
 
 Status: accepted 2026-09-05 — see docs/part3-notes.md and docs/exhibits/stage3-plugin/.
 
-**Stage 4 — listing assets.** Icon, cover from the I-09 section, four screenshots (board overview, contested section, plugin UI, critique verdict), body copy and FAQ in the register of the best-performing listings, category Research / Whiteboarding. Submit for Community review. First 10 installs and 3 pieces of feedback logged in `docs/part3-notes.md`.
+**Stage 4 — listing assets.** QA gate for every asset, added 2026-09-06: cropped to the product surface and checked for personal information (menu bar, tabs, clock, avatar, file names) before it is saved; raw screenshots never enter the repo. Icon, cover from the I-09 section, four screenshots (board overview, contested section, plugin UI, critique verdict), body copy and FAQ in the register of the best-performing listings, category Research / Whiteboarding. Submit for Community review. First 10 installs and 3 pieces of feedback logged in `docs/part3-notes.md`.
 
 **After the prerequisites — switch on paid.** Entity and bank account, payment rails tested end to end with a real card in Stripe test mode and then one live purchase, support address and response time in the listing, terms and privacy published. Then `MOTIF_PAID_ENABLED=true`, and the first credit purchase logged.
 

@@ -104,3 +104,8 @@ Next: User re-runs the synthesis and Build board in a fresh FigJam file and in a
 - tried: stop the six-tile verdict row from orphaning "minutes" at 440 px; re-run the harness on the verdict (live fixture) and synthesis (stored-result fixture) screens at 440 / 375 / 320 with a new tiles-per-row check.
 - happened: flex-wrap at 30% basis gives 3 + 3 for six tiles at every width and 5 or 3 + 2 for five; 0 layout issues, 0 orphans; scan script extended and its output kept as an exhibit. Blossom noted as a comparable to check before the listing goes live.
 - next: user adds exhibit 22; publish flow in the Figma developer console; Blossom check.
+
+## 2026-09-06 — Motif submitted to Figma Community review
+- tried: publish flow in the Figma desktop app under @etot; listing copy, five tags, category, carousel, data-security answers, settings.
+- happened: submitted 00:31 CDT, plugin id 1678295978273812914 (second generated id, commit 7cd99fd); category is Design tools › Content generation since the spec's category does not exist; raw exhibits with chrome caught before submission and a no-raw-screenshots rule added to CONTRIBUTING and the plan; listing.md updated to what was submitted.
+- next: await review; record the listing link and outcome; Blossom comparable check; first installs and feedback into the notes per the spec's success criteria.

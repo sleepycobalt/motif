@@ -1,9 +1,10 @@
-# Motif — Figma Community listing (draft, not submitted)
+# Motif — Figma Community listing (submitted 2026-09-06, awaiting review)
 
-Copy for the Figma Community page. Free tier only: the plugin runs on the
-user's own Anthropic key. Numbers are the plugin's own words or come from the
-files named in `docs/part3-notes.md`. Review before submission; submission is
-a separate session.
+Copy for the Figma Community page as submitted on 2026-09-06 00:31 CDT under
+the ETOT team profile @etot, plugin id 1678295978273812914 (manifest, commit
+7cd99fd). Free tier only: the plugin runs on the user's own Anthropic key.
+Numbers are the plugin's own words or come from the files named in
+`docs/part3-notes.md`. Listing link: pending (to be recorded on approval).
 
 ## Name
 
@@ -15,7 +16,9 @@ Research synthesis that shows what survived.
 
 ## Category
 
-Research (primary) · Whiteboarding
+Design tools › Content generation. The spec's "Research / Whiteboarding" does
+not exist in Figma's plugin taxonomy (the Whiteboarding entries are
+templates); this is the nearest category offered.
 
 ## Editor types
 
@@ -123,10 +126,9 @@ credits follows in a later release.
 - Support: hello@etot.design (we reply within two working days)
 - Privacy policy: https://etot.design/privacy/
 
-## Tags
+## Tags (Figma caps at five)
 
-research, ux research, user interviews, synthesis, transcripts, qualitative,
-citations, evidence, affinity mapping, whiteboard
+ux research, research synthesis, user interviews, transcripts, affinity mapping
 
 ## Assets
 
@@ -142,19 +144,14 @@ citations, evidence, affinity mapping, whiteboard
   A screenshot-derived cover, not a canvas export: the boards were deleted
   before a canvas export was made. This replaces the spec's I-09 choice, whose
   only exhibit is the part-2 MCP-drawn board.
-- Screenshots, in order:
-  1. Board overview: `docs/exhibits/stage3-plugin/11-fresh-file-board-overview.png`
-     (the synthesis board alone on a fresh file; 06 also shows the verdict
-     board beside it if two boards are wanted in one frame).
-  2. Contested section: `docs/exhibits/stage3-plugin/08-board-I-01-contested-zoom.png`.
-  3. Plugin UI: `docs/exhibits/stage3-plugin/04-synthesis-result-before-board.png`.
-  4. Critique verdict: `docs/exhibits/stage3-plugin/21-critique-verdict-board-built.png`
-     (post-fix Check-a-synthesis on the live plugin path, 2026-09-05: FAIL,
-     16 claims, 2 fails, 0 warnings, board built beside the synthesis board).
-     `01-critique-verdict-prefix-panel-and-board.png` is the pre-fix run (six
-     `quote_mismatch` fails that no longer occur) and must not be used.
-  Optional fifth: `docs/exhibits/stage3-plugin/14-design-board-built-overview.png`
-  for Figma Design.
+- Thumbnail: `surfaces/figma/listing/cover.png` (above).
+- Carousel: `surfaces/figma/listing/carousel/01-board-overview.png`,
+  `02-sections.png`, `03-result-screen.png`, `04-verdict.png`,
+  `05-design-editor.png`, 1920 × 960 each, prepared by the hub from exhibits
+  `docs/exhibits/stage3-plugin/` 11, 12, 04, 21, and 14 by cropping to the
+  plugin panel and canvas and letterboxing on the canvas colour. The raw
+  exhibits carry the menu bar, browser tabs, clock, and avatar and are never
+  published as they are.
 
 ## Version notes (first release)
 
@@ -164,9 +161,30 @@ hidden in this build; a paid tier with ETOT-provided credits follows in a
 later release (the code path stays behind the server's `MOTIF_PAID_ENABLED`
 flag).
 
-## Blockers before submission
+## Data security (as answered in the publish form, 2026-09-06)
 
-1. Real plugin `id` in `manifest.json`, assigned by Figma at first publish.
+- Backend: a hosted backend that receives no plugin-API data (document
+  contents never leave Figma; the plugin sends only the user's uploaded
+  transcripts, question, and pasted text).
+- Network requests: only to `motif-hosted.fly.dev`.
+- User authentication: none.
+- Plugin-API data stored: none.
+- Team: solo developer.
+- Vulnerability process: no formal process yet; reports via GitHub issues or
+  hello@etot.design.
+- Accreditation: none.
+
+## Settings as submitted
+
+Comments on. Support contact hello@etot.design. Privacy policy
+https://etot.design/privacy/. Two-factor authentication required by Figma for
+publishing; the Figma session had to be restarted after enabling it.
+
+## Status
+
+Submitted 2026-09-06 00:31 CDT, awaiting review. The plugin id in
+`manifest.json` is the one Figma assigned at first publish (a first generated
+id was superseded; the second is in commit 7cd99fd).
 
 The privacy policy page is live at https://etot.design/privacy/ (etot-site
 698104c, 2026-09-06) and linked above; it is no longer a blocker.
