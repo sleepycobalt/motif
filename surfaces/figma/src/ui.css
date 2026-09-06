@@ -92,7 +92,9 @@ button:disabled { opacity: .5; cursor: default; }
   overflow: auto; max-height: 50vh; flex: 1 1 auto; min-height: 120px;
 }
 
-.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); gap: 6px; }
+.tiles { display: flex; flex-wrap: wrap; gap: 6px; }
+.tile { flex: 1 1 30%; }                       /* three per row: 6 -> 3 + 3, 5 -> 3 + 2, never a lone tile */
+@media (min-width: 420px) { .tiles[data-n="5"] .tile { flex-basis: 17%; } }   /* five fit on one row */
 .tile { background: var(--bg2); border-radius: var(--radius); padding: 8px 6px; display: flex; flex-direction: column; align-items: center; min-width: 0; }
 .tile.warn { background: var(--warn-bg); color: var(--warn-fg); }
 .tile .num { font-size: 18px; font-weight: 600; line-height: 1.2; }
@@ -117,5 +119,4 @@ button:disabled { opacity: .5; cursor: default; }
 
 @media (max-width: 359px) {
   .screen { padding: 8px; }
-  .tiles { grid-template-columns: repeat(3, 1fr); }
 }

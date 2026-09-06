@@ -1,0 +1,263 @@
+{
+ "critique-form-no-transcripts-reason": {
+  "440": {
+   "ok": true,
+   "vw": 440,
+   "scrollWidth": 440,
+   "clientWidth": 440,
+   "pageScrollX": 0,
+   "bodyScrollWidth": 440,
+   "over": [],
+   "run_why": "Needs the transcripts the synthesis rests on.",
+   "tiles": [],
+   "tile_rows": [],
+   "orphan": false
+  },
+  "375": {
+   "ok": true,
+   "vw": 375,
+   "scrollWidth": 375,
+   "clientWidth": 375,
+   "pageScrollX": 0,
+   "bodyScrollWidth": 375,
+   "over": [],
+   "run_why": "Needs the transcripts the synthesis rests on.",
+   "tiles": [],
+   "tile_rows": [],
+   "orphan": false
+  },
+  "320": {
+   "ok": true,
+   "vw": 320,
+   "scrollWidth": 320,
+   "clientWidth": 320,
+   "pageScrollX": 0,
+   "bodyScrollWidth": 320,
+   "over": [],
+   "run_why": "Needs the transcripts the synthesis rests on.",
+   "tiles": [],
+   "tile_rows": [],
+   "orphan": false
+  }
+ },
+ "critique-form-no-text-reason": {
+  "440": {
+   "ok": true,
+   "vw": 440,
+   "scrollWidth": 440,
+   "clientWidth": 440,
+   "pageScrollX": 0,
+   "bodyScrollWidth": 440,
+   "over": [],
+   "run_why": "Needs the synthesis to check, pasted above (a few sentences at least).",
+   "tiles": [],
+   "tile_rows": [],
+   "orphan": false
+  },
+  "375": {
+   "ok": true,
+   "vw": 375,
+   "scrollWidth": 375,
+   "clientWidth": 375,
+   "pageScrollX": 0,
+   "bodyScrollWidth": 375,
+   "over": [],
+   "run_why": "Needs the synthesis to check, pasted above (a few sentences at least).",
+   "tiles": [],
+   "tile_rows": [],
+   "orphan": false
+  },
+  "320": {
+   "ok": true,
+   "vw": 320,
+   "scrollWidth": 320,
+   "clientWidth": 320,
+   "pageScrollX": 0,
+   "bodyScrollWidth": 320,
+   "over": [],
+   "run_why": "Needs the synthesis to check, pasted above (a few sentences at least).",
+   "tiles": [],
+   "tile_rows": [],
+   "orphan": false
+  }
+ },
+ "synth-form-no-transcripts-reason": {
+  "440": {
+   "ok": true,
+   "vw": 440,
+   "scrollWidth": 440,
+   "clientWidth": 440,
+   "pageScrollX": 0,
+   "bodyScrollWidth": 440,
+   "over": [],
+   "run_why": "Needs at least one transcript.",
+   "tiles": [],
+   "tile_rows": [],
+   "orphan": false
+  },
+  "375": {
+   "ok": true,
+   "vw": 375,
+   "scrollWidth": 375,
+   "clientWidth": 375,
+   "pageScrollX": 0,
+   "bodyScrollWidth": 375,
+   "over": [],
+   "run_why": "Needs at least one transcript.",
+   "tiles": [],
+   "tile_rows": [],
+   "orphan": false
+  },
+  "320": {
+   "ok": true,
+   "vw": 320,
+   "scrollWidth": 320,
+   "clientWidth": 320,
+   "pageScrollX": 0,
+   "bodyScrollWidth": 320,
+   "over": [],
+   "run_why": "Needs at least one transcript.",
+   "tiles": [],
+   "tile_rows": [],
+   "orphan": false
+  }
+ },
+ "verdict-cost-time-tiles": {
+  "440": {
+   "ok": true,
+   "vw": 440,
+   "scrollWidth": 440,
+   "clientWidth": 440,
+   "pageScrollX": 0,
+   "bodyScrollWidth": 440,
+   "over": [],
+   "run_why": "Needs at least one transcript and the research question.",
+   "tiles": [
+    "FAILverdict",
+    "9claims",
+    "21fails",
+    "2warnings",
+    "$0.49API cost",
+    "1.7minutes"
+   ],
+   "tile_rows": [
+    3,
+    3
+   ],
+   "orphan": false
+  },
+  "375": {
+   "ok": true,
+   "vw": 375,
+   "scrollWidth": 375,
+   "clientWidth": 375,
+   "pageScrollX": 0,
+   "bodyScrollWidth": 375,
+   "over": [],
+   "run_why": "Needs at least one transcript and the research question.",
+   "tiles": [
+    "FAILverdict",
+    "9claims",
+    "21fails",
+    "2warnings",
+    "$0.49API cost",
+    "1.7minutes"
+   ],
+   "tile_rows": [
+    3,
+    3
+   ],
+   "orphan": false
+  },
+  "320": {
+   "ok": true,
+   "vw": 320,
+   "scrollWidth": 320,
+   "clientWidth": 320,
+   "pageScrollX": 0,
+   "bodyScrollWidth": 320,
+   "over": [],
+   "run_why": "Needs at least one transcript and the research question.",
+   "tiles": [
+    "FAILverdict",
+    "9claims",
+    "21fails",
+    "2warnings",
+    "$0.49API cost",
+    "1.7minutes"
+   ],
+   "tile_rows": [
+    3,
+    3
+   ],
+   "orphan": false
+  }
+ },
+ "synthesis-result-tiles": {
+  "440": {
+   "ok": true,
+   "vw": 440,
+   "scrollWidth": 440,
+   "clientWidth": 440,
+   "pageScrollX": 0,
+   "bodyScrollWidth": 440,
+   "over": [],
+   "run_why": "Needs at least one transcript and the research question.",
+   "tiles": [
+    "15insights",
+    "3contested",
+    "3rounds",
+    "$1.14API cost",
+    "12.0minutes"
+   ],
+   "tile_rows": [
+    5
+   ],
+   "orphan": false
+  },
+  "375": {
+   "ok": true,
+   "vw": 375,
+   "scrollWidth": 375,
+   "clientWidth": 375,
+   "pageScrollX": 0,
+   "bodyScrollWidth": 375,
+   "over": [],
+   "run_why": "Needs at least one transcript and the research question.",
+   "tiles": [
+    "15insights",
+    "3contested",
+    "3rounds",
+    "$1.14API cost",
+    "12.0minutes"
+   ],
+   "tile_rows": [
+    3,
+    2
+   ],
+   "orphan": false
+  },
+  "320": {
+   "ok": true,
+   "vw": 320,
+   "scrollWidth": 320,
+   "clientWidth": 320,
+   "pageScrollX": 0,
+   "bodyScrollWidth": 320,
+   "over": [],
+   "run_why": "Needs at least one transcript and the research question.",
+   "tiles": [
+    "15insights",
+    "3contested",
+    "3rounds",
+    "$1.14API cost",
+    "12.0minutes"
+   ],
+   "tile_rows": [
+    3,
+    2
+   ],
+   "orphan": false
+  }
+ }
+}

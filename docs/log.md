@@ -99,3 +99,8 @@ Next: User re-runs the synthesis and Build board in a fresh FigJam file and in a
 - tried: fill the `[privacy URL]` placeholder in `surfaces/figma/listing.md` now that etot.design/privacy/ is live (etot-site 698104c).
 - happened: Links entry points at https://etot.design/privacy/; blocker 3 dropped from § Blockers before submission. `manifest.json` has no privacy field (the URL is a Community listing form field, recorded in listing.md), so it is unchanged.
 - next: cover image; plugin id at first publish; then the submission session.
+
+## 2026-09-05 — verdict tiles re-wrap
+- tried: stop the six-tile verdict row from orphaning "minutes" at 440 px; re-run the harness on the verdict (live fixture) and synthesis (stored-result fixture) screens at 440 / 375 / 320 with a new tiles-per-row check.
+- happened: flex-wrap at 30% basis gives 3 + 3 for six tiles at every width and 5 or 3 + 2 for five; 0 layout issues, 0 orphans; scan script extended and its output kept as an exhibit. Blossom noted as a comparable to check before the listing goes live.
+- next: user adds exhibit 22; publish flow in the Figma developer console; Blossom check.

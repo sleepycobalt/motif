@@ -80,6 +80,13 @@ def screens():
         page.fill("#question", "What frustrates users about onboarding?")
         page.wait_for_selector("#run-why:not([hidden])")
 
+    def synthesis(page):
+        """The stored-result fixture (a synthesis result with five tiles) opened from client storage."""
+        key(page)
+        page.evaluate("async () => { const s = await (await fetch('/surfaces/figma/test/fixtures/stored-result.json')).json(); localStorage.setItem('last_result', JSON.stringify(s)); }")
+        page.reload()
+        page.wait_for_function("document.querySelectorAll('#tiles .tile').length === 5")
+
     def verdict(page):
         key(page)
         page.goto(base + f"?harness=1&demo={FIX}&layout={LAY}&n=2")
@@ -91,6 +98,7 @@ def screens():
         "critique-form-no-text-reason": (base + "?harness=1", critique_files_no_text),
         "synth-form-no-transcripts-reason": (base + "?harness=1", synth_no_files),
         "verdict-cost-time-tiles": (base + "?harness=1", verdict),
+        "synthesis-result-tiles": (base + "?harness=1", synthesis),
     }
 
 
@@ -120,9 +128,14 @@ def main(out_dir: Path) -> int:
                 scan = page.evaluate(SCAN_JS)
                 why = page.evaluate("() => { const e = document.getElementById('run-why'); return e && !e.hidden ? e.textContent : null; }")
                 tiles = page.evaluate("() => [...document.querySelectorAll('#tiles .tile')].map(t => t.textContent.trim().replace(/\\s+/g,' '))")
+                # tiles per row, by top edge; a row holding a single tile while others hold more is an orphan
+                rows = page.evaluate("() => { const ys = {}; for (const t of document.querySelectorAll('#tiles .tile')) { const y = Math.round(t.getBoundingClientRect().top); ys[y] = (ys[y] || 0) + 1; } return Object.keys(ys).sort((a, b) => a - b).map(k => ys[k]); }")
+                orphan = len(rows) > 1 and min(rows) == 1
+                if orphan:
+                    ok = False
                 ok = scan["scrollWidth"] <= scan["clientWidth"] and scan["pageScrollX"] == 0 and not scan["over"]
                 issues += 0 if ok else 1
-                report[name][str(w)] = {"ok": ok, **scan, "run_why": why, "tiles": tiles}
+                report[name][str(w)] = {"ok": ok, **scan, "run_why": why, "tiles": tiles, "tile_rows": rows, "orphan": orphan}
                 shot = out_dir / f"_{name}-{w}.png"
                 page.screenshot(path=str(shot), full_page=False)
                 shots.append(shot)
@@ -146,7 +159,7 @@ def main(out_dir: Path) -> int:
         print(f"{name:40s} {line}")
         for w, v in r.items():
             if v["run_why"]: print(f"    {w}: run-why = {v['run_why']}")
-            if v["tiles"]: print(f"    {w}: tiles = {v['tiles']}")
+            if v["tiles"]: print(f"    {w}: tiles = {v['tiles']}  rows = {v['tile_rows']}{'  ORPHAN' if v['orphan'] else ''}")
             if v["over"]: print(f"    {w}: overflow {v['over']}")
     print(f"{issues} layout issue(s)")
     return 1 if issues else 0

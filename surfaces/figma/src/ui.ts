@@ -368,6 +368,7 @@ function renderResult(s: Stored): void {
     }
   }
   if (!isVerdict(r)) $("critic-notes").hidden = true;
+  tiles.dataset.n = String(tiles.children.length);
   const bb = $<HTMLButtonElement>("build-board");
   bb.disabled = !s.layout;
   bb.textContent = s.layout ? (inFigma ? "Build board" : "Build board (harness: acknowledged only)") : "Board layout unavailable";
