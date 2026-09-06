@@ -1,0 +1,21 @@
+run 20260906-193549-C-e3-allv32: condition C, 5 transcripts, 33,870 words
+[intake_michelle] claude-haiku-4-5-20251001  8640→2289 tok  26.43s  $0.0201
+[intake_david] claude-haiku-4-5-20251001  8922→2474 tok  29.61s  $0.0213
+[intake_bruce] claude-haiku-4-5-20251001  9107→2632 tok  31.76s  $0.0223
+[intake_stephen] claude-haiku-4-5-20251001  11239→2442 tok  31.44s  $0.0234
+[intake_penni] claude-haiku-4-5-20251001  13990→2987 tok  35.81s  $0.0289
+[synthesis] claude-sonnet-5  79741→20309 tok  187.88s  $0.3626
+· deterministic checks: 2 failure(s)
+[critic] claude-sonnet-5  90600→16990 tok  180.95s  $0.3511
+· the critic cited turns that are not usable evidence; they were removed from the objections above before revision: unsupported on I-04: bruce:0026 (interviewer); missing_theme on *: michelle:0073 (interviewer), david:0049 (interviewer), bruce:0042 (interviewer)
+· iteration 1: 10 failure(s), pass=False
+[revise] claude-sonnet-5  72839→14198 tok  126.85s  $0.2877
+· deterministic checks: 2 failure(s)
+[critic] claude-sonnet-5  95084→20970 tok  234.48s  $0.3999
+· iteration 2: 7 failure(s), pass=False
+[revise] claude-sonnet-5  73997→16547 tok  153.43s  $0.3135
+· deterministic checks: 0 failure(s)
+[critic] claude-sonnet-5  95730→28708 tok  307.04s  $0.4785
+· iteration 3: 9 failure(s), pass=False
+run 20260906-193549-C-e3-allv32: 3 iteration(s), stop=max_iterations, 1345.9s, 559,889→130,546 tok, $2.3092
+19 insights -> runs/20260906-193549-C-e3-allv32/output.md

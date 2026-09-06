@@ -1,0 +1,22 @@
+run 20260906-193549-C-e3-allv31: condition C, 5 transcripts, 33,870 words
+[intake_michelle] claude-haiku-4-5-20251001  8640→2267 tok  26.32s  $0.0200
+[intake_david] claude-haiku-4-5-20251001  8922→2253 tok  26.85s  $0.0202
+[intake_bruce] claude-haiku-4-5-20251001  9107→2514 tok  30.14s  $0.0217
+[intake_stephen] claude-haiku-4-5-20251001  11239→2629 tok  32.14s  $0.0244
+[intake_penni] claude-haiku-4-5-20251001  13990→2254 tok  27.1s  $0.0253
+[synthesis] claude-sonnet-5  82315→21849 tok  201.61s  $0.3831
+· deterministic checks: 0 failure(s)
+[critic] claude-sonnet-5  91305→16864 tok  174.8s  $0.3513
+· iteration 1: 6 failure(s), pass=False
+[revise] claude-sonnet-5  72953→15818 tok  141.02s  $0.3041
+· deterministic checks: 2 failure(s)
+[critic] claude-sonnet-5  93614→32000 tok  343.14s  $0.5072
+· critic attempt 1 returned no verdict (stop=max_tokens, blocks=['thinking', 'text'], err=Unterminated string starting at: line 47 column 12 (char 4313))
+[critic_attempt2] claude-sonnet-5  93614→25548 tok  278.28s  $0.4427
+· iteration 2: 10 failure(s), pass=False
+[revise] claude-sonnet-5  75324→15294 tok  138.22s  $0.3036
+· deterministic checks: 0 failure(s)
+[critic] claude-sonnet-5  95181→25319 tok  279.11s  $0.4436
+· iteration 3: 3 failure(s), pass=False
+run 20260906-193549-C-e3-allv31: 3 iteration(s), stop=max_iterations, 1698.9s, 656,204→164,609 tok, $2.847
+21 insights -> runs/20260906-193549-C-e3-allv31/output.md

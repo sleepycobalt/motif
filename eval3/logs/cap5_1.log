@@ -1,0 +1,28 @@
+run 20260906-203138-C-e3-cap51: condition C, 5 transcripts, 33,870 words
+[intake_michelle] claude-haiku-4-5-20251001  8533→2179 tok  24.8s  $0.0194
+[intake_david] claude-haiku-4-5-20251001  8815→1867 tok  22.22s  $0.0181
+[intake_bruce] claude-haiku-4-5-20251001  9000→2366 tok  28.07s  $0.0208
+[intake_stephen] claude-haiku-4-5-20251001  11132→2232 tok  27.77s  $0.0223
+[intake_penni] claude-haiku-4-5-20251001  13883→2475 tok  29.41s  $0.0263
+[synthesis] claude-sonnet-5  80994→16529 tok  160.49s  $0.3273
+· deterministic checks: 2 failure(s)
+[critic] claude-sonnet-5  90273→15972 tok  171.43s  $0.3403
+· iteration 1: 8 failure(s), pass=False
+[revise] claude-sonnet-5  72997→10535 tok  92.65s  $0.2513
+· deterministic checks: 1 failure(s)
+[critic] claude-sonnet-5  90508→17677 tok  196.28s  $0.3578
+· iteration 2: 4 failure(s), pass=False
+[revise] claude-sonnet-5  72897→12332 tok  106.13s  $0.2691
+· deterministic checks: 0 failure(s)
+[critic] claude-sonnet-5  91197→18208 tok  198.71s  $0.3645
+· iteration 3: 3 failure(s), pass=False
+[revise] claude-sonnet-5  73504→10170 tok  88.97s  $0.2487
+· deterministic checks: 0 failure(s)
+[critic] claude-sonnet-5  91601→16709 tok  189.81s  $0.3503
+· iteration 4: 2 failure(s), pass=False
+[revise] claude-sonnet-5  73452→9113 tok  74.52s  $0.2380
+· deterministic checks: 0 failure(s)
+[critic] claude-sonnet-5  93189→21171 tok  237.59s  $0.3981
+· iteration 5: 4 failure(s), pass=False
+run 20260906-203138-C-e3-cap51: 5 iteration(s), stop=max_iterations, 1649.0s, 881,975→159,535 tok, $3.2523
+15 insights -> runs/20260906-203138-C-e3-cap51/output.md

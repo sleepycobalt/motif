@@ -1,0 +1,20 @@
+run 20260906-193549-C-e3-allv33: condition C, 5 transcripts, 33,870 words
+[intake_michelle] claude-haiku-4-5-20251001  8640→2164 tok  25.41s  $0.0195
+[intake_david] claude-haiku-4-5-20251001  8922→2338 tok  28.45s  $0.0206
+[intake_bruce] claude-haiku-4-5-20251001  9107→2303 tok  28.08s  $0.0206
+[intake_stephen] claude-haiku-4-5-20251001  11239→2163 tok  26.66s  $0.0221
+[intake_penni] claude-haiku-4-5-20251001  13990→2613 tok  32.05s  $0.0271
+[synthesis] claude-sonnet-5  81696→21716 tok  209.47s  $0.3806
+· deterministic checks: 0 failure(s)
+[critic] claude-sonnet-5  89792→21832 tok  233.57s  $0.3979
+· iteration 1: 10 failure(s), pass=False
+[revise] claude-sonnet-5  72896→17421 tok  161.64s  $0.3200
+· deterministic checks: 3 failure(s)
+[critic] claude-sonnet-5  94473→20927 tok  228.7s  $0.3982
+· iteration 2: 8 failure(s), pass=False
+[revise] claude-sonnet-5  74875→14067 tok  129.25s  $0.2904
+· deterministic checks: 0 failure(s)
+[critic] claude-sonnet-5  98777→26984 tok  284.79s  $0.4674
+· iteration 3: 4 failure(s), pass=False
+run 20260906-193549-C-e3-allv33: 3 iteration(s), stop=max_iterations, 1388.3s, 564,407→134,528 tok, $2.3643
+19 insights -> runs/20260906-193549-C-e3-allv33/output.md

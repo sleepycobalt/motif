@@ -1,0 +1,42 @@
+{
+  "R1": {
+    "run_id": "20260906-203138-C-e3-cap51",
+    "condition": "C"
+  },
+  "R2": {
+    "run_id": "20260906-193549-C-e3-allv31",
+    "condition": "C"
+  },
+  "R3": {
+    "run_id": "20260906-190902-C-e3-control2",
+    "condition": "C"
+  },
+  "R4": {
+    "run_id": "20260906-193549-C-e3-allv32",
+    "condition": "C"
+  },
+  "R5": {
+    "run_id": "20260906-200614-C-e3-opus2",
+    "condition": "C"
+  },
+  "R6": {
+    "run_id": "20260906-190902-C-e3-control1",
+    "condition": "C"
+  },
+  "R7": {
+    "run_id": "20260906-203138-C-e3-cap52",
+    "condition": "C"
+  },
+  "R8": {
+    "run_id": "20260906-200614-C-e3-opus1",
+    "condition": "C"
+  },
+  "R9": {
+    "run_id": "20260906-190902-C-e3-control3",
+    "condition": "C"
+  },
+  "R10": {
+    "run_id": "20260906-193549-C-e3-allv33",
+    "condition": "C"
+  }
+}

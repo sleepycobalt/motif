@@ -1,0 +1,23 @@
+run 20260906-200614-C-e3-opus2: condition C, 5 transcripts, 33,870 words
+[intake_michelle] claude-haiku-4-5-20251001  8533→2584 tok  30.19s  $0.0215
+[intake_david] claude-haiku-4-5-20251001  8815→2594 tok  31.51s  $0.0218
+[intake_bruce] claude-haiku-4-5-20251001  9000→2659 tok  32.31s  $0.0223
+[intake_stephen] claude-haiku-4-5-20251001  11132→2798 tok  36.24s  $0.0251
+[intake_penni] claude-haiku-4-5-20251001  13883→2695 tok  31.15s  $0.0274
+[synthesis] claude-sonnet-5  80298→15583 tok  145.8s  $0.3164
+· deterministic checks: 5 failure(s)
+[critic] claude-opus-5  87903→9467 tok  125.7s  $0.6762
+· iteration 1: 12 failure(s), pass=False
+[revise] claude-sonnet-5  74070→16448 tok  147.48s  $0.3126
+· deterministic checks: 0 failure(s)
+[critic] claude-opus-5  91215→7331 tok  96.27s  $0.6393
+· iteration 2: 4 failure(s), pass=False
+[revise] claude-sonnet-5  74394→13724 tok  120.35s  $0.2860
+· deterministic checks: 1 failure(s)
+[critic] claude-opus-5  96049→14773 tok  194.69s  $0.8496
+· critic attempt 1 returned no verdict (stop=end_turn, blocks=['thinking', 'text'], err=Expecting ',' delimiter: line 29 column 510 (char 4035))
+[critic_attempt2] claude-opus-5  96049→10947 tok  145.03s  $0.7539
+· critic attempt 2 returned no verdict (stop=end_turn, blocks=['thinking', 'text'], err=Expecting ',' delimiter: line 15 column 480 (char 1681))
+· iteration 3: 2 failure(s), pass=False
+run 20260906-200614-C-e3-opus2: 3 iteration(s), stop=max_iterations, 1136.9s, 651,341→101,603 tok, $3.9521
+18 insights -> runs/20260906-200614-C-e3-opus2/output.md
