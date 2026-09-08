@@ -211,18 +211,38 @@ function setMode(m: Mode): void {
   updateRun();
 }
 
+// A verdict report is not a synthesis (synth/engine.py::VERDICT_REPORT_HEADING matches the same
+// literal heading verdictMarkdown opens with). The engine has its own refusal, but that only helps
+// once it's deployed, and only after a job is already submitted and spending on the user's key --
+// found the hard way: a live run structured a pasted critique report deterministically (the same
+// **Claim:**/**Evidence:** fields that make its receipts round-trip also make it look like valid
+// input), ran the full critic, and failed confidence_threshold on every claim, at real cost and
+// wall time, before the engine's guard was ever deployed to reach it. Refused here instead, before
+// the button is even clickable, so no job is ever submitted for one regardless of what's deployed.
+function isVerdictReportPaste(text: string): boolean {
+  return text.trim().startsWith("# Motif critique");
+}
+
 function updateRun(): void {
   const haveFiles = files.some((f) => !f.error);
-  const haveText = document_.value.trim().length > 20;
+  const pastedText = document_.value.trim();
+  const haveText = pastedText.length > 20;
   const haveQuestion = question.value.trim().length > 0;
-  runBtn.disabled = mode === "critique" ? !(haveFiles && haveText) : !(haveFiles && haveQuestion);
+  const isVerdictReport = mode === "critique" && isVerdictReportPaste(pastedText);
+  runBtn.disabled = isVerdictReport
+    || (mode === "critique" ? !(haveFiles && haveText) : !(haveFiles && haveQuestion));
+  const why = $("run-why");
+  if (isVerdictReport) {
+    why.hidden = false;
+    why.textContent = "This is a Motif critique report, not a synthesis or document to check — paste the document it critiques instead.";
+    return;
+  }
   // Say why the button is off, under it, rather than leave a disabled control unexplained.
   const missing: string[] = [];
   if (!haveFiles) missing.push(files.length ? "transcripts that can be read (see the note beside each file)"
     : mode === "critique" ? "the transcripts the synthesis rests on" : "at least one transcript");
   if (mode === "critique" && !haveText) missing.push("the synthesis to check, pasted above (a few sentences at least)");
   if (mode !== "critique" && !haveQuestion) missing.push("the research question");
-  const why = $("run-why");
   why.hidden = !runBtn.disabled || !missing.length;
   why.textContent = missing.length ? `Needs ${missing.join(" and ")}.` : "";
 }
