@@ -79,7 +79,7 @@ Five tools: `motif_synthesize`, `motif_critique` (check any synthesis, yours or 
 
 ## Use it from Figma
 
-Motif for Figma (FigJam and Figma Design) is in `surfaces/figma/`: paste your Anthropic key once, drop transcripts, get the synthesis in the plugin and as Markdown. Development build for now; the Community listing and the board writer follow. Build and import steps: [surfaces/figma/README.md](surfaces/figma/README.md).
+Motif for Figma (FigJam and Figma Design) is in `surfaces/figma/`: paste your Anthropic key once, drop transcripts, get the synthesis in the plugin and as Markdown. Live on Figma Community, approved 2026-09-07: https://www.figma.com/community/plugin/1678295978273812914. Build and import steps: [surfaces/figma/README.md](surfaces/figma/README.md).
 
 ## Tune it
 

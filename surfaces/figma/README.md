@@ -5,6 +5,9 @@ transcripts into a Motif synthesis without a terminal, and draws it on the
 board. Free tier: your own Anthropic key. Paid credits: designed, not switched
 on.
 
+Live on the Figma Community, approved 2026-09-07:
+https://www.figma.com/community/plugin/1678295978273812914.
+
 Two modes. **Synthesize transcripts** runs the full loop and returns insights
 with receipts, confidence, counter-evidence, and any objection the critic still
 holds. **Check a synthesis** runs the critic alone over a pasted report or
