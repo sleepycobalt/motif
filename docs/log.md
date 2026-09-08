@@ -144,3 +144,8 @@ Next: User re-runs the synthesis and Build board in a fresh FigJam file and in a
 - tried: nothing — this is Figma's ruling on the 2026-09-06 submission, after the demo recording Mya W. (request 2115698) asked for.
 - happened: approved 20:25 CDT. Listing live: https://www.figma.com/community/plugin/1678295978273812914. Link and "live 2026-09-07" recorded in `README.md`, `surfaces/figma/README.md`, and `surfaces/figma/listing.md` (§ Status); review exchange written up in `docs/part3-notes.md`.
 - next: two Figma-side actions still open, both for the user to take directly (Manage plugins → Motif, since these touch the live listing): push the American-English copy already corrected in `listing.md` to the live listing text, and publish the four stage-4 UI fixes (`0edcf5f`) as a new plugin version. PyPI, the MCP registry, and the hosted engine are untouched — nothing changed there.
+
+## 2026-09-08
+- Tried: replace the screenshot-derived Community listing assets with generated ETOT frames, and spec the plugin panel restyle onto the chassis.
+- Happened: six frames generated from `listing.py` and exported; restyle spec written against `ui.html`/`ui.ts` and reconciled with `chassis.py`; listing description rewritten in the how-to register; demo shot list written.
+- Next: Sonnet 5 session applies `docs/specs/plugin-restyle.md`; then publish version 3 and swap the listing assets and text.
