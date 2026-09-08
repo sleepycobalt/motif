@@ -1,12 +1,12 @@
 """Stage-4 restyle QA gate (docs/specs/plugin-restyle.md §8): the same width scan as
-harness_scan.py, plus a theme dimension and a second assertion, over the eleven §8.1
+harness_scan.py, plus a theme dimension and two extra assertions, over the eleven §8.1
 screens (ten scenarios below: "collapsed" and "expanded" are two states of one screen).
 
 Opens dist/ui.html directly, outside Figma and outside test/harness.html (theme is set
 "by hand" per §8.1's second option, toggling the .figma-dark class with page.evaluate,
 since harness.html has no Figma parent to set it for real and is not touched here).
 
-Two checks, not one:
+Three checks, not one:
   1. The original overflow scan: no page-level horizontal scroll, document scrollWidth
      within clientWidth, no element box crossing the viewport's right edge.
   2. A minimum-average-line-length assertion. Found necessary after two restyle bugs
@@ -19,6 +19,12 @@ Two checks, not one:
      characters-per-line falls under MIN_AVG_LINE_LEN while its container had room to
      spare -- the signature of a flex/grid track collapsing instead of the text
      legitimately wrapping at a narrow width.
+  3. An orphaned-wrap-row assertion, same family as #2: a flex-wrap:wrap container whose
+     last wrapped row's rightmost edge falls under MIN_LAST_ROW_RATIO of the first row's
+     -- a short, left-stranded last line under a wider row above it, the result-screen
+     action row's bug (three buttons wrap 2+1, the "1" orphaned) at every width. A last
+     row that reaches or exceeds the first row's width (a deliberate full-width odd item)
+     is not flagged; only a shorter, stranded one is.
 
   python3 surfaces/figma/test/harness_scan_restyle.py [out_dir]
 
@@ -45,6 +51,7 @@ VERDICT_LAY = "/surfaces/figma/test/fixtures/layout-verdict.json"
 
 MIN_TEXT_LEN = 12
 MIN_AVG_LINE_LEN = 8
+MIN_LAST_ROW_RATIO = 0.8
 
 OVERFLOW_SCAN_JS = """
 () => {
@@ -88,6 +95,52 @@ LINE_COLLAPSE_SCAN_JS = f"""
   return collapsed;
 }}
 """
+
+ORPHAN_ROW_SCAN_JS = f"""
+() => {{
+  const MIN_LAST_ROW_RATIO = {MIN_LAST_ROW_RATIO};
+  const orphans = [];
+  for (const el of document.querySelectorAll('body *')) {{
+    if (el.hidden || el.closest('[hidden]')) continue;
+    const cs = getComputedStyle(el);
+    if (cs.display !== 'flex' || cs.flexWrap !== 'wrap') continue;
+    const kids = [...el.children].filter(k => !k.hidden);
+    if (kids.length < 2) continue;
+    // Scoped to rows of peer controls (buttons), which read as broken if uneven -- not any
+    // flex-wrap text container. .insight summary also wraps (title, then badges + chevron on
+    // their own shorter line) and that second line is *supposed* to be short, not a bug; it
+    // false-positived here before this line was added.
+    if (!kids.every(k => k.tagName === 'BUTTON')) continue;
+    const rects = kids.map(k => k.getBoundingClientRect());
+    const rows = new Map();  // rounded top -> max right edge in that row
+    for (const r of rects) {{
+      const top = Math.round(r.top);
+      rows.set(top, Math.max(rows.get(top) ?? 0, r.right));
+    }}
+    if (rows.size < 2) continue;  // never wrapped
+    const tops = [...rows.keys()].sort((a, b) => a - b);
+    const firstRight = rows.get(tops[0]);
+    const lastRight = rows.get(tops[tops.length - 1]);
+    // A deliberately full-width last item (>= the row above) is not an orphan, only a shorter one is.
+    if (lastRight < firstRight * MIN_LAST_ROW_RATIO) {{
+      orphans.push({{tag: el.tagName, id: el.id, cls: el.className, rows: tops.length,
+                     firstRight: Math.round(firstRight), lastRight: Math.round(lastRight),
+                     ratio: Math.round((lastRight / firstRight) * 100) / 100}});
+    }}
+  }}
+  return orphans;
+}}
+"""
+
+
+def normalize_build_board_label(page) -> None:
+    """ui.ts only shows "Build board" in real Figma (`inFigma`); outside it -- this harness
+    included -- it appends "(harness: acknowledged only)" so a real build/board click is never
+    silently no-op'd in a test. That debug suffix is ~3x longer and changes how the result screen's
+    action row wraps (3 rows instead of 2 at 440px), which isn't how it wraps in Figma. Normalized
+    here so every scan and screenshot reflects the text a real user actually sees."""
+    page.evaluate("() => { const b = document.getElementById('build-board'); "
+                  "if (b && b.textContent.startsWith('Build board (')) b.textContent = 'Build board'; }")
 
 
 def serve() -> socketserver.TCPServer:
@@ -223,15 +276,17 @@ def main(out_dir: Path) -> int:
                     page.goto(url)
                     page.wait_for_selector("#app")
                     setup(page)
+                    normalize_build_board_label(page)
                     if theme == "dark":
                         page.evaluate("document.documentElement.classList.add('figma-dark')")
                     page.wait_for_timeout(200)
                     scan = page.evaluate(OVERFLOW_SCAN_JS)
                     collapsed = page.evaluate(LINE_COLLAPSE_SCAN_JS)
+                    orphans = page.evaluate(ORPHAN_ROW_SCAN_JS)
                     ok = (scan["scrollWidth"] <= scan["clientWidth"] and scan["pageScrollX"] == 0
-                          and not scan["over"] and not collapsed)
+                          and not scan["over"] and not collapsed and not orphans)
                     issues += 0 if ok else 1
-                    report[name][f"{theme}-{w}"] = {"ok": ok, **scan, "collapsed_lines": collapsed}
+                    report[name][f"{theme}-{w}"] = {"ok": ok, **scan, "collapsed_lines": collapsed, "orphan_rows": orphans}
                     panel_h = page.evaluate("document.getElementById('app').scrollHeight")
                     shot_h = min(max(panel_h + 4, 200), 1200)
                     ctx2 = browser.new_context(viewport={"width": w, "height": shot_h}, device_scale_factor=1)
@@ -239,6 +294,7 @@ def main(out_dir: Path) -> int:
                     page2.goto(url)
                     page2.wait_for_selector("#app")
                     setup(page2)
+                    normalize_build_board_label(page2)
                     if theme == "dark":
                         page2.evaluate("document.documentElement.classList.add('figma-dark')")
                     page2.wait_for_timeout(200)
@@ -268,6 +324,8 @@ def main(out_dir: Path) -> int:
                 print(f"    {k}: overflow {v['over']}")
             if v["collapsed_lines"]:
                 print(f"    {k}: collapsed {v['collapsed_lines']}")
+            if v["orphan_rows"]:
+                print(f"    {k}: orphan row {v['orphan_rows']}")
     print(f"{issues} layout issue(s) across {len(report)} screens x 2 themes x 3 widths")
     return 1 if issues else 0
 

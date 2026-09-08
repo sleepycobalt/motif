@@ -481,7 +481,12 @@ function claimEl(ins: Insight, r: VerdictResult): HTMLElement {
 }
 
 function verdictMarkdown(s: Stored, r: VerdictResult): string {
-  const lines = [`# Motif critique`, "", s.question ? `Question: ${s.question}` : "", `Run: ${r.run_id}`,
+  // "# Motif critique" is also the marker engine.py::parse_motif_markdown reads to refuse this
+  // report if it is ever pasted back into Check a synthesis: a verdict report carries no
+  // **Confidence:** values, so structuring it as if it were a synthesis would fail every claim on
+  // confidence_threshold. A verdict report is not a synthesis -- say so plainly in the header.
+  const lines = [`# Motif critique`, "", `This is a Motif critique, not a synthesis. It has no confidence values, so it cannot be checked again -- paste the document it critiques instead.`, "",
+    s.question ? `Question: ${s.question}` : "", `Run: ${r.run_id}`,
     `Verdict: ${r.verdict.pass ? "PASS" : "FAIL"} — ${r.summary.n_fail} fail(s), ${r.summary.n_warn} warning(s) on ${r.insights.length} claim(s)`,
     r.verdict.skipped_rules?.length ? `Not checked: ${r.verdict.skipped_rules.join(", ")}` : "", r.verdict.notes ? `Notes: ${r.verdict.notes}` : "", ""];
   for (const ins of r.insights) {

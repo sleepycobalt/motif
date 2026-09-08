@@ -320,22 +320,42 @@ def _verdict_markdown_from_insights(insights: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def test_verdict_report_round_trips_through_the_critic(raw, tmp_path, monkeypatch):
-    """Found in the Figma hand check, not the harness: a critique report copied from the plugin and
-    pasted back into Check a synthesis printed bare turn ids with no receipts ("Cites: alice:0002"),
-    so every claim failed quote_mismatch on the way back in. Extends the 2026-09-04 ruling
-    (synth/report.py's receipts) to the plugin's second report format, ui.ts::verdictMarkdown."""
+def test_verdict_report_prints_receipts_in_report_shape():
+    """The receipts fix (2026-09-08): ui.ts::verdictMarkdown prints turn id plus verbatim quote,
+    synth/report.py's shape, not a bare "Cites: <ids>" line. Checked at the string level -- parsing
+    a verdict report is refused outright (test_verdict_report_is_refused_not_critiqued below), so
+    this cannot go through parse_motif_markdown to prove the shape, only through the raw text."""
+    ins = json.loads(json.dumps(GOOD_INSIGHTS))
+    md = _verdict_markdown_from_insights(ins)
+    assert 'receipt alice:0002: "the anonymisation work takes weeks and nobody funds it"' in md
+    assert "**Claim:** Anonymising interview data takes weeks and is not budgeted." in md
+    assert "**Evidence:** alice:0002, bob:0002" in md
+
+
+def test_verdict_report_is_refused_not_critiqued(raw, tmp_path, monkeypatch):
+    """Ruling, found in the Figma hand check: a verdict report is not a synthesis. The receipts fix
+    above made a critique report parse deterministically (**Claim:**/**Evidence:** are required for
+    that), which meant a *second* paste-back no longer failed quote_mismatch -- it failed
+    confidence_threshold on every claim instead, since a critique report carries no **Confidence:**
+    value at all. Refusing it outright, before it is ever structured into claims, is the fix: a
+    parser guard, not an instrument change, so this is checked with no model call and no critic run."""
     monkeypatch.setattr(llm, "call", make_stub(happy))
     processed = engine.ingest(raw, tmp_path / "processed")
     ins = json.loads(json.dumps(GOOD_INSIGHTS))
     md = _verdict_markdown_from_insights(ins)
-    assert 'receipt alice:0002: "the anonymisation work takes weeks and nobody funds it"' in md
-    parsed = engine.parse_motif_markdown(md)
-    assert len(parsed) == 2 and parsed[0]["evidence"][0] == {"turn": "alice:0002", "quote": "the anonymisation work takes weeks and nobody funds it"}
-    out = engine.critique_document(md, processed, runs_root=tmp_path / "runs")
-    assert out["source_format"] == "motif_markdown"
-    mechanical = [f for f in out["verdict"]["failures"] if f["rule"] in ("quote_mismatch", "bad_citation", "interviewer_cited")]
-    assert mechanical == [], mechanical
+    assert md.startswith("# Motif critique")
+    with pytest.raises(engine.VerdictReportError, match="not a synthesis"):
+        engine.parse_motif_markdown(md)
+    with pytest.raises(engine.VerdictReportError, match="not a synthesis"):
+        engine.critique_document(md, processed, runs_root=tmp_path / "runs")
+    # A real synthesis report is unaffected -- only the exact "# Motif critique" heading triggers this.
+    from synth.corpus import Corpus
+    from synth.report import to_markdown
+    corpus = Corpus(processed)
+    synth_ins = json.loads(json.dumps(GOOD_INSIGHTS))
+    synth_ins[1]["sources"] = ["bob"]; synth_ins[0]["sources"] = ["alice", "bob"]
+    synth_md = to_markdown(synth_ins, corpus, {"run_id": "r", "condition": "C", "iterations": 1, "stop_reason": "critic_pass"})
+    assert engine.parse_motif_markdown(synth_md)  # does not raise
 
 
 def test_counter_without_receipt_is_not_a_quote_mismatch(raw, tmp_path, monkeypatch):

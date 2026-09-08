@@ -243,6 +243,16 @@ RECOMMENDATION_HEADING = re.compile(
     r"what to do|suggested action|action)", re.I)
 TURN_ID = re.compile(r"\b[a-z0-9][a-z0-9-]*:\d{4}\b")
 RECEIPT = re.compile(r'^\s*receipt (\S+:\d{4}): "(.*)"\s*$', re.M)
+# The plugin's own critique-report copy (surfaces/figma/src/ui.ts::verdictMarkdown) opens on this
+# exact heading. A verdict report is not a synthesis: it carries **Claim:**/**Evidence:** fields
+# (so its receipts still parse) but never a **Confidence:**, so structuring it as if it were a
+# synthesis would fail every claim on confidence_threshold rather than being refused up front.
+VERDICT_REPORT_HEADING = re.compile(r"^#\s*Motif critique\b", re.M)
+
+
+class VerdictReportError(ValueError):
+    """A document handed to structure_document/critique_document is a Motif critique report,
+    not a synthesis or other checkable document."""
 
 
 def _field(body: str, name: str) -> str:
@@ -252,7 +262,15 @@ def _field(body: str, name: str) -> str:
 
 def parse_motif_markdown(document: str) -> list[dict]:
     """Deterministic parser for Motif's own report format (synth/report.py).
-    Returns [] if the document is not in that format."""
+    Returns [] if the document is not in that format. Raises VerdictReportError instead of
+    parsing a verdict report (surfaces/figma/src/ui.ts::verdictMarkdown's output) as one --
+    see VERDICT_REPORT_HEADING."""
+    if VERDICT_REPORT_HEADING.search(document):
+        raise VerdictReportError(
+            "This is a Motif critique report, not a synthesis or document to check. Critique "
+            "reports carry no confidence values, so checking one again would fail every claim. "
+            "Paste the synthesis or document this report critiques instead."
+        )
     parts = MOTIF_HEADING.split(document)
     if len(parts) < 4:
         return []

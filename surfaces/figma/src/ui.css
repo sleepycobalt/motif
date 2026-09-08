@@ -58,6 +58,11 @@ p, li, label { margin: 0; font-family: var(--sans); font-size: 13px; line-height
 .visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+/* Result-screen action row: 4 buttons wrap 2+2 and read fine as-is. With #check-synthesis hidden
+   (no transcripts in memory) it's 3, which wrapped 2+1 -- an orphan left-aligned under a wider row.
+   Give the last button the full row's width on its own line instead, so the odd-one-out reads as a
+   deliberate wide action, the same pattern #run-btn (.primary.wide) already uses. */
+.row.wrap:has(#check-synthesis[hidden]) #new-run { flex: 1 1 100%; }
 
 .card {
   background: var(--panel); border: 1px solid var(--hair); border-radius: 4px;
