@@ -162,12 +162,12 @@ control is hidden in this build; a paid tier with ETOT-provided credits
 follows in a later release (the code path stays behind the server's
 `MOTIF_PAID_ENABLED` flag).
 
-**Next update, not yet published (stage-4 demo-polish, commit `0edcf5f`):**
-Run status now stays visible if you leave the running screen and come back,
-and the Synthesize button no longer gets stuck disabled after a run finishes.
-Added a one-click "Check this synthesis" button on a synthesis result, reusing
-that run's transcripts instead of asking you to re-add them. "New run"
-renamed to "Start another" now that a third action exists.
+**Version 2 (2026-09-08, stage-4 demo-polish, commit `0edcf5f`):** Run status
+now stays visible if you leave the running screen and come back, and the
+Synthesize button no longer gets stuck disabled after a run finishes. Added a
+one-click "Check this synthesis" button on a synthesis result, reusing that
+run's transcripts instead of asking you to re-add them. "New run" renamed to
+"Start another" now that a third action exists.
 
 ## Data security (as answered in the publish form, 2026-09-06)
 
@@ -188,7 +188,7 @@ Comments on. Support contact hello@etot.design. Privacy policy
 https://etot.design/privacy/. Two-factor authentication required by Figma for
 publishing; the Figma session had to be restarted after enabling it.
 
-## Status — live 2026-09-07
+## Status — live 2026-09-07, Version 2 shipped 2026-09-08
 
 Submitted 2026-09-06 00:31 CDT; approved by Figma Community review
 2026-09-07 20:25 CDT. Live at
@@ -196,17 +196,19 @@ https://www.figma.com/community/plugin/1678295978273812914. The plugin id in
 `manifest.json` is the one Figma assigned at first publish (a first generated
 id was superseded; the second is in commit 7cd99fd).
 
+Version 2 published 2026-09-08, ~15 hours after approval, straight to live
+with no second review: the four stage-4 UI fixes (`0edcf5f`), release notes
+as in § Version notes above. 2 users, 0 likes, 0 comments on the listing at
+publish time (`docs/part3-notes.md`, 2026-09-08).
+
 The privacy policy page is live at https://etot.design/privacy/ (etot-site
 698104c, 2026-09-06) and linked above; it is no longer a blocker.
 
 American-English pass (2026-09-07, part of the stage-4 demo-polish items):
 this file's "synthesise" and "colour"/"grey" were corrected to "synthesize"
 and "color"/"gray" per the new rule (`docs/part3-notes.md`, `CONTRIBUTING.md`
-§ Conventions). Now that review has passed, this is ready to push to the live
-Community listing text (still submitted 2026-09-06 with the old spelling) the
-next time the listing is opened for editing — a Figma-side action the user
-takes directly, same as the version publish below.
-
-Next: the four stage-4 UI fixes (`0edcf5f`) are ready to ship as a new plugin
-version via Manage plugins → Motif → Publish new version; see § Version
-notes above for the release-note text.
+§ Conventions). Still not pushed: the live Community listing text (submitted
+2026-09-06) still reads with the old spelling. Version 2's release shipped
+the plugin-code fixes only, not the listing copy — this remains a separate
+Figma-side edit (Manage plugins → Motif → listing description) the user
+takes directly whenever the listing is next opened for editing.
