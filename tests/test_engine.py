@@ -300,6 +300,44 @@ def test_motif_report_round_trips_through_the_critic(raw, tmp_path, monkeypatch)
     assert mechanical == [], mechanical
 
 
+def _verdict_markdown_from_insights(insights: list[dict]) -> str:
+    """Mirrors surfaces/figma/src/ui.ts::verdictMarkdown's insight shape (fixed 2026-09-08): a
+    **Claim:** field (parse_motif_markdown skips an insight with none), a **Evidence:** field for
+    turn ids (evidence turn ids are read only from that field, not from receipts or a bare "Cites:"
+    line), and receipt lines in synth/report.py's shape -- turn id plus verbatim quote. There is no
+    Python module for the plugin's own copy generator, so this reproduces its output shape directly."""
+    lines = ["# Motif critique", ""]
+    for ins in insights:
+        lines += [f"## {ins['id']} — {ins['title']}", "", f"**Claim:** {ins['claim']}", ""]
+        ev = ins.get("evidence") or []
+        if ev:
+            lines += [f"**Evidence:** {', '.join(e['turn'] for e in ev)}", ""]
+            receipted = [e for e in ev if e.get("quote")]
+            if receipted:
+                lines.append("```")
+                lines += [f'  receipt {e["turn"]}: "{e["quote"]}"' for e in receipted]
+                lines += ["```", ""]
+    return "\n".join(lines)
+
+
+def test_verdict_report_round_trips_through_the_critic(raw, tmp_path, monkeypatch):
+    """Found in the Figma hand check, not the harness: a critique report copied from the plugin and
+    pasted back into Check a synthesis printed bare turn ids with no receipts ("Cites: alice:0002"),
+    so every claim failed quote_mismatch on the way back in. Extends the 2026-09-04 ruling
+    (synth/report.py's receipts) to the plugin's second report format, ui.ts::verdictMarkdown."""
+    monkeypatch.setattr(llm, "call", make_stub(happy))
+    processed = engine.ingest(raw, tmp_path / "processed")
+    ins = json.loads(json.dumps(GOOD_INSIGHTS))
+    md = _verdict_markdown_from_insights(ins)
+    assert 'receipt alice:0002: "the anonymisation work takes weeks and nobody funds it"' in md
+    parsed = engine.parse_motif_markdown(md)
+    assert len(parsed) == 2 and parsed[0]["evidence"][0] == {"turn": "alice:0002", "quote": "the anonymisation work takes weeks and nobody funds it"}
+    out = engine.critique_document(md, processed, runs_root=tmp_path / "runs")
+    assert out["source_format"] == "motif_markdown"
+    mechanical = [f for f in out["verdict"]["failures"] if f["rule"] in ("quote_mismatch", "bad_citation", "interviewer_cited")]
+    assert mechanical == [], mechanical
+
+
 def test_counter_without_receipt_is_not_a_quote_mismatch(raw, tmp_path, monkeypatch):
     """A pre-2026-09-05 report (no counter receipts) parses to counters with empty quotes; that is absence, not mismatch."""
     monkeypatch.setattr(llm, "call", make_stub(happy))

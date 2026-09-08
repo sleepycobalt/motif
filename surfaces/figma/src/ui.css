@@ -76,7 +76,7 @@ p, li, label { margin: 0; font-family: var(--sans); font-size: 13px; line-height
 
 .field { display: flex; flex-direction: column; gap: 4px; }
 .field > span { font-family: var(--mono); font-size: 11px; text-transform: uppercase; color: var(--mute); }
-input, textarea {
+input:not([type="radio"]):not([type="checkbox"]), textarea {
   width: 100%; min-width: 0; background: var(--panel2); border: 1px solid var(--hair); border-radius: 3px;
   padding: 8px 10px; font-family: var(--sans); font-size: 13px; color: var(--ink);
 }
@@ -103,7 +103,8 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 
 .tiers { border: 0; margin: 0; padding: 0; display: flex; gap: 16px; flex-wrap: wrap; }
 .tier { display: inline-flex; gap: 4px; align-items: center; font-size: 13px; }
-.tier input[type="radio"] { accent-color: var(--acc); }
+.tier input[type="radio"] { accent-color: var(--acc); flex: 0 0 auto; }
+.tier span { flex: 0 1 auto; white-space: nowrap; }
 .tier.disabled { color: var(--mute); }
 
 .drop {
@@ -115,7 +116,7 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .files { list-style: none; margin: 0; padding: 0; }
 .files li { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; align-items: center; padding: 9px 0; border-bottom: 1px solid color-mix(in srgb, var(--hair) 20%, transparent); }
 .files li:last-child { border-bottom: none; }
-.files .name { font-family: var(--sans); font-size: 13px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.files .name { font-family: var(--sans); font-size: 13px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; overflow-wrap: normal; min-width: 0; }
 .files .meta { font-family: var(--mono); font-size: 11px; color: var(--mute); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .files .meta.bad { color: var(--red); }
 .files .rm { width: 20px; height: 20px; padding: 0; background: transparent; border: 1px solid var(--hair); color: var(--mute); }

@@ -485,8 +485,21 @@ function verdictMarkdown(s: Stored, r: VerdictResult): string {
     `Verdict: ${r.verdict.pass ? "PASS" : "FAIL"} — ${r.summary.n_fail} fail(s), ${r.summary.n_warn} warning(s) on ${r.insights.length} claim(s)`,
     r.verdict.skipped_rules?.length ? `Not checked: ${r.verdict.skipped_rules.join(", ")}` : "", r.verdict.notes ? `Notes: ${r.verdict.notes}` : "", ""];
   for (const ins of r.insights) {
-    lines.push(`## ${ins.id} — ${ins.title || ""}`, "", ins.claim, "");
-    if (ins.evidence?.length) lines.push(`Cites: ${ins.evidence.map((e) => e.turn).join(", ")}`, "");
+    lines.push(`## ${ins.id} — ${ins.title || ""}`, "", `**Claim:** ${ins.claim}`, "");
+    if (ins.evidence?.length) {
+      lines.push(`**Evidence:** ${ins.evidence.map((e) => e.turn).join(", ")}`, "");
+      // Receipts, the same shape synth/report.py's to_markdown prints (2026-09-04 ruling): turn id
+      // plus verbatim quote, so a copied verdict report parses back in with real quotes to check
+      // instead of bare ids that can only fail quote_mismatch. **Claim:** and **Evidence:** above are
+      // required too -- parse_motif_markdown skips an insight with no **Claim:** field, and reads
+      // evidence turn ids only from a **Evidence:** field, not from "Cites:" or the receipts alone.
+      const receipted = ins.evidence.filter((e) => e.quote);
+      if (receipted.length) {
+        lines.push("```");
+        for (const e of receipted) lines.push(`  receipt ${e.turn}: "${e.quote}"`);
+        lines.push("```", "");
+      }
+    }
     const obj = r.verdict.failures.filter((f) => f.insight_id === ins.id);
     if (!obj.length) lines.push("- no objection", "");
     for (const f of obj) lines.push(`- **${f.severity.toUpperCase()} ${f.rule}**: ${f.detail}${f.turns?.length ? ` [${f.turns.join(", ")}]` : ""}`);
