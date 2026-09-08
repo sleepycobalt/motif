@@ -7,7 +7,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-375": {
    "ok": true,
@@ -16,7 +17,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-320": {
    "ok": true,
@@ -25,7 +27,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-440": {
    "ok": true,
@@ -34,7 +37,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-375": {
    "ok": true,
@@ -43,7 +47,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-320": {
    "ok": true,
@@ -52,7 +57,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   }
  },
  "setup-two-transcripts": {
@@ -63,7 +69,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-375": {
    "ok": true,
@@ -72,7 +79,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-320": {
    "ok": true,
@@ -81,7 +89,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-440": {
    "ok": true,
@@ -90,7 +99,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-375": {
    "ok": true,
@@ -99,7 +109,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-320": {
    "ok": true,
@@ -108,7 +119,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   }
  },
  "setup-critique-report-pasted": {
@@ -119,7 +131,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-375": {
    "ok": true,
@@ -128,7 +141,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-320": {
    "ok": true,
@@ -137,7 +151,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-440": {
    "ok": true,
@@ -146,7 +161,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-375": {
    "ok": true,
@@ -155,7 +171,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-320": {
    "ok": true,
@@ -164,7 +181,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   }
  },
  "setup-run-disabled-why": {
@@ -175,7 +193,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-375": {
    "ok": true,
@@ -184,7 +203,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-320": {
    "ok": true,
@@ -193,7 +213,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-440": {
    "ok": true,
@@ -202,7 +223,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-375": {
    "ok": true,
@@ -211,7 +233,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-320": {
    "ok": true,
@@ -220,7 +243,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   }
  },
  "running-ingest-log": {
@@ -231,7 +255,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-375": {
    "ok": true,
@@ -240,7 +265,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-320": {
    "ok": true,
@@ -249,7 +275,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-440": {
    "ok": true,
@@ -258,7 +285,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-375": {
    "ok": true,
@@ -267,7 +295,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-320": {
    "ok": true,
@@ -276,7 +305,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   }
  },
  "result-synthesis-collapsed": {
@@ -287,7 +317,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-375": {
    "ok": true,
@@ -296,7 +327,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-320": {
    "ok": true,
@@ -305,7 +337,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-440": {
    "ok": true,
@@ -314,7 +347,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-375": {
    "ok": true,
@@ -323,7 +357,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-320": {
    "ok": true,
@@ -332,7 +367,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   }
  },
  "result-synthesis-expanded": {
@@ -343,7 +379,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-375": {
    "ok": true,
@@ -352,7 +389,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-320": {
    "ok": true,
@@ -361,7 +399,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-440": {
    "ok": true,
@@ -370,7 +409,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-375": {
    "ok": true,
@@ -379,7 +419,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-320": {
    "ok": true,
@@ -388,7 +429,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   }
  },
  "result-verdict-objections-open": {
@@ -399,7 +441,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-375": {
    "ok": true,
@@ -408,7 +451,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-320": {
    "ok": true,
@@ -417,7 +461,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-440": {
    "ok": true,
@@ -426,7 +471,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-375": {
    "ok": true,
@@ -435,7 +481,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-320": {
    "ok": true,
@@ -444,7 +491,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   }
  },
  "copy-fallback-revealed": {
@@ -455,7 +503,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-375": {
    "ok": true,
@@ -464,7 +513,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-320": {
    "ok": true,
@@ -473,7 +523,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-440": {
    "ok": true,
@@ -482,7 +533,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-375": {
    "ok": true,
@@ -491,7 +543,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-320": {
    "ok": true,
@@ -500,7 +553,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   }
  },
  "error-with-hint": {
@@ -511,7 +565,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-375": {
    "ok": true,
@@ -520,7 +575,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "light-320": {
    "ok": true,
@@ -529,7 +585,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-440": {
    "ok": true,
@@ -538,7 +595,8 @@
    "clientWidth": 440,
    "pageScrollX": 0,
    "bodyScrollWidth": 440,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-375": {
    "ok": true,
@@ -547,7 +605,8 @@
    "clientWidth": 375,
    "pageScrollX": 0,
    "bodyScrollWidth": 375,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   },
   "dark-320": {
    "ok": true,
@@ -556,7 +615,8 @@
    "clientWidth": 320,
    "pageScrollX": 0,
    "bodyScrollWidth": 320,
-   "over": []
+   "over": [],
+   "collapsed_lines": []
   }
  }
 }
