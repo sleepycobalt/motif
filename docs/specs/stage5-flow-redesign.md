@@ -36,3 +36,40 @@ Five root causes, to be confirmed against `docs/plugin-flow.md`:
 `docs/plugin-flow.md` first, derived from the code. Then a flaw list against it. Then a
 redesign proposal, judged against the bar above. Nothing is designed from memory of using
 the tool.
+
+## Ruled 2026-09-08
+
+**Open on "what do you have," not a mode toggle.** The first screen asks a question a
+stranger can answer without knowing what Motif is: do you have transcripts, or someone's
+findings? Transcripts is the visually primary answer and takes default focus; findings is
+reachable on the same screen but secondary. The mode becomes a consequence of the answer
+rather than a choice about the tool.
+
+**Illegal states unreachable rather than validated.** Today the wrong input is accepted
+and refused later — on 2026-09-08 that refusal ran after a $0.20 job had already
+completed. A critique report should not be submittable at all, because the tool knows
+what it is.
+
+**`last_result` stops being a single slot.** A synthesis and the critique of it are kept
+together, so checking never destroys what it checked. Three of the ten known defects
+descend from the single-slot, memory-only state model.
+
+## The gate
+
+One person who has never seen Motif. Install to board. No instructions, no explanation,
+no one answering questions. Timed and observed.
+
+The stage-2 gate was written in this spirit and never run on a stranger — the builder was
+the first user and already knew the tool. This one is run for real, and what the observer
+writes down is the result.
+
+## Sequence, ruled
+
+1. `docs/plugin-flow.md` — the description of the present, from the code. Sonnet 5 in the
+   Motif repo. In progress.
+2. The target flow, written against that description, not against a memory of the code.
+   Opus 5. Added to this brief.
+3. Build, then the gate above.
+
+v3 ships before any of this: the restyle, the button row, and the verdict guard. The flow
+is no worse than the live build, and the restyle is a real improvement.
