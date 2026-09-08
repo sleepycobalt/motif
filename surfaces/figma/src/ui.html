@@ -38,7 +38,7 @@
     </header>
 
     <div id="resume-card" class="card notice" hidden>
-      <p>A run is still going from last time.</p>
+      <p id="resume-text">A run is still going from last time.</p>
       <div class="row"><button id="resume-btn" class="primary">Follow it</button><button id="resume-dismiss" class="ghost">Forget it</button></div>
     </div>
     <div id="last-card" class="card" hidden>
@@ -47,7 +47,7 @@
     <p id="editor-note" class="fine" hidden>In Figma Design the board is drawn with frames instead of stickies, and without connectors.</p>
 
     <div class="modes" role="tablist" aria-label="Mode">
-      <button id="mode-synth" class="mode on" role="tab">Synthesise transcripts</button>
+      <button id="mode-synth" class="mode on" role="tab">Synthesize transcripts</button>
       <button id="mode-critique" class="mode" role="tab">Check a synthesis</button>
     </div>
 
@@ -88,7 +88,7 @@
         <label class="tier disabled" hidden><input type="radio" name="tier" value="paid" disabled> <span>Credits · not yet</span></label>
       </fieldset>
       <p id="run-fine" class="fine"></p>
-      <button id="run-btn" class="primary wide" disabled>Synthesise</button>
+      <button id="run-btn" class="primary wide" disabled>Synthesize</button>
       <p id="run-why" class="fine" aria-live="polite" hidden></p>
     </div>
   </section>
@@ -96,14 +96,14 @@
   <!-- Running -->
   <section id="screen-running" class="screen" hidden>
     <header class="top compact">
-      <h1 id="running-title">Synthesising</h1>
+      <h1 id="running-title">Synthesizing</h1>
       <p class="keyline"><span id="elapsed" class="mono">0:00</span> · job <span id="job-id" class="mono"></span></p>
     </header>
     <div class="card grow">
       <pre id="log" class="log" aria-live="polite"></pre>
     </div>
-    <p class="fine">You can close this window. The run continues on the engine, and the plugin offers to pick it up next time.</p>
-    <div class="row"><button id="stop-follow" class="ghost">Stop following</button></div>
+    <p class="fine">You can close this window, or leave this screen. The run continues on the engine either way, and the plugin offers to pick it up next time.</p>
+    <div class="row"><button id="stop-follow" class="ghost">Stop watching — run keeps going</button></div>
   </section>
 
   <!-- Result -->
@@ -117,7 +117,8 @@
     <div class="row wrap">
       <button id="build-board" class="primary" disabled>Build board</button>
       <button id="copy-report" class="ghost">Copy report (Markdown)</button>
-      <button id="new-run" class="ghost">New run</button>
+      <button id="check-synthesis" class="ghost" hidden>Check this synthesis</button>
+      <button id="new-run" class="ghost">Start another</button>
     </div>
     <p id="board-status" class="fine" aria-live="polite"></p>
     <details id="critic-notes" class="insight" hidden><summary><span class="title">Critic's notes</span></summary><p id="critic-notes-text" class="body fine"></p></details>

@@ -52,15 +52,56 @@ def serve() -> socketserver.TCPServer:
     return srv
 
 
+def mock_job(page, job_id: str) -> None:
+    """Fake the hosted engine's job + event-stream endpoints so the running screen (and its
+    Stop-following button) can be reached with no real job, no network call, and no cost."""
+    import time as _time
+    created = _time.time()
+    page.route(f"https://motif-hosted.fly.dev/v1/jobs/{job_id}", lambda route: route.fulfill(
+        status=200, content_type="application/json",
+        body=json.dumps({"job_id": job_id, "kind": "synthesize", "state": "running", "created": created,
+                          "finished": None, "run_id": None, "words": None, "n_events": 0, "error": None})))
+    page.route(f"https://motif-hosted.fly.dev/v1/jobs/{job_id}/events**", lambda route: route.fulfill(
+        status=200, content_type="text/event-stream",
+        body="id: 1\nevent: message\ndata: {\"message\": \"Reading transcripts\\u2026\"}\n\n"
+             "id: 2\nevent: message\ndata: {\"message\": \"Drafting insights\\u2026\"}\n\n"))
+
+
 def screens():
     """name -> (url, setup(page))."""
     base = f"http://127.0.0.1:{PORT}{UI}"
     txt = ("# Synthesis — C run 20260905-221749-C-hosted\n\nTranscripts: david, michelle (11,482 words)\n"
            "Iterations: 3  Stop: max_iterations\n\n## I-01 — Anonymity and consent scope are named as concrete barriers\n")
+    JOB = "harness-fake-job-in-flight"
 
     def key(page):
         page.evaluate("localStorage.setItem('anthropic_key', 'sk-ant-harness-0000000000000000')")
         page.evaluate("localStorage.removeItem('last_result'); localStorage.removeItem('last_job')")
+
+    def run_in_flight(page):
+        """Reopen with a job left running from last time: the setup form must say so with the
+        reopen wording, not only via the (separate) resume card logic on an ordinary first run."""
+        key(page)
+        page.evaluate("() => localStorage.setItem('last_job', JSON.stringify({jobId: 'harness-fake-job-in-flight', question: 'What frustrates users about onboarding?', kind: 'synthesize'}))")
+        page.reload()
+        page.wait_for_selector("#screen-setup:not([hidden])")
+        page.wait_for_function("!document.getElementById('resume-card').hidden")
+
+    def running_stop_following(page):
+        """Follow the in-flight job to the running screen, where Stop following must say
+        plainly that the run is not being cancelled."""
+        run_in_flight(page)
+        mock_job(page, JOB)
+        page.click("#resume-btn")
+        page.wait_for_selector("#screen-running:not([hidden])")
+
+    def setup_after_stop_following(page):
+        """Stop following mid-run and land back on the form: the status line must still show
+        the job is going, not just silently drop back to an empty-looking form."""
+        running_stop_following(page)
+        page.click("#stop-follow")
+        page.wait_for_selector("#screen-setup:not([hidden])")
+        page.wait_for_function("!document.getElementById('resume-card').hidden")
 
     def critique_no_files(page):
         key(page); page.reload(); page.wait_for_selector("#screen-setup:not([hidden])")
@@ -99,6 +140,9 @@ def screens():
         "synth-form-no-transcripts-reason": (base + "?harness=1", synth_no_files),
         "verdict-cost-time-tiles": (base + "?harness=1", verdict),
         "synthesis-result-tiles": (base + "?harness=1", synthesis),
+        "setup-run-in-flight-reopened": (base + "?harness=1", run_in_flight),
+        "running-stop-following": (base + "?harness=1", running_stop_following),
+        "setup-run-in-flight-after-stop": (base + "?harness=1", setup_after_stop_following),
     }
 
 
@@ -127,6 +171,9 @@ def main(out_dir: Path) -> int:
                 page.wait_for_timeout(300)
                 scan = page.evaluate(SCAN_JS)
                 why = page.evaluate("() => { const e = document.getElementById('run-why'); return e && !e.hidden ? e.textContent : null; }")
+                resume = page.evaluate("() => { const e = document.getElementById('resume-card'); return e && !e.hidden && !e.closest('[hidden]') ? document.getElementById('resume-text').textContent : null; }")
+                stop_follow = page.evaluate("() => { const e = document.getElementById('stop-follow'); return e && !e.closest('[hidden]') ? e.textContent : null; }")
+                check_synth = page.evaluate("() => { const e = document.getElementById('check-synthesis'); return e && !e.hidden ? {text: e.textContent, disabled: e.disabled} : null; }")
                 tiles = page.evaluate("() => [...document.querySelectorAll('#tiles .tile')].map(t => t.textContent.trim().replace(/\\s+/g,' '))")
                 # tiles per row, by top edge; a row holding a single tile while others hold more is an orphan
                 rows = page.evaluate("() => { const ys = {}; for (const t of document.querySelectorAll('#tiles .tile')) { const y = Math.round(t.getBoundingClientRect().top); ys[y] = (ys[y] || 0) + 1; } return Object.keys(ys).sort((a, b) => a - b).map(k => ys[k]); }")
@@ -135,7 +182,8 @@ def main(out_dir: Path) -> int:
                     ok = False
                 ok = scan["scrollWidth"] <= scan["clientWidth"] and scan["pageScrollX"] == 0 and not scan["over"]
                 issues += 0 if ok else 1
-                report[name][str(w)] = {"ok": ok, **scan, "run_why": why, "tiles": tiles, "tile_rows": rows, "orphan": orphan}
+                report[name][str(w)] = {"ok": ok, **scan, "run_why": why, "resume_text": resume, "stop_follow": stop_follow,
+                                         "check_synthesis": check_synth, "tiles": tiles, "tile_rows": rows, "orphan": orphan}
                 shot = out_dir / f"_{name}-{w}.png"
                 page.screenshot(path=str(shot), full_page=False)
                 shots.append(shot)
@@ -159,6 +207,9 @@ def main(out_dir: Path) -> int:
         print(f"{name:40s} {line}")
         for w, v in r.items():
             if v["run_why"]: print(f"    {w}: run-why = {v['run_why']}")
+            if v["resume_text"]: print(f"    {w}: resume-text = {v['resume_text']}")
+            if v["stop_follow"]: print(f"    {w}: stop-follow = {v['stop_follow']}")
+            if v["check_synthesis"]: print(f"    {w}: check-synthesis = {v['check_synthesis']}")
             if v["tiles"]: print(f"    {w}: tiles = {v['tiles']}  rows = {v['tile_rows']}{'  ORPHAN' if v['orphan'] else ''}")
             if v["over"]: print(f"    {w}: overflow {v['over']}")
     print(f"{issues} layout issue(s)")

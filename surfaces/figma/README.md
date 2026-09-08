@@ -5,12 +5,12 @@ transcripts into a Motif synthesis without a terminal, and draws it on the
 board. Free tier: your own Anthropic key. Paid credits: designed, not switched
 on.
 
-Two modes. **Synthesise transcripts** runs the full loop and returns insights
+Two modes. **Synthesize transcripts** runs the full loop and returns insights
 with receipts, confidence, counter-evidence, and any objection the critic still
 holds. **Check a synthesis** runs the critic alone over a pasted report or
 summary against the transcripts and returns its verdict, claim by claim.
 Either result can be copied as Markdown or built on the board: in FigJam, one
-section per insight with colour-coded stickies (claim by confidence, white
+section per insight with color-coded stickies (claim by confidence, white
 receipts, pink counter-evidence wired to the claim by "contested by"
 connectors, blue opportunity, violet open objections) and a run card above the
 grid; in Figma Design, the same sections with frames instead of stickies and
@@ -60,7 +60,7 @@ node test/board_render.mjs   # board writer with a fake Figma API
 4. Menu → Plugins → Development → **Motif**.
 5. Paste your Anthropic key once (it is stored by Figma on this device).
 6. Drop transcripts (.docx, .txt, .md; one speaker turn per paragraph,
-   `Name: text`), type the research question, click **Synthesise**.
+   `Name: text`), type the research question, click **Synthesize**.
 7. Follow the progress; the result screen lists every insight with its
    confidence (and how many of the transcripts back it), first receipts,
    counter-evidence, and any critic objection still open. **Build board**

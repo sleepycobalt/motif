@@ -2,9 +2,12 @@
  * Motif for Figma: the UI iframe. Owns the network (api.ts) and the docx extraction
  * (docx.ts); asks the main thread (code.ts) for storage, notifications, and the board.
  *
- * Two modes on the setup screen: synthesise transcripts, or check a pasted synthesis
+ * Two modes on the setup screen: synthesize transcripts, or check a pasted synthesis
  * against transcripts (the critic alone). Both end on the result screen, where
- * "Build board" hands the run's layout to the main thread to draw.
+ * "Build board" hands the run's layout to the main thread to draw. A synthesis result
+ * also offers "Check this synthesis", a one-click critique of its own report against
+ * the same transcripts, reusing them from memory rather than asking the user to re-add
+ * them.
  *
  * Standalone harness: opened directly in a browser (no Figma parent, or a ?harness
  * frame), the same UI runs with localStorage standing in for figma.clientStorage, so
@@ -89,10 +92,31 @@ let lastJob: { jobId: string; question?: string; kind?: string } | null = null;
 let follow: AbortController | null = null;
 let timer: number | null = null;
 let current: Stored | null = null;
+// The transcripts behind the synthesis result on screen, kept in memory only (never persisted
+// with the stored result) so "Check this synthesis" can run without asking the user to re-add
+// them. Empty after a reload, since a saved result carries no transcript bytes.
+let resultUploads: Upload[] = [];
 
 function show(s: Screen): void {
   for (const id of ["key", "setup", "running", "result", "error"]) $(`screen-${id}`).hidden = id !== s;
+  // The setup screen is "the form": whenever it's shown, say plainly if a job is still in
+  // flight, not only right after reopening the plugin. Stopping following leads back here
+  // without cancelling the job, so the form must say so every time, not just on first load.
+  if (s === "setup") {
+    refreshRunBanner();
+    // Run button state is set at submit time and otherwise untouched while a job plays out
+    // elsewhere (running, result, error); recompute it from the current form every time the
+    // form comes back on screen, so it doesn't come back stuck disabled after a completed run.
+    updateRun();
+  }
   window.scrollTo(0, 0);
+}
+
+function refreshRunBanner(justReopened = false): void {
+  $("resume-card").hidden = !lastJob;
+  if (lastJob) $("resume-text").textContent = justReopened
+    ? "A run is still going from last time."
+    : "A run is going — Follow it.";
 }
 
 function fail(message: string): void {
@@ -183,7 +207,7 @@ function setMode(m: Mode): void {
   $("run-fine").textContent = m === "critique"
     ? "One critic pass over the pasted synthesis against the transcripts: a couple of minutes, about $0.35 on your key. Every claim is checked for citations that exist, quotes that match, interviewer turns, dissent, and overreach."
     : "Takes minutes and spends API budget on your key: about $1 for two transcripts, about $5 for fifteen. Condition C: intake → synthesis → critic → revise, up to three rounds.";
-  runBtn.textContent = m === "critique" ? "Check the synthesis" : "Synthesise";
+  runBtn.textContent = m === "critique" ? "Check the synthesis" : "Synthesize";
   updateRun();
 }
 
@@ -216,29 +240,37 @@ document_.oninput = updateRun;
 $("mode-synth").onclick = () => setMode("synthesize");
 $("mode-critique").onclick = () => setMode("critique");
 
+// Shared by the setup form's Run button and the result screen's one-click "Check this
+// synthesis": get the key, submit, remember the job, and follow it. Returns false (after
+// showing the key screen or the failure) if the run never started.
+async function submitRun(kind: Mode, uploads: Upload[], q: string, documentText: string): Promise<boolean> {
+  const { key } = await ask({ type: "get-key" }, "key");
+  if (!key) { show("key"); return false; }
+  let jobId: string;
+  try {
+    jobId = kind === "critique" ? await submitCritique(key, uploads, documentText, q || null)
+      : await submitSynthesis(key, uploads, q);
+  } catch (e) {
+    fail(e instanceof ServiceError ? `${e.message}${e.status ? ` (HTTP ${e.status})` : ""}` : (e as Error).message);
+    return false;
+  }
+  post({ type: "set-last-job", jobId, question: q, kind });
+  lastJob = { jobId, question: q, kind };
+  await run(jobId, q, Date.now(), uploads.length, kind === "synthesize" ? uploads : undefined);
+  return true;
+}
+
 runBtn.onclick = async () => {
   const good = files.filter((f) => !f.error);
   const uploads: Upload[] = good.map((f) => ({ name: f.name, bytes_b64: btoa(unescape(encodeURIComponent(f.text))) }));
   const q = question.value.trim();
   runBtn.disabled = true;
-  const { key } = await ask({ type: "get-key" }, "key");
-  if (!key) { runBtn.disabled = false; show("key"); return; }
-  let jobId: string;
-  try {
-    jobId = mode === "critique" ? await submitCritique(key, uploads, document_.value.trim(), q || null)
-      : await submitSynthesis(key, uploads, q);
-  } catch (e) {
-    runBtn.disabled = false;
-    fail(e instanceof ServiceError ? `${e.message}${e.status ? ` (HTTP ${e.status})` : ""}` : (e as Error).message);
-    return;
-  }
-  post({ type: "set-last-job", jobId, question: q, kind: mode });
-  lastJob = { jobId, question: q, kind: mode };
-  await run(jobId, q, Date.now(), good.length);
+  const started = await submitRun(mode, uploads, q, document_.value.trim());
+  if (!started) runBtn.disabled = false;
 };
 
 $("resume-btn").onclick = () => { if (lastJob) void run(lastJob.jobId, lastJob.question ?? "", null, 0); };
-$("resume-dismiss").onclick = () => { lastJob = null; post({ type: "set-last-job", jobId: null }); $("resume-card").hidden = true; };
+$("resume-dismiss").onclick = () => { lastJob = null; post({ type: "set-last-job", jobId: null }); refreshRunBanner(); };
 $("open-last").onclick = async () => {
   const { payload } = await ask({ type: "get-last-result" }, "last-result");
   if (!payload) { $("last-card").hidden = true; return; }
@@ -266,7 +298,7 @@ function appendLog(line: string): void {
   log.scrollTop = log.scrollHeight;
 }
 
-async function run(jobId: string, q: string, startedAt: number | null, nTranscripts: number): Promise<void> {
+async function run(jobId: string, q: string, startedAt: number | null, nTranscripts: number, uploads?: Upload[]): Promise<void> {
   show("running");
   log.textContent = "";
   $("job-id").textContent = jobId;
@@ -282,9 +314,9 @@ async function run(jobId: string, q: string, startedAt: number | null, nTranscri
       : (e as Error).message);
     return;
   }
-  $("running-title").textContent = job.kind === "critique" ? "Checking" : "Synthesising";
+  $("running-title").textContent = job.kind === "critique" ? "Checking" : "Synthesizing";
   startTimer(startedAt ?? job.created * 1000);
-  if (job.state === "done" || job.state === "failed") { await finish(job.state, job.error, q, jobId, nTranscripts); return; }
+  if (job.state === "done" || job.state === "failed") { await finish(job.state, job.error, q, jobId, nTranscripts, uploads); return; }
   let end;
   try {
     end = await followJob(jobId, appendLog, follow.signal);
@@ -293,14 +325,14 @@ async function run(jobId: string, q: string, startedAt: number | null, nTranscri
     fail((e as Error).message);
     return;
   }
-  await finish(end.state, end.error, q, jobId, nTranscripts);
+  await finish(end.state, end.error, q, jobId, nTranscripts, uploads);
 }
 
-async function finish(state: string, error: string | null, q: string, jobId: string, nTranscripts: number): Promise<void> {
+async function finish(state: string, error: string | null, q: string, jobId: string, nTranscripts: number, uploads?: Upload[]): Promise<void> {
   stopTimer();
   post({ type: "set-last-job", jobId: null });
   lastJob = null;
-  $("resume-card").hidden = true;
+  refreshRunBanner();
   if (state !== "done") { fail(error || `The run ended as "${state}" with no result.`); return; }
   let job;
   try { job = await getJob(jobId); } catch (e) { fail((e as Error).message); return; }
@@ -309,6 +341,7 @@ async function finish(state: string, error: string | null, q: string, jobId: str
   let layout: Layout | null = null;
   try { layout = await getBoard(jobId); } catch (e) { appendLog(`board layout unavailable: ${(e as Error).message}`); }
   const kind: Mode = job.kind === "critique" ? "critique" : "synthesize";
+  if (kind === "synthesize" && uploads) resultUploads = uploads;
   const stored: Stored = { kind, question: q, nTranscripts, result, layout, jobId, when: Date.now() };
   post({ type: "set-last-result", payload: stored });
   renderResult(stored);
@@ -373,6 +406,10 @@ function renderResult(s: Stored): void {
   bb.disabled = !s.layout;
   bb.textContent = s.layout ? (inFigma ? "Build board" : "Build board (harness: acknowledged only)") : "Board layout unavailable";
   bb.title = s.layout ? "Draws the run on this page: one section per insight, stickies for claim, receipts, counter-evidence, opportunity, and open objections" : "";
+  const cs = $<HTMLButtonElement>("check-synthesis");
+  cs.hidden = isVerdict(r);
+  cs.disabled = !resultUploads.length;
+  cs.title = resultUploads.length ? "" : "This session no longer has the transcripts in memory (e.g. after reopening the plugin); use Check a synthesis and re-add them.";
   $("board-status").textContent = "";
   $("clip").hidden = true; $("clip-note").hidden = true;
   const ol = $("insights");
@@ -503,6 +540,14 @@ $("build-board").onclick = async () => {
   }
 };
 
+$("check-synthesis").onclick = async () => {
+  if (!current || isVerdict(current.result) || !resultUploads.length) return;
+  const cs = $<HTMLButtonElement>("check-synthesis");
+  cs.disabled = true;
+  const started = await submitRun("critique", resultUploads, current.question, current.result.report_markdown);
+  if (!started) cs.disabled = false;
+};
+
 $("new-run").onclick = () => { show("setup"); };
 $("error-back").onclick = () => show(keyMasked ? "setup" : "key");
 
@@ -512,12 +557,12 @@ listeners.push((m) => {
   if (m.type === "init") {
     keyMasked = m.keyMasked; lastJob = m.lastJob;
     $("key-masked").textContent = keyMasked ?? "";
-    $("resume-card").hidden = !lastJob;
     $("last-card").hidden = !m.hasLastResult;
     if (m.editor === "figma") $("editor-note").hidden = false;
     show(keyMasked ? "setup" : "key");
+    refreshRunBanner(true);
     if (!keyMasked) keyInput.focus();
-    // A saved result opens first, with Build board ready; "New run" leads back to the form.
+    // A saved result opens first, with Build board ready; "Start another" leads back to the form.
     // A run still in flight takes precedence, since following it is the more urgent offer.
     if (keyMasked && m.hasLastResult && !lastJob && !new URLSearchParams(location.search).has("files")) {
       void ask({ type: "get-last-result" }, "last-result").then(({ payload }) => { if (payload) renderResult(payload); });

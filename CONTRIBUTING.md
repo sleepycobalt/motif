@@ -78,6 +78,7 @@ Another loop (design critique, accessibility audit) reuses `core/` unchanged: su
 - Bad runs are evidence. Keep them (they're gitignored, not deleted).
 - Raw screenshots never leave the repo and never enter it. Every exhibit and every publication asset is cropped to the product surface (the plugin panel, the canvas, the dialog) and checked for personal information (menu bar, browser tabs, clock, avatar, file names) before it is saved. Publication assets live under `surfaces/figma/listing/` or `docs/figures/`. Rule added 2026-09-06 after raw exhibits with the menu bar, tabs, clock, and avatar were nearly submitted to the Community listing.
 - Log durable decisions in `docs/log.md`; things worth writing up in `docs/case-study-notes.md` (part 1) and `docs/part2-notes.md` (surfaces).
+- ETOT-facing text is American English: no `-ise` verbs, no `colour`/`organisation`/`behaviour` and the like. Applies to the plugin UI, its README, and the Community listing copy. Rule added 2026-09-07 after a demo-recording review found "Synthesise" and British spellings throughout `surfaces/figma/`.
 
 ## Data
 
