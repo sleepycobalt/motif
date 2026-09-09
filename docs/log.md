@@ -188,3 +188,8 @@ Next: User re-runs the synthesis and Build board in a fresh FigJam file and in a
 - tried: two LinkedIn announcement posts for the Version 3 listing, one for the ETOT page and one personal, plus the publication image set.
 - happened: both drafted with first comments carrying the links and the CC-BY-NC corpus citation; six captures cropped to the product surface, three defects fixed before use; coverage 72% → 88% verified at docs/eval3-results.md line 15 and the $72.2047 total at docs/case-study-notes.md line 70, with the coverage sentence given a same-round clause.
 - next: identify what eval3-results.md line 11 calls a win that isn't, match the privacy sentence to etot.design/privacy, confirm whether ericfrye.info carries all three case-study parts, then post.
+
+## 2026-09-08
+- tried: step 2 of stage 5 — write the target flow for the Figma plugin against `docs/plugin-flow.md` and the current `ui.ts`/`code.ts`, on Opus 5 per the stage-5 sequence, no code.
+- happened: target flow written and appended to `docs/specs/stage5-flow-redesign.md`: six screens (Key, Start, Add-transcripts, Add-findings, Run, Result), a four-step indicator, the board drawn as the last step of the run, `last_result` replaced by a `work` pair with persisted transcripts, submit blocked while a job is in flight, failures as bands instead of an error screen, and a per-screen panel height capped at 660 with one scroll region and a pinned footer. All twelve defects mapped to where they close. Three items left open for a hub ruling.
+- next: rule the three open items; then a Sonnet 5 build session in `surfaces/figma/`, then the stranger gate.
