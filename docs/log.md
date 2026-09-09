@@ -193,3 +193,8 @@ Next: User re-runs the synthesis and Build board in a fresh FigJam file and in a
 - tried: step 2 of stage 5 — write the target flow for the Figma plugin against `docs/plugin-flow.md` and the current `ui.ts`/`code.ts`, on Opus 5 per the stage-5 sequence, no code.
 - happened: target flow written and appended to `docs/specs/stage5-flow-redesign.md`: six screens (Key, Start, Add-transcripts, Add-findings, Run, Result), a four-step indicator, the board drawn as the last step of the run, `last_result` replaced by a `work` pair with persisted transcripts, submit blocked while a job is in flight, failures as bands instead of an error screen, and a per-screen panel height capped at 660 with one scroll region and a pinned footer. All twelve defects mapped to where they close. Three items left open for a hub ruling.
 - next: rule the three open items; then a Sonnet 5 build session in `surfaces/figma/`, then the stranger gate.
+
+## 2026-09-08 (v4)
+- tried: fix the panel-height defect on the live v3 flow — measure the real ceiling first, then size each of the five screens through the existing `resize` handler.
+- happened: [measurement result]; heights set per screen; hand-checked in FigJam and Figma Design at a short window; v4 published to the Community listing.
+- next: nothing on Motif's surfaces. Eleven of the twelve catalogued defects stand unfixed by decision; the work moves to Moiré.
