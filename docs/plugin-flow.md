@@ -288,6 +288,29 @@ by using the plugin.
     does recover the synthesis, closing the trap only via a step (quit and reopen) the UI
     never suggests.
 
+11. **"choose files" opens the picker twice per click, and the first selection is
+    discarded.** `#drop` (the whole drop zone, `ui.html:57`) has its own click handler,
+    `drop.onclick = () => fileInput.click()` (`ui.ts:250`). The "choose files" text is a
+    `<label class="filebtn">` wrapping `#file-input` (`ui.html:59`) — clicking a label
+    that wraps a control natively activates that control, with no JS involved, so the
+    label click *also* opens the picker on its own. Because the label is a DOM descendant
+    of `#drop`, the same click event then bubbles up and fires `drop.onclick`, which calls
+    `fileInput.click()` a second time. Confirmed empirically (patching
+    `HTMLInputElement.prototype.click` and clicking the label once): **two** calls per
+    click, not one. Two near-simultaneous requests to open a native file picker make
+    Chromium cancel the first (still-opening) one and start a second — from the user's
+    side this reads as "the dialog closes briefly, reopens." The first select-and-Open
+    lands in the dialog that's about to be superseded, so its selection is dropped with no
+    error; the *second* dialog (already open, nothing further competing with it) behaves
+    normally, so selecting the same file again and confirming works. Drag-and-drop never
+    calls `fileInput.click()` at all (`ui.ts:253-255`, a separate `dragenter`/`dragover`/
+    `drop` listener path) and is unaffected, matching the reported repro exactly. This is
+    the first control a new user touches on the setup screen — found in normal use of the
+    published v3 build, not from the harness or the scanner. Not fixed here; it belongs to
+    the flow rebuild (`drop.onclick` needs to stop firing `fileInput.click()` for a click
+    that originated on the label/input itself, e.g. by checking `e.target` or removing the
+    redundant handler and relying on the label alone).
+
 ### Editor difference: FigJam has no dark theme
 
 Figma Design supports light and dark; FigJam does not — a FigJam board is always light.
