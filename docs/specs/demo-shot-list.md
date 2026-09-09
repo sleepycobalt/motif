@@ -1,3 +1,12 @@
+# CUT — 2026-09-08
+
+**Written and never executed. Nothing below this header is modified.**
+
+The demo clip was cut with stage 5, on the same judgment: Motif is not competing in the
+research-tool category, and a demo aimed at users who are not arriving is not the next
+work. Three case studies stand as the record of the tool. Dated log lines that point at
+this spec as "next" record what was true when written and are left as written.
+
 # Motif — Community demo clip, shot list
 
 *26 seconds, silent, no narration. Recorded by Eric. Structure: stored result → board →

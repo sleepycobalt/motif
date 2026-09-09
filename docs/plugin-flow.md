@@ -1,3 +1,9 @@
+# Still accurate — 2026-09-08
+
+**This describes the plugin as it ships. It is not superseded; the redesign it was written to feed was cut.**
+
+The line below saying the flaw list "feeds that redesign" was true when written. The redesign at `docs/specs/stage5-flow-redesign.md` was written and never built — see the CUT header there. Of the twelve defects catalogued below, one shipped as a fix: the panel height, released as v4. The other eleven stand unfixed, by decision. Read this document as the current description of the plugin's behaviour, which it remains, and its trap list as a known-issues record rather than a work queue.
+
 # Motif for Figma — the plugin's flow
 
 *Derived from `surfaces/figma/src/ui.ts` and `surfaces/figma/src/code.ts` as they stand

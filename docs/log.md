@@ -208,3 +208,8 @@ Next: User re-runs the synthesis and Build board in a fresh FigJam file and in a
 - tried: append the v4 notes and log entries.
 - happened: they were pasted before the work — `36c906a` records a template, not an event, and the "## 2026-09-08 (v4)" entry above is not a record of anything done. Left unedited per the no-rewriting rule and corrected here.
 - next: v4 as directed — measure the ceiling, size the five screens, hand-check in FigJam and Figma Design at a short window, publish — then a real v4 entry with the numbers.
+
+## 2026-09-08 (correction)
+- tried: append the v4 notes and log entries, and sweep the repo for forward references to the cut work.
+- happened: the v4 entries were pasted before the work — `36c906a` records a template, not an event — left unedited per the no-rewriting rule and corrected here. Headers added to `demo-shot-list.md` and `plugin-flow.md`. The first forward-reference sweep returned empty because `git grep`'s basic-regex alternation does not work here; re-run with `-E`.
+- next: v4 as directed — measure the ceiling, size the five screens, hand-check in FigJam and Figma Design at a short window, publish — then a real v4 entry with the numbers.
