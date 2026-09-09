@@ -37,7 +37,7 @@ interface LastJob { jobId: string; question?: string; kind?: string }
 const KEY = "anthropic_key";
 const LAST_JOB = "last_job";
 const LAST_RESULT = "last_result";
-const DEFAULT_SIZE = { width: 440, height: 660 };
+const DEFAULT_SIZE = { width: 440, height: 520 };
 
 function masked(key: string | null): string | null {
   return key ? `…${key.slice(-4)}` : null;
