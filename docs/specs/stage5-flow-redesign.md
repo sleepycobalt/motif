@@ -1,3 +1,28 @@
+# CUT — 2026-09-08
+
+**This spec was written and never built. Nothing below this header is modified; it is
+kept as the record of a design that was made and not shipped.**
+
+The target flow and the four rulings were written in a design session on 2026-09-08 and
+pushed at `bdaa5d5`. No build session followed. The build was cut on the judgment that the
+research-tool category is video-first, that Motif is not competing with Dovetail,
+Looppanel, or the video-first tools, and that perfecting a flow for users who are not
+arriving is time better spent on the next tool. The plugin as it stands is usable,
+accurately labeled, and professional. The agentic loop shipped, with three case studies
+behind it. That was the goal.
+
+**Of the twelve defects in the ledger below, one shipped as a fix: the panel height
+(defect 12), released as v4.** The other eleven stand unfixed, by decision, not by
+oversight.
+
+**Correction to the height table below.** It caps every screen at 660 px on the assumption
+that Figma clamps a panel to the window. It does not — commit `417f8aa` records the panel
+clipping the FigJam toolbar when it is taller than the viewport. The ceiling is per
+session, not a constant, and v4 measures it rather than assuming it. Read the height table
+below as superseded on that point.
+
+There is no Session B, no stranger gate, and no part 4.
+
 # Stage 5 — the plugin's flow
 
 *Opened 2026-09-08 from the stage-4 hand check. Not a patch to stage 4; v3 ships the

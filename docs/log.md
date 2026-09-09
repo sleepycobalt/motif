@@ -198,3 +198,8 @@ Next: User re-runs the synthesis and Build board in a fresh FigJam file and in a
 - tried: fix the panel-height defect on the live v3 flow — measure the real ceiling first, then size each of the five screens through the existing `resize` handler.
 - happened: [measurement result]; heights set per screen; hand-checked in FigJam and Figma Design at a short window; v4 published to the Community listing.
 - next: nothing on Motif's surfaces. Eleven of the twelve catalogued defects stand unfixed by decision; the work moves to Moiré.
+
+## 2026-09-08 (cut)
+- tried: judge whether the target flow written at `bdaa5d5` should be built, by asking whether a Dovetail or Maze user would recognise what Motif is and how to use it.
+- happened: no — the key screen, per-run pricing, twelve-minute runs, the `Speaker:` input requirement, and the vocabulary are all structural divergences from a seat-priced, video-first category. Stage 5 cut, spec marked CUT at its head, no Session B, no stranger gate, no part 4. Eleven of twelve defects stand unfixed by decision; the panel height ships as v4.
+- next: v4, then Moiré.
