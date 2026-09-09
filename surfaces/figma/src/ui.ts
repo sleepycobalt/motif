@@ -109,6 +109,9 @@ function show(s: Screen): void {
     // form comes back on screen, so it doesn't come back stuck disabled after a completed run.
     updateRun();
   }
+  // A key already on file means there's somewhere to go back to; offer the way out. First run
+  // (no key yet) has nowhere to cancel to, so no button.
+  if (s === "key") $("key-cancel").hidden = !keyMasked;
   window.scrollTo(0, 0);
 }
 
@@ -140,7 +143,13 @@ const keyInput = $<HTMLInputElement>("key-input");
 keyInput.oninput = () => { $<HTMLButtonElement>("key-save").disabled = keyInput.value.trim().length < 20; };
 keyInput.onkeydown = (e) => { if (e.key === "Enter" && !$<HTMLButtonElement>("key-save").disabled) $("key-save").click(); };
 $("key-save").onclick = () => { post({ type: "save-key", key: keyInput.value }); keyInput.value = ""; };
-$("key-change").onclick = () => { post({ type: "clear-key" }); show("key"); keyInput.focus(); };
+// Entering the key screen to change a key must not touch storage -- only a successful "Save
+// key" (save-key, above) replaces it. This used to send clear-key here, deleting the stored key
+// on entry with no way back if the screen was then abandoned (found by the user, not a test:
+// stranded with no key and no route back to setup). save-key overwrites the old value directly,
+// so nothing needs to clear it first.
+$("key-change").onclick = () => { show("key"); keyInput.focus(); };
+$("key-cancel").onclick = () => { keyInput.value = ""; show("setup"); };
 
 // ----------------------------------------------------------------- setup screen
 
