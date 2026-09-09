@@ -203,3 +203,8 @@ Next: User re-runs the synthesis and Build board in a fresh FigJam file and in a
 - tried: judge whether the target flow written at `bdaa5d5` should be built, by asking whether a Dovetail or Maze user would recognise what Motif is and how to use it.
 - happened: no — the key screen, per-run pricing, twelve-minute runs, the `Speaker:` input requirement, and the vocabulary are all structural divergences from a seat-priced, video-first category. Stage 5 cut, spec marked CUT at its head, no Session B, no stranger gate, no part 4. Eleven of twelve defects stand unfixed by decision; the panel height ships as v4.
 - next: v4, then Moiré.
+
+## 2026-09-08 (correction)
+- tried: append the v4 notes and log entries.
+- happened: they were pasted before the work — `36c906a` records a template, not an event, and the "## 2026-09-08 (v4)" entry above is not a record of anything done. Left unedited per the no-rewriting rule and corrected here.
+- next: v4 as directed — measure the ceiling, size the five screens, hand-check in FigJam and Figma Design at a short window, publish — then a real v4 entry with the numbers.
