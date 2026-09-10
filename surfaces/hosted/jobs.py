@@ -40,7 +40,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 
-from core import llm
+from etot_core import llm
 from synth import engine
 from synth.ingest import EXTENSIONS
 from surfaces.hosted import credits

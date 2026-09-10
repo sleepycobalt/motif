@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from core import llm
+from etot_core import llm
 from synth import engine
 
 ROOT = Path(__file__).resolve().parent.parent

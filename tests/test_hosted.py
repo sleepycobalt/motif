@@ -13,7 +13,7 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
-from core import llm
+from etot_core import llm
 from surfaces.hosted import credits
 from surfaces.hosted.app import create_app
 from surfaces.hosted.jobs import JobStore

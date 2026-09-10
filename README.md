@@ -109,7 +109,6 @@ Known gaps: the loop never reaches `critic_pass` — 0 of 10 runs in Eval 3, at 
 ## Repo layout
 
 ```
-core/       reusable: loop controller, run logger, LLM client, config loader
 synth/      this tool: engine (the shared service), agents, prompts, corpus loader, report renderer, board layout, CLI
 surfaces/   mcp/ — the MCP server (Claude Code, Cursor, any MCP host)
 tests/      offline tests with a stubbed model; the MCP server is exercised over stdio
@@ -120,7 +119,7 @@ docs/       R&D brief, working log, ground truth, eval results, exhibits, case-s
 eval/       blind scoring packs and completed sheets
 ```
 
-`core/` is written to be reused by other loops; Motif is the first tool built on it.
+The loop controller, run logger, LLM client, and config loader live in [etot-core](https://github.com/sleepycobalt/etot-core), a standalone package Motif depends on. It is written to be reused by other loops; Motif is the first tool built on it.
 
 ## Data attribution
 

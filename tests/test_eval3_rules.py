@@ -11,7 +11,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from core import llm
+from etot_core import llm
 from synth import agents, engine, prompts
 from synth.corpus import Corpus
 from tests.test_engine import ALICE, BOB, GOOD_INSIGHTS, happy, make_stub

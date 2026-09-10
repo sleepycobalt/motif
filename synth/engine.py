@@ -25,10 +25,10 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
 
-from core import llm
-from core.config import load_config
-from core.logger import RunLogger
-from core.loop import run_loop
+from etot_core import llm
+from etot_core.config import load_config
+from etot_core.logger import RunLogger
+from etot_core.loop import run_loop
 from synth import agents, prompts
 from synth.corpus import Corpus
 from synth.ingest import ingest as _ingest

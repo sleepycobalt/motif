@@ -1,9 +1,9 @@
-"""The three agent roles plus deterministic checks, wired to core.llm."""
+"""The three agent roles plus deterministic checks, wired to etot_core.llm."""
 
 import json
 import re
 
-from core import llm
+from etot_core import llm
 from synth import prompts
 from synth.corpus import Corpus
 
