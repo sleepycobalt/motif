@@ -1,6 +1,8 @@
-# Fly.io app for the Motif hosted engine. Deploy from the repository root:
+auto_start_machines = true
+min_machines_running = 0# Fly.io app for the Motif hosted engine. Deploy from the repository root:
 #   fly deploy -c surfaces/hosted/fly.toml
-# One shared-CPU machine kept running (a job in flight must not be stopped), one volume for
+# Scales to zero when idle (auto stop/start); a job is only safe while its
+# SSE stream is open — closed-window jobs may be stopped. One volume for
 # redacted run logs. Secrets (set with `fly secrets set`): none for the BYOK tier; the paid
 # tier adds ANTHROPIC_API_KEY and MOTIF_PAID_ENABLED=1 when it is switched on.
 
@@ -22,9 +24,9 @@ primary_region = "ord"
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = "off"
+  auto_stop_machines = "stop"
   auto_start_machines = true
-  min_machines_running = 1
+  min_machines_running = 0
 
   [http_service.concurrency]
     type = "requests"

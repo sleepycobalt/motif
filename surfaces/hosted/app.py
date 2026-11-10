@@ -41,6 +41,7 @@ from __future__ import annotations
 
 import asyncio
 import base64
+from importlib import metadata
 import binascii
 import json
 import logging
@@ -121,7 +122,7 @@ def create_app(store: JobStore | None = None, *, max_file_mb: int | None = None,
     store = store or store_from_env()
     max_file = (max_file_mb or _env_int("MOTIF_MAX_FILE_MB", 12)) * 1_000_000
     max_job = (max_job_mb or _env_int("MOTIF_MAX_JOB_MB", 64)) * 1_000_000
-    app = FastAPI(title="Motif hosted engine", version="0.4.0", docs_url=None, redoc_url=None)
+    app = FastAPI(title="Motif hosted engine", version=metadata.version("etot-motif"), docs_url=None, redoc_url=None)
     app.state.store = store
     # The Figma plugin's UI runs in a sandboxed iframe whose origin is "null", so the browser
     # sends a CORS preflight for every call. The key travels in a request header, never a cookie,
